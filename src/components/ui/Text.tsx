@@ -3,7 +3,7 @@ import React, { forwardRef } from "react";
 import { theme } from "@/theme";
 
 interface Props extends TextProps {
-  size: keyof typeof theme.sizes.text;
+  size?: keyof typeof theme.sizes.text;
 }
 
 export default forwardRef<RNText, Props>(function Text(

@@ -3,27 +3,21 @@ import { Slot } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { theme } from "@/theme";
-import { useFonts } from "expo-font";
-
 import * as SplashScreen from "expo-splash-screen";
+import useLoadAssets from "@/hooks/use-load-assets";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [fontsLoaded, fontError] = useFonts({
-    "Inter-Light": require("../../assets/fonts/Inter/Inter-Light.otf"),
-    "Inter-Medium": require("../../assets/fonts/Inter/Inter-Medium.otf"),
-    "Inter-Bold": require("../../assets/fonts/Inter/Inter-Bold.otf"),
-    "Inter-Black": require("../../assets/fonts/Inter/Inter-Black.otf"),
-  });
+  const [assetsLoaded, assetsError] = useLoadAssets();
 
   useEffect(() => {
-    if (fontsLoaded || fontError) {
+    if (assetsLoaded || assetsError) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded, fontError]);
+  }, [assetsLoaded, assetsError]);
 
-  if (!fontsLoaded && !fontError) {
+  if (!assetsLoaded && !assetsError) {
     return null;
   }
 

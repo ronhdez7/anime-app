@@ -1,10 +1,14 @@
 import { Tabs } from "expo-router";
 import {
-  HomeIcon,
-  MagnifyingGlassIcon,
-  UserIcon,
+  HomeIcon as SolidHomeIcon,
+  UserIcon as SolidUserIcon,
 } from "react-native-heroicons/solid";
 import { theme } from "@/theme";
+import {
+  HomeIcon as OutlineHomeIcon,
+  MagnifyingGlassIcon,
+  UserIcon as OutlineUserIcon,
+} from "react-native-heroicons/outline";
 
 export default function AppLayout() {
   return (
@@ -17,14 +21,18 @@ export default function AppLayout() {
         tabBarActiveTintColor: theme.colors.primary,
       }}
       sceneContainerStyle={{ backgroundColor: "transparent" }}
+      initialRouteName="index"
     >
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ color }) => (
-            <HomeIcon color={color} size={theme.sizes.icon} />
-          ),
+          tabBarIcon: ({ color, focused }) =>
+            focused ? (
+              <SolidHomeIcon color={color} size={theme.sizes.icon} />
+            ) : (
+              <OutlineHomeIcon color={color} size={theme.sizes.icon} />
+            ),
         }}
       />
 
@@ -42,9 +50,12 @@ export default function AppLayout() {
         name="profile"
         options={{
           title: "Profile",
-          tabBarIcon: ({ color }) => (
-            <UserIcon color={color} size={theme.sizes.icon} />
-          ),
+          tabBarIcon: ({ color, focused }) =>
+            focused ? (
+              <SolidUserIcon color={color} size={theme.sizes.icon} />
+            ) : (
+              <OutlineUserIcon color={color} size={theme.sizes.icon} />
+            ),
         }}
       />
     </Tabs>
