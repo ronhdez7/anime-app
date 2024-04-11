@@ -10,20 +10,41 @@ export interface ThemeColorsConfig {
   neutral: ThemeColor;
   inactive: ThemeColor;
   primary: ThemeColor;
+  text: ThemeColor;
 }
 
-export interface ThemeSizesConfig {
-  icon: number;
-}
+export type ThemeSizesConfig = typeof sizes;
+
+export type ThemeFontsConfig = typeof fonts;
 
 export interface Theme {
   colors: ThemeColorsConfig;
   sizes: ThemeSizesConfig;
+  fonts: ThemeFontsConfig;
 }
 
-const sizes: ThemeSizesConfig = { icon: 28 };
+const sizes = {
+  icon: 28,
+  text: {
+    xs: 10,
+    sm: 12,
+    md: 16,
+    lg: 20,
+    xl: 24,
+  },
+} as const;
+
+const fonts = {
+  inter: {
+    light: "Inter-Light",
+    medium: "Inter-Medium",
+    bold: "Inter-Bold",
+    black: "Inter-Black",
+  },
+} as const;
 
 export const theme: Theme = {
   colors: lightTheme,
-  sizes: sizes,
-};
+  sizes,
+  fonts,
+} as const;
