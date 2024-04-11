@@ -6,7 +6,7 @@ import theme from "@/theme";
 
 export default function RootLayout() {
   return (
-    <SafeAreaView style={{ backgroundColor: theme.colors.background }}>
+    <SafeAreaView style={{ backgroundColor: theme.colors.background, flex: 1 }}>
       <Slot />
       <StatusBar style={theme.colors.statusBarStyle} />
     </SafeAreaView>
