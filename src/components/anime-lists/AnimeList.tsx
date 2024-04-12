@@ -1,4 +1,4 @@
-import { ImageBackground, StyleSheet, View } from "react-native";
+import { FlatList, ImageBackground, StyleSheet, View } from "react-native";
 import React, { PropsWithChildren } from "react";
 import { UseQueryResult } from "@tanstack/react-query";
 import { AxiosError } from "axios";
@@ -6,7 +6,6 @@ import { JikanAnimeData, JikanError } from "@/types/jikan";
 import { theme } from "@/theme";
 import Text from "@/components/ui/Text";
 import ReloadButton from "../ReloadButton";
-import { FlashList } from "@shopify/flash-list";
 
 interface Props {
   query: UseQueryResult<JikanAnimeData[], AxiosError<JikanError>>;
@@ -53,8 +52,8 @@ export default function AnimeList({ query }: Props) {
           <ReloadButton onReload={refetch} />
         </View>
       ) : (
-        <FlashList
-          data={query.data ?? new Array(5).fill(null)}
+        <FlatList
+          data={query.data ?? (new Array(5).fill(null) as JikanAnimeData[])}
           renderItem={({ item }) =>
             item ? (
               <AnimeListItem anime={item} />
@@ -63,7 +62,7 @@ export default function AnimeList({ query }: Props) {
             )
           }
           horizontal
-          estimatedItemSize={108}
+          // estimatedItemSize={108}
           contentContainerStyle={{
             padding: theme.sizes.padding.sm,
           }}
