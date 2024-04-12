@@ -2,14 +2,14 @@ import jikan from "@/lib/jikan";
 import { useJikanQuery } from "@/hooks/use-jikan-query";
 import AnimeList, { AnimeListHeader } from "./AnimeList";
 
-export default function TopAnimeList() {
+export default function ActionAnimeList() {
   const query = useJikanQuery({
-    queryKey: ["anime-list", "top"],
-    queryFn: ({ signal }) => jikan.getTopAnime({ signal }),
+    queryKey: ["anime-list", "action"],
+    queryFn: ({ signal }) => jikan.getAnimeByGenre(1, { signal }),
   });
 
   return (
-    <AnimeListHeader title="Top">
+    <AnimeListHeader title="Action">
       <AnimeList query={query} />
     </AnimeListHeader>
   );

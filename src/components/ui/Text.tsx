@@ -4,10 +4,11 @@ import { theme } from "@/theme";
 
 interface Props extends TextProps {
   size?: keyof typeof theme.sizes.text;
+  foreground?: boolean;
 }
 
 export default forwardRef<RNText, Props>(function Text(
-  { style, size = "md", ...props },
+  { style, size = "md", foreground = false, ...props },
   ref
 ) {
   return (
@@ -16,7 +17,7 @@ export default forwardRef<RNText, Props>(function Text(
         {
           fontSize: theme.sizes.text[size],
           fontFamily: theme.fonts.inter.medium,
-          color: theme.colors.text,
+          color: foreground ? theme.colors.foreground : theme.colors.text,
         },
         style,
       ]}

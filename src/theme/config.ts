@@ -11,6 +11,9 @@ export interface ThemeColorsConfig {
   inactive: ThemeColor;
   primary: ThemeColor;
   text: ThemeColor;
+  secondary: ThemeColor;
+  foreground: ThemeColor;
+  overlay: ThemeColor;
 }
 
 export type ThemeSizesConfig = typeof sizes;
@@ -31,6 +34,27 @@ const sizes = {
     md: 16,
     lg: 20,
     xl: 24,
+  },
+  radius: {
+    xs: 6,
+    sm: 8,
+    md: 12,
+    lg: 16,
+    xl: 20,
+  },
+  gap: {
+    xs: 4,
+    sm: 8,
+    md: 12,
+    lg: 16,
+    xl: 20,
+  },
+  padding: {
+    xs: 4,
+    sm: 8,
+    md: 16,
+    lg: 24,
+    xl: 32,
   },
 } as const;
 
