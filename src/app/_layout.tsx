@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import { Slot } from "expo-router";
+import { Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar } from "expo-status-bar";
 import { theme } from "@/theme";
 import * as SplashScreen from "expo-splash-screen";
 import useLoadAssets from "@/hooks/use-load-assets";
@@ -28,14 +27,19 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <SafeAreaView
-          style={{ backgroundColor: theme.colors.background, flex: 1 }}
+          style={{ flex: 1, backgroundColor: theme.colors.background }}
         >
-          <Slot />
-          <StatusBar
-            style={theme.colors.statusBarStyle}
-            translucent
-            animated
-            hideTransitionAnimation="slide"
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: { backgroundColor: "transparent" },
+
+              // Status Bar
+              statusBarTranslucent: true,
+              statusBarStyle: theme.colors.statusBarStyle,
+              statusBarHidden: false,
+              statusBarAnimation: "slide",
+            }}
           />
         </SafeAreaView>
       </GestureHandlerRootView>

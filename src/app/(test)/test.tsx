@@ -5,7 +5,7 @@ import { router } from "expo-router";
 
 export default function TestingPage() {
   function goBack() {
-    router.back();
+    router.navigate("/");
   }
 
   return (
