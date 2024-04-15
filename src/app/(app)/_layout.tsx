@@ -29,9 +29,9 @@ export default function AppLayout() {
           title: "Home",
           tabBarIcon: ({ color, focused }) =>
             focused ? (
-              <SolidHomeIcon color={color} size={theme.sizes.icon} />
+              <SolidHomeIcon color={color} size={theme.sizes.icon.md} />
             ) : (
-              <OutlineHomeIcon color={color} size={theme.sizes.icon} />
+              <OutlineHomeIcon color={color} size={theme.sizes.icon.md} />
             ),
         }}
       />
@@ -41,7 +41,7 @@ export default function AppLayout() {
         options={{
           title: "Search",
           tabBarIcon: ({ color }) => (
-            <MagnifyingGlassIcon color={color} size={theme.sizes.icon} />
+            <MagnifyingGlassIcon color={color} size={theme.sizes.icon.md} />
           ),
         }}
       />
@@ -52,9 +52,9 @@ export default function AppLayout() {
           title: "Profile",
           tabBarIcon: ({ color, focused }) =>
             focused ? (
-              <SolidUserIcon color={color} size={theme.sizes.icon} />
+              <SolidUserIcon color={color} size={theme.sizes.icon.md} />
             ) : (
-              <OutlineUserIcon color={color} size={theme.sizes.icon} />
+              <OutlineUserIcon color={color} size={theme.sizes.icon.md} />
             ),
         }}
       />

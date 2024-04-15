@@ -10,7 +10,10 @@ interface Props {
 export default function ReloadButton({ onReload }: Props) {
   return (
     <TouchableOpacity onPress={onReload}>
-      <ArrowPathIcon color={theme.colors.foreground} size={theme.sizes.icon} />
+      <ArrowPathIcon
+        color={theme.colors.foreground}
+        size={theme.sizes.icon.md}
+      />
     </TouchableOpacity>
   );
 }
