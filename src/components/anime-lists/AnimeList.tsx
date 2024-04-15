@@ -1,4 +1,10 @@
-import { FlatList, ImageBackground, StyleSheet, View } from "react-native";
+import {
+  FlatList,
+  ImageBackground,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { PropsWithChildren } from "react";
 import { UseQueryResult } from "@tanstack/react-query";
 import { AxiosError } from "axios";
@@ -19,7 +25,7 @@ export default function AnimeList({ query }: Props) {
   return (
     <View
       style={{
-        height: 200,
+        height: 180,
         borderRadius: theme.sizes.radius.md,
         backgroundColor: theme.colors.secondary,
         overflow: "hidden",
@@ -83,7 +89,7 @@ interface AnimeListItemProps {
 
 function AnimeListItem({ anime }: AnimeListItemProps) {
   return (
-    <View style={styles.listItem}>
+    <TouchableOpacity style={styles.listItem} activeOpacity={0.5}>
       <ImageBackground
         style={{ display: "flex", justifyContent: "flex-end", height: "100%" }}
         source={{ uri: anime.images.webp.image_url }}
@@ -110,7 +116,7 @@ function AnimeListItem({ anime }: AnimeListItemProps) {
           </Text>
         </View>
       </ImageBackground>
-    </View>
+    </TouchableOpacity>
   );
 }
 
