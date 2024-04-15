@@ -2,12 +2,12 @@ import { View, ImageBackground, Dimensions, Pressable } from "react-native";
 import { JikanAnimeData } from "@/types/jikan";
 import { useJikanQuery } from "@/hooks/use-jikan-query";
 import jikan from "@/lib/jikan";
-import Carousel from "react-native-reanimated-carousel";
+import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import { theme } from "@/theme";
 import Text from "./ui/Text";
 import Button from "./ui/Button";
 import { PlusIcon } from "react-native-heroicons/solid";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function Featured() {
   const { data } = useJikanQuery({
@@ -25,10 +25,12 @@ interface FeaturedSliderProps {
 }
 function FeaturedSlider({ items }: FeaturedSliderProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
+  const carouselRef = useRef<ICarouselInstance>(null);
 
   return (
     <View>
       <Carousel
+        ref={carouselRef}
         loop
         autoPlay
         autoPlayInterval={5000}
@@ -42,6 +44,9 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
           parallaxAdjacentItemScale: 0.75,
         }}
         onSnapToItem={setCurrentIdx}
+        onScrollBegin={() =>
+          setCurrentIdx((v) => carouselRef.current?.getCurrentIndex() ?? v)
+        }
       />
 
       <View
