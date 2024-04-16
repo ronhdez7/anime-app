@@ -1,11 +1,13 @@
 import jikan from "@/lib/jikan";
-import { useJikanQuery } from "@/hooks/use-jikan-query";
+import { useJikanInfiniteQuery } from "@/hooks/use-jikan-query";
 import AnimeList, { AnimeListHeader } from "./AnimeList";
+import { JikanAnimeData } from "@/types/jikan";
 
 export default function TopAnimeList() {
-  const query = useJikanQuery({
+  const query = useJikanInfiniteQuery<JikanAnimeData[]>({
     queryKey: ["anime-list", "top"],
-    queryFn: ({ signal }) => jikan.getTopAnime({ signal }),
+    queryFn: ({ pageParam, signal }) =>
+      jikan.getTopAnime({ page: pageParam }, { signal }),
   });
 
   return (

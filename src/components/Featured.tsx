@@ -12,7 +12,7 @@ import { useRef, useState } from "react";
 export default function Featured() {
   const { data } = useJikanQuery({
     queryKey: ["anime", "top"],
-    queryFn: ({ signal }) => jikan.getTopAnime({ signal }),
+    queryFn: ({ signal }) => jikan.getTopAnime(undefined, { signal }),
   });
 
   if (!data) return null;

@@ -1,16 +1,12 @@
 // Response
-export type JikanResponse<T> =
-  | {
-      data: T;
-    }
-  | JikanError;
+export type JikanResponse<T> = {
+  data: T;
+};
 
-export type JikanResponseList<T> =
-  | {
-      data: T[];
-      pagination: JikanPagination;
-    }
-  | JikanError;
+export type JikanPaginatedResponse<T> = {
+  data: T;
+  pagination: JikanPagination;
+};
 
 export interface JikanError {
   status: number;
@@ -18,23 +14,6 @@ export interface JikanError {
   message: string;
   error: string;
   report_url?: string;
-}
-
-export interface JikanAnimeResponse {
-  data: JikanAnimeData;
-}
-
-export interface JikanFullAnimeResponse {
-  data: JikanFullAnimeData;
-}
-
-export interface JikanEpisodeResponse {
-  data: JikanAnimeResponse;
-}
-
-export interface JikanEpisodesResponse {
-  data: JikanEpisodeData[];
-  pagination: JikanPagination;
 }
 
 export interface JikanPagination {
@@ -190,3 +169,5 @@ export interface JikanEpisodeData {
   recap: boolean;
   forum_url: string;
 }
+
+export type JikanRating = "g" | "pg" | "pg13" | "r17" | "r" | "rx";

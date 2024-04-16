@@ -6,7 +6,7 @@ import {
   View,
 } from "react-native";
 import React, { PropsWithChildren } from "react";
-import { UseQueryResult } from "@tanstack/react-query";
+import { UseInfiniteQueryResult, UseQueryResult } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { JikanAnimeData, JikanError } from "@/types/jikan";
 import { theme } from "@/theme";
@@ -14,7 +14,15 @@ import Text from "@/components/ui/Text";
 import ReloadButton from "../ReloadButton";
 
 interface Props {
-  query: UseQueryResult<JikanAnimeData[], AxiosError<JikanError>>;
+  query:
+    | UseQueryResult<JikanAnimeData[], AxiosError<JikanError>>
+    | UseInfiniteQueryResult<
+        {
+          pages: JikanAnimeData[][];
+          pageParams: number[];
+        },
+        AxiosError<JikanError>
+      >;
 }
 
 export default function AnimeList({ query }: Props) {
@@ -58,8 +66,8 @@ export default function AnimeList({ query }: Props) {
           <ReloadButton onReload={refetch} />
         </View>
       ) : (
-        <FlatList
-          data={query.data ?? (new Array(5).fill(null) as JikanAnimeData[])}
+        <FlatList<JikanAnimeData | undefined>
+          data={getInfiniteData(query.data)}
           renderItem={({ item }) =>
             item ? (
               <AnimeListItem anime={item} />
@@ -68,15 +76,21 @@ export default function AnimeList({ query }: Props) {
             )
           }
           horizontal
-          // estimatedItemSize={108}
-          contentContainerStyle={{
-            padding: theme.sizes.padding.sm,
-          }}
+          contentContainerStyle={{ padding: theme.sizes.padding.sm }}
+          keyExtractor={(item, index) => item?.title ?? index.toString()}
+          showsHorizontalScrollIndicator={false}
           ItemSeparatorComponent={() => (
             <View style={{ width: theme.sizes.padding.sm }} />
           )}
-          keyExtractor={(_, index) => index.toString()}
-          showsHorizontalScrollIndicator={false}
+          onEndReached={() => {
+            if (
+              !query.isFetching &&
+              "fetchNextPage" in query &&
+              query.hasNextPage
+            ) {
+              query.fetchNextPage();
+            }
+          }}
         />
       )}
     </View>
@@ -149,5 +163,12 @@ export function AnimeListHeader({
 
       {children}
     </View>
+  );
+}
+
+function getInfiniteData<T = any>(data?: any | { pages: any[] }): T {
+  return (
+    (Array.isArray(data) ? data : data?.pages.flatMap((page: any) => page)) ??
+    new Array(5).fill(null)
   );
 }
