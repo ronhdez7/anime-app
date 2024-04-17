@@ -86,30 +86,10 @@ export default function AnimeList({ query }: Props) {
           }}
         />
       ) : query.error ? (
-        <View
-          style={{
-            alignItems: "center",
-            height: "100%",
-            justifyContent: "center",
-            rowGap: theme.sizes.gap.xl,
-          }}
-        >
-          <View
-            style={{
-              display: "flex",
-              alignItems: "center",
-              rowGap: theme.sizes.gap.sm,
-            }}
-          >
-            <Text foreground>Could not get anime</Text>
-            {query.error.response && (
-              <Text size="sm" foreground>
-                Error: {query.error.response.data.message}
-              </Text>
-            )}
-          </View>
-          <ReloadButton onReload={refetch} />
-        </View>
+        <AnimeFetchError
+          message={query.error.response?.data.message}
+          onReload={refetch}
+        />
       ) : (
         <View
           style={{
@@ -193,6 +173,39 @@ export function AnimeListHeader({
       </Text>
 
       {children}
+    </View>
+  );
+}
+
+interface AnimeFetchErrorProps {
+  message?: string;
+  onReload?: () => void;
+}
+export function AnimeFetchError({ message, onReload }: AnimeFetchErrorProps) {
+  return (
+    <View
+      style={{
+        alignItems: "center",
+        height: "100%",
+        justifyContent: "center",
+        rowGap: theme.sizes.gap.xl,
+      }}
+    >
+      <View
+        style={{
+          display: "flex",
+          alignItems: "center",
+          rowGap: theme.sizes.gap.sm,
+        }}
+      >
+        <Text foreground>Could not get anime</Text>
+        {message && (
+          <Text size="sm" foreground>
+            Error: {message}
+          </Text>
+        )}
+      </View>
+      {onReload && <ReloadButton onReload={onReload} />}
     </View>
   );
 }

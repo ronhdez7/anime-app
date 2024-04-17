@@ -48,6 +48,11 @@ class Jikan {
     baseURL: this.BASE_URL,
   });
 
+  error(..._: any[]): any {
+    throw new Error("error thrown intentionally");
+    return;
+  }
+
   getTopAnime(
     options: TopAnimeOptions = {},
     config?: AxiosRequestConfig

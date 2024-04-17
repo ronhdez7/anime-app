@@ -1,4 +1,10 @@
-import { View, ImageBackground, Dimensions, Pressable } from "react-native";
+import {
+  View,
+  ImageBackground,
+  Dimensions,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import { JikanAnimeData } from "@/types/jikan";
 import { useJikanQuery } from "@/hooks/use-jikan-query";
 import jikan from "@/lib/jikan";
@@ -8,16 +14,54 @@ import Text from "../ui/Text";
 import Button from "../ui/Button";
 import { PlusIcon } from "react-native-heroicons/solid";
 import { useRef, useState } from "react";
+import { AnimeFetchError } from "./AnimeList";
 
 export default function Featured() {
-  const { data } = useJikanQuery({
+  const { data, error, refetch } = useJikanQuery({
     queryKey: ["anime-list", "featured"],
     queryFn: ({ signal }) => jikan.getTopAnime(undefined, { signal }),
   });
 
-  if (!data) return null;
+  if (data) {
+    return <FeaturedSlider items={data} />;
+  }
 
-  return <FeaturedSlider items={data} />;
+  if (error) {
+    return (
+      <View
+        style={{
+          height: "100%",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <View
+          style={{
+            transform: [{ scale: 0.9 }],
+            height: "100%",
+            width: "100%",
+            borderRadius: theme.sizes.radius.md,
+            backgroundColor: theme.colors.secondary,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <AnimeFetchError
+            message={error.response?.data.message}
+            onReload={refetch}
+          />
+        </View>
+      </View>
+    );
+  }
+
+  return (
+    <View
+      style={{ height: "100%", alignItems: "center", justifyContent: "center" }}
+    >
+      <ActivityIndicator size={theme.sizes.icon.md} color={theme.colors.text} />
+    </View>
+  );
 }
 
 interface FeaturedSliderProps {
@@ -103,7 +147,6 @@ function FeaturedItem({ item }: FeaturedItemProps) {
     <Pressable
       style={{
         height: "100%",
-        aspectRatio: 17 / 24,
         borderRadius: theme.sizes.radius.md,
         overflow: "hidden",
         shadowColor: "black",
