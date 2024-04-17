@@ -1,11 +1,12 @@
 import {
+  ActivityIndicator,
   FlatList,
   ImageBackground,
   StyleSheet,
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useMemo } from "react";
 import { UseInfiniteQueryResult, UseQueryResult } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { JikanAnimeData, JikanError } from "@/types/jikan";
@@ -26,6 +27,8 @@ interface Props {
 }
 
 export default function AnimeList({ query }: Props) {
+  const items = useMemo(() => getInfiniteData(query.data), [query.data]);
+
   function refetch() {
     query.refetch();
   }
@@ -39,35 +42,9 @@ export default function AnimeList({ query }: Props) {
         overflow: "hidden",
       }}
     >
-      {query.error ? (
-        <View
-          style={{
-            display: "flex",
-            alignItems: "center",
-            height: "100%",
-            justifyContent: "center",
-            rowGap: theme.sizes.gap.xl,
-          }}
-        >
-          <View
-            style={{
-              display: "flex",
-              alignItems: "center",
-              rowGap: theme.sizes.gap.sm,
-            }}
-          >
-            <Text foreground>Could not get anime</Text>
-            {query.error.response && (
-              <Text size="sm" foreground>
-                Error: {query.error.response.data.message}
-              </Text>
-            )}
-          </View>
-          <ReloadButton onReload={refetch} />
-        </View>
-      ) : (
-        <FlatList<JikanAnimeData | undefined>
-          data={getInfiniteData(query.data)}
+      {query.data ? (
+        <FlatList
+          data={items}
           renderItem={({ item }) =>
             item ? (
               <AnimeListItem anime={item} />
@@ -91,7 +68,61 @@ export default function AnimeList({ query }: Props) {
               query.fetchNextPage();
             }
           }}
+          onEndReachedThreshold={items?.length / 2 ?? undefined}
+          ListFooterComponent={() => (
+            <ActivityIndicator
+              size={theme.sizes.icon.md}
+              color={theme.colors.foreground}
+            />
+          )}
+          ListFooterComponentStyle={{
+            paddingLeft: theme.sizes.padding.xs,
+            height: "100%",
+            justifyContent: "center",
+            display:
+              "isFetchingNextPage" in query && query.isFetchingNextPage
+                ? undefined
+                : "none",
+          }}
         />
+      ) : query.error ? (
+        <View
+          style={{
+            alignItems: "center",
+            height: "100%",
+            justifyContent: "center",
+            rowGap: theme.sizes.gap.xl,
+          }}
+        >
+          <View
+            style={{
+              display: "flex",
+              alignItems: "center",
+              rowGap: theme.sizes.gap.sm,
+            }}
+          >
+            <Text foreground>Could not get anime</Text>
+            {query.error.response && (
+              <Text size="sm" foreground>
+                Error: {query.error.response.data.message}
+              </Text>
+            )}
+          </View>
+          <ReloadButton onReload={refetch} />
+        </View>
+      ) : (
+        <View
+          style={{
+            alignItems: "center",
+            height: "100%",
+            justifyContent: "center",
+          }}
+        >
+          <ActivityIndicator
+            color={theme.colors.foreground}
+            size={theme.sizes.icon.md}
+          />
+        </View>
       )}
     </View>
   );
@@ -166,9 +197,11 @@ export function AnimeListHeader({
   );
 }
 
-function getInfiniteData<T = any>(data?: any | { pages: any[] }): T {
+function getInfiniteData(
+  data?: JikanAnimeData[] | { pages: JikanAnimeData[][] }
+): (JikanAnimeData | undefined)[] {
   return (
-    (Array.isArray(data) ? data : data?.pages.flatMap((page: any) => page)) ??
+    (Array.isArray(data) ? data : data?.pages.flatMap((page) => page)) ??
     new Array(5).fill(null)
   );
 }
