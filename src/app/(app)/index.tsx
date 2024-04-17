@@ -1,4 +1,4 @@
-import Featured from "@/components/Featured";
+import Featured from "@/components/anime-lists/Featured";
 import ActionAnimeList from "@/components/anime-lists/ActionAnimeList";
 import TopAnimeList from "@/components/anime-lists/TopAnimeList";
 import { theme } from "@/theme";

@@ -23,7 +23,7 @@ export function useJikanQuery<T>({
   ...options
 }: UndefinedInitialDataOptions<SuccessRes<T>, ErrorRes, T, string[]>) {
   const query = useQuery({
-    queryKey: ["jikan", ...queryKey],
+    queryKey: ["normal", "jikan", ...queryKey],
     select: (data) => {
       const result = data?.data;
       if (result && "error" in result) throw result;
@@ -52,7 +52,7 @@ export function useJikanInfiniteQuery<T>({
   "queryKey"
 >) {
   const query = useInfiniteQuery({
-    queryKey: ["jikan", ...queryKey],
+    queryKey: ["infinite", "jikan", ...queryKey],
     select(data) {
       return {
         ...data,
@@ -62,8 +62,8 @@ export function useJikanInfiniteQuery<T>({
     initialPageParam: initialPageParam ?? 1,
     getNextPageParam:
       getNextPageParam ??
-      ((data, pages) =>
-        (data.data.pagination.has_next_page || null) && pages.length + 1),
+      ((data, _, lastPageParam) =>
+        (data.data.pagination.has_next_page || null) && lastPageParam + 1),
     ...options,
   });
 

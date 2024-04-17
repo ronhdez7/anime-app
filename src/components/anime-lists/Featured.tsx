@@ -4,14 +4,14 @@ import { useJikanQuery } from "@/hooks/use-jikan-query";
 import jikan from "@/lib/jikan";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import { theme } from "@/theme";
-import Text from "./ui/Text";
-import Button from "./ui/Button";
+import Text from "../ui/Text";
+import Button from "../ui/Button";
 import { PlusIcon } from "react-native-heroicons/solid";
 import { useRef, useState } from "react";
 
 export default function Featured() {
   const { data } = useJikanQuery({
-    queryKey: ["anime", "top"],
+    queryKey: ["anime-list", "featured"],
     queryFn: ({ signal }) => jikan.getTopAnime(undefined, { signal }),
   });
 
