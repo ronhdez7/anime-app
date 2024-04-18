@@ -11,6 +11,7 @@ const lightTheme: ThemeColorsConfig = {
   secondary: "#94a3b8",
   foreground: "#f1f5f9",
   overlay: "rgba(0, 0, 0, 0.5)",
+  shadow: "black",
 };
 
 export default lightTheme;

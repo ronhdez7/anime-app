@@ -108,7 +108,7 @@ interface AnimeListItemProps {
 
 function AnimeListItem({ anime }: AnimeListItemProps) {
   return (
-    <TouchableOpacity style={styles.listItem} activeOpacity={0.5}>
+    <TouchableOpacity style={styles.listItem} activeOpacity={0.75}>
       <ImageBackground
         style={{ justifyContent: "flex-end", height: "100%" }}
         source={{ uri: anime.images.webp.image_url }}

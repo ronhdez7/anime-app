@@ -14,6 +14,7 @@ export interface ThemeColorsConfig {
   secondary: ThemeColor;
   foreground: ThemeColor;
   overlay: ThemeColor;
+  shadow: ThemeColor;
 }
 
 export type ThemeSizesConfig = typeof sizes;

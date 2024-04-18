@@ -1,5 +1,6 @@
 import {
   InfiniteData,
+  QueryKey,
   UndefinedInitialDataInfiniteOptions,
   UndefinedInitialDataOptions,
   useInfiniteQuery,
@@ -21,7 +22,7 @@ type ErrorRes = AxiosError<JikanError>;
 export function useJikanQuery<T>({
   queryKey,
   ...options
-}: UndefinedInitialDataOptions<SuccessRes<T>, ErrorRes, T, string[]>) {
+}: UndefinedInitialDataOptions<SuccessRes<T>, ErrorRes, T, QueryKey>) {
   const query = useQuery({
     queryKey: ["normal", "jikan", ...queryKey],
     select: (data) => {
@@ -46,7 +47,7 @@ export function useJikanInfiniteQuery<T>({
     PaginatedRes<T>,
     ErrorRes,
     InfiniteData<T, number>,
-    string[],
+    QueryKey,
     number
   >,
   "queryKey"

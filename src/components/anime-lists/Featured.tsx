@@ -122,7 +122,7 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
           activeOpacity={0.75}
           style={{
             elevation: 10,
-            shadowColor: "black",
+            shadowColor: theme.colors.shadow,
             borderRadius: 10000,
             paddingHorizontal: theme.sizes.padding.md,
             paddingVertical: theme.sizes.padding.md,
@@ -148,7 +148,7 @@ function FeaturedItem({ item }: FeaturedItemProps) {
         height: "100%",
         borderRadius: theme.sizes.radius.md,
         overflow: "hidden",
-        shadowColor: "black",
+        shadowColor: theme.colors.shadow,
         shadowOffset: { width: 10, height: 10 },
         elevation: 10,
       }}
