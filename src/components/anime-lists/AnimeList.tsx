@@ -1,12 +1,11 @@
 import {
-  ActivityIndicator,
   FlatList,
   ImageBackground,
   StyleSheet,
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { PropsWithChildren, useMemo } from "react";
+import React, { PropsWithChildren } from "react";
 import { UseInfiniteQueryResult, UseQueryResult } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { JikanAnimeData, JikanError } from "@/types/jikan";
@@ -28,7 +27,7 @@ export interface AnimeListProps {
 }
 
 export default function AnimeList({ query }: AnimeListProps) {
-  const items = useMemo(() => getInfiniteData(query.data), [query.data]);
+  const items = getInfiniteData(query.data);
 
   function refetch() {
     query.refetch();
@@ -64,16 +63,9 @@ export default function AnimeList({ query }: AnimeListProps) {
             }
           }}
           onEndReachedThreshold={2}
-          ListFooterComponent={() => (
-            <ActivityIndicator
-              size={theme.sizes.icon.md}
-              color={theme.colors.foreground}
-            />
-          )}
+          ListFooterComponent={() => <LoadingView color="foreground" />}
           ListFooterComponentStyle={{
             paddingLeft: theme.sizes.padding.xs,
-            height: "100%",
-            justifyContent: "center",
             display:
               "isFetchingNextPage" in query && query.isFetchingNextPage
                 ? undefined
@@ -86,7 +78,7 @@ export default function AnimeList({ query }: AnimeListProps) {
           onReload={refetch}
         />
       ) : (
-        <LoadingView color='foreground' />
+        <LoadingView color="foreground" />
       )}
     </View>
   );
@@ -98,7 +90,15 @@ interface AnimeListItemProps {
 
 export function AnimeListItem({ anime }: AnimeListItemProps) {
   return (
-    <TouchableOpacity style={styles.listItem} activeOpacity={0.75}>
+    <TouchableOpacity
+      style={{
+        aspectRatio: 17 / 24,
+        borderRadius: theme.sizes.radius.md,
+        height: "100%",
+        overflow: "hidden",
+      }}
+      activeOpacity={0.75}
+    >
       <ImageBackground
         style={{ justifyContent: "flex-end", height: "100%" }}
         source={{ uri: anime.images.webp.image_url }}
@@ -127,15 +127,6 @@ export function AnimeListItem({ anime }: AnimeListItemProps) {
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  listItem: {
-    aspectRatio: 17 / 24,
-    borderRadius: theme.sizes.radius.md,
-    height: "100%",
-    overflow: "hidden",
-  },
-});
 
 interface ListHeaderProps {
   title: string;

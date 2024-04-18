@@ -1,5 +1,4 @@
-import { View, FlatList, ActivityIndicator } from "react-native";
-import React, { useMemo } from "react";
+import { View, FlatList } from "react-native";
 import {
   AnimeFetchError,
   AnimeListItem,
@@ -11,8 +10,10 @@ import LoadingView from "../LoadingView";
 
 interface AnimeGridProps extends AnimeListProps {}
 
+const COLS = 3;
+
 export default function AnimeGrid({ query }: AnimeGridProps) {
-  const items = useMemo(() => getInfiniteData(query.data), [query.data]);
+  const items = getInfiniteData(query.data);
 
   if (query.data) {
     return (
@@ -20,7 +21,7 @@ export default function AnimeGrid({ query }: AnimeGridProps) {
         <FlatList
           style={{ flex: 1 }}
           data={items}
-          numColumns={3}
+          numColumns={COLS}
           columnWrapperStyle={{ columnGap: theme.sizes.padding.sm }}
           contentContainerStyle={{
             rowGap: theme.sizes.padding.sm,
@@ -29,7 +30,7 @@ export default function AnimeGrid({ query }: AnimeGridProps) {
           renderItem={({ item }) => (
             <View
               style={{
-                flex: 1 / 3,
+                flex: 1 / COLS,
                 aspectRatio: 17 / 24,
                 alignItems: "center",
               }}
@@ -37,7 +38,25 @@ export default function AnimeGrid({ query }: AnimeGridProps) {
               <AnimeListItem anime={item} />
             </View>
           )}
+          keyExtractor={(item, index) => item?.title ?? index.toString()}
           showsVerticalScrollIndicator={false}
+          onEndReached={() => {
+            if (
+              "fetchNextPage" in query &&
+              !query.isFetching &&
+              query.hasNextPage
+            ) {
+              query.fetchNextPage();
+            }
+          }}
+          onEndReachedThreshold={2}
+          ListFooterComponent={() => <LoadingView color={"foreground"} />}
+          ListFooterComponentStyle={{
+            display:
+              "isFetchingNextPage" in query && query.isFetchingNextPage
+                ? undefined
+                : "none",
+          }}
         />
       </View>
     );

@@ -1,6 +1,5 @@
-import { TextInput, View } from "react-native";
+import { View } from "react-native";
 import React, { useState } from "react";
-import Text from "@/components/ui/Text";
 import { useJikanInfiniteQuery } from "@/hooks/use-jikan-query";
 import jikan from "@/lib/jikan";
 import { theme } from "@/theme";

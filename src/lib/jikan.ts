@@ -32,7 +32,7 @@ interface AnimeSearchOptions extends Omit<TopAnimeOptions, "filter"> {
   max_score?: number;
   status?: "airing" | "complete" | "upcoming";
   genres?: number[];
-  generes_exclude?: number[];
+  genres_exclude?: number[];
   // prettier-ignore
   order_by?: "mal_id" | "title" | "start_date" | "end_date" | "episodes" | "score" | "scored_by" | "rank" | "popularity" | "members" | "favorites"
   sort?: "desc" | "asc";
@@ -55,6 +55,10 @@ class Jikan {
   error(..._: any[]): any {
     throw new Error("error thrown intentionally");
     return;
+  }
+
+  loading(..._: any[]): any {
+    return new Promise((_, reject) => setTimeout(reject, 10000));
   }
 
   getFeaturedAnime(config?: AxiosRequestConfig) {
