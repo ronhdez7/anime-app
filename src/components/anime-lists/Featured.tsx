@@ -15,6 +15,7 @@ import Button from "../ui/Button";
 import { PlusIcon } from "react-native-heroicons/solid";
 import { useRef, useState } from "react";
 import { AnimeFetchError } from "./AnimeList";
+import LoadingView from "../LoadingView";
 
 export default function Featured() {
   const { data, error, refetch } = useJikanQuery({
@@ -55,13 +56,7 @@ export default function Featured() {
     );
   }
 
-  return (
-    <View
-      style={{ height: "100%", alignItems: "center", justifyContent: "center" }}
-    >
-      <ActivityIndicator size={theme.sizes.icon.md} color={theme.colors.text} />
-    </View>
-  );
+  return <LoadingView />;
 }
 
 interface FeaturedSliderProps {

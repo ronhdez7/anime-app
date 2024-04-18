@@ -13,8 +13,9 @@ import { JikanAnimeData, JikanError } from "@/types/jikan";
 import { theme } from "@/theme";
 import Text from "@/components/ui/Text";
 import ReloadButton from "../ReloadButton";
+import LoadingView from "../LoadingView";
 
-interface Props {
+export interface AnimeListProps {
   query:
     | UseQueryResult<JikanAnimeData[], AxiosError<JikanError>>
     | UseInfiniteQueryResult<
@@ -26,7 +27,7 @@ interface Props {
       >;
 }
 
-export default function AnimeList({ query }: Props) {
+export default function AnimeList({ query }: AnimeListProps) {
   const items = useMemo(() => getInfiniteData(query.data), [query.data]);
 
   function refetch() {
@@ -85,18 +86,7 @@ export default function AnimeList({ query }: Props) {
           onReload={refetch}
         />
       ) : (
-        <View
-          style={{
-            alignItems: "center",
-            height: "100%",
-            justifyContent: "center",
-          }}
-        >
-          <ActivityIndicator
-            color={theme.colors.foreground}
-            size={theme.sizes.icon.md}
-          />
-        </View>
+        <LoadingView color='foreground' />
       )}
     </View>
   );
@@ -106,7 +96,7 @@ interface AnimeListItemProps {
   anime: JikanAnimeData;
 }
 
-function AnimeListItem({ anime }: AnimeListItemProps) {
+export function AnimeListItem({ anime }: AnimeListItemProps) {
   return (
     <TouchableOpacity style={styles.listItem} activeOpacity={0.75}>
       <ImageBackground
@@ -118,7 +108,7 @@ function AnimeListItem({ anime }: AnimeListItemProps) {
         <View
           style={{
             backgroundColor: theme.colors.overlay,
-            height: 44,
+            height: "25%",
             justifyContent: "center",
             alignItems: "center",
             padding: theme.sizes.padding.xs,
@@ -140,7 +130,7 @@ function AnimeListItem({ anime }: AnimeListItemProps) {
 
 const styles = StyleSheet.create({
   listItem: {
-    width: 100,
+    aspectRatio: 17 / 24,
     borderRadius: theme.sizes.radius.md,
     height: "100%",
     overflow: "hidden",
@@ -179,7 +169,7 @@ export function AnimeFetchError({ message, onReload }: AnimeFetchErrorProps) {
     <View
       style={{
         alignItems: "center",
-        height: "100%",
+        flex: 1,
         justifyContent: "center",
         rowGap: theme.sizes.gap.xl,
       }}
@@ -202,7 +192,7 @@ export function AnimeFetchError({ message, onReload }: AnimeFetchErrorProps) {
   );
 }
 
-function getInfiniteData(
+export function getInfiniteData(
   data?: JikanAnimeData[] | { pages: JikanAnimeData[][] }
 ): JikanAnimeData[] {
   return (
