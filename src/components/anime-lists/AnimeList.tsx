@@ -45,13 +45,7 @@ export default function AnimeList({ query }: Props) {
       {query.data ? (
         <FlatList
           data={items}
-          renderItem={({ item }) =>
-            item ? (
-              <AnimeListItem anime={item} />
-            ) : (
-              <View style={[styles.listItem]} />
-            )
-          }
+          renderItem={({ item }) => <AnimeListItem anime={item} />}
           horizontal
           contentContainerStyle={{ padding: theme.sizes.padding.sm }}
           keyExtractor={(item, index) => item?.title ?? index.toString()}
@@ -61,14 +55,14 @@ export default function AnimeList({ query }: Props) {
           )}
           onEndReached={() => {
             if (
-              !query.isFetching &&
               "fetchNextPage" in query &&
+              !query.isFetching &&
               query.hasNextPage
             ) {
               query.fetchNextPage();
             }
           }}
-          onEndReachedThreshold={items?.length / 2 ?? undefined}
+          onEndReachedThreshold={2}
           ListFooterComponent={() => (
             <ActivityIndicator
               size={theme.sizes.icon.md}
@@ -116,7 +110,7 @@ function AnimeListItem({ anime }: AnimeListItemProps) {
   return (
     <TouchableOpacity style={styles.listItem} activeOpacity={0.5}>
       <ImageBackground
-        style={{ display: "flex", justifyContent: "flex-end", height: "100%" }}
+        style={{ justifyContent: "flex-end", height: "100%" }}
         source={{ uri: anime.images.webp.image_url }}
         resizeMode="cover"
         borderRadius={theme.sizes.radius.md}
@@ -125,7 +119,6 @@ function AnimeListItem({ anime }: AnimeListItemProps) {
           style={{
             backgroundColor: theme.colors.overlay,
             height: 44,
-            display: "flex",
             justifyContent: "center",
             alignItems: "center",
             padding: theme.sizes.padding.xs,
@@ -193,7 +186,6 @@ export function AnimeFetchError({ message, onReload }: AnimeFetchErrorProps) {
     >
       <View
         style={{
-          display: "flex",
           alignItems: "center",
           rowGap: theme.sizes.gap.sm,
         }}
@@ -212,9 +204,8 @@ export function AnimeFetchError({ message, onReload }: AnimeFetchErrorProps) {
 
 function getInfiniteData(
   data?: JikanAnimeData[] | { pages: JikanAnimeData[][] }
-): (JikanAnimeData | undefined)[] {
+): JikanAnimeData[] {
   return (
-    (Array.isArray(data) ? data : data?.pages.flatMap((page) => page)) ??
-    new Array(5).fill(null)
+    (Array.isArray(data) ? data : data?.pages.flatMap((page) => page)) ?? []
   );
 }

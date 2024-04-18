@@ -42,6 +42,10 @@ interface AnimeSearchOptions extends Omit<TopAnimeOptions, "filter"> {
   end_date?: string;
 }
 
+const defaultOptions = {
+  sfw: true,
+};
+
 class Jikan {
   readonly BASE_URL = "https://api.jikan.moe/v4";
   readonly axios = ogAxios.create({
@@ -53,8 +57,12 @@ class Jikan {
     return;
   }
 
+  getFeaturedAnime(config?: AxiosRequestConfig) {
+    return this.getTopAnime({ limit: 5, sfw: true }, config);
+  }
+
   getTopAnime(
-    options: TopAnimeOptions = {},
+    options: TopAnimeOptions = defaultOptions,
     config?: AxiosRequestConfig
   ): PaginatedRes<JikanAnimeData[]> {
     const params = new URLSearchParams(options as any).toString();
@@ -69,7 +77,7 @@ class Jikan {
   }
 
   getAnimeSearch(
-    options: AnimeSearchOptions = {},
+    options: AnimeSearchOptions = defaultOptions,
     config?: AxiosRequestConfig
   ): PaginatedRes<JikanAnimeData[]> {
     const params = new URLSearchParams(options as any).toString();

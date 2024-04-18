@@ -19,7 +19,7 @@ import { AnimeFetchError } from "./AnimeList";
 export default function Featured() {
   const { data, error, refetch } = useJikanQuery({
     queryKey: ["anime-list", "featured"],
-    queryFn: ({ signal }) => jikan.getTopAnime(undefined, { signal }),
+    queryFn: ({ signal }) => jikan.getFeaturedAnime({ signal }),
   });
 
   if (data) {
@@ -99,7 +99,6 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
           position: "absolute",
           bottom: 0,
           paddingHorizontal: theme.sizes.padding.sm,
-          display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "flex-end",
