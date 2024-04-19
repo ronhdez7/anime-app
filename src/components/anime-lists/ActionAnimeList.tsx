@@ -1,6 +1,6 @@
 import jikan from "@/lib/jikan";
 import { useJikanInfiniteQuery } from "@/hooks/use-jikan-query";
-import AnimeList, { AnimeListHeader } from "./AnimeList";
+import { AnimeListView } from "./AnimeList";
 
 export default function ActionAnimeList() {
   const query = useJikanInfiniteQuery({
@@ -9,9 +9,5 @@ export default function ActionAnimeList() {
       jikan.getAnimeSearch({ genres: [1], page: pageParam }, { signal }),
   });
 
-  return (
-    <AnimeListHeader title="Action">
-      <AnimeList query={query} />
-    </AnimeListHeader>
-  );
+  return <AnimeListView title="Action" query={query} />;
 }

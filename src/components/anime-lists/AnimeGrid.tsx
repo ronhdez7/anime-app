@@ -6,7 +6,7 @@ import {
   getInfiniteData,
 } from "./AnimeList";
 import { theme } from "@/theme";
-import LoadingView from "../LoadingView";
+import LoadingView from "../ui/LoadingView";
 
 interface AnimeGridProps extends AnimeListProps {}
 
@@ -49,7 +49,7 @@ export default function AnimeGrid({ query }: AnimeGridProps) {
               query.fetchNextPage();
             }
           }}
-          onEndReachedThreshold={2}
+          onEndReachedThreshold={1}
           ListFooterComponent={() => <LoadingView color={"foreground"} />}
           ListFooterComponentStyle={{
             display:

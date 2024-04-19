@@ -39,8 +39,6 @@ export function useJikanQuery<T>({
 
 export function useJikanInfiniteQuery<T>({
   queryKey,
-  initialPageParam,
-  getNextPageParam,
   ...options
 }: MakeRequired<
   UndefinedInitialDataInfiniteOptions<
@@ -60,11 +58,9 @@ export function useJikanInfiniteQuery<T>({
         pages: data.pages.map((page) => page.data.data),
       };
     },
-    initialPageParam: initialPageParam ?? 1,
-    getNextPageParam:
-      getNextPageParam ??
-      ((data, _, lastPageParam) =>
-        (data.data.pagination.has_next_page || null) && lastPageParam + 1),
+    initialPageParam: 1,
+    getNextPageParam: (data, _, lastPageParam) =>
+      (data.data.pagination.has_next_page || null) && lastPageParam + 1,
     ...options,
   });
 

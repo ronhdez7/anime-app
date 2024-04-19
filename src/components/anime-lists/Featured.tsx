@@ -15,7 +15,7 @@ import Button from "../ui/Button";
 import { PlusIcon } from "react-native-heroicons/solid";
 import { useRef, useState } from "react";
 import { AnimeFetchError } from "./AnimeList";
-import LoadingView from "../LoadingView";
+import LoadingView from "../ui/LoadingView";
 
 export default function Featured() {
   const { data, error, refetch } = useJikanQuery({

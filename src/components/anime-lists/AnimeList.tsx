@@ -1,38 +1,22 @@
 import {
   FlatList,
   ImageBackground,
-  StyleSheet,
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { PropsWithChildren } from "react";
 import { UseInfiniteQueryResult, UseQueryResult } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { JikanAnimeData, JikanError } from "@/types/jikan";
 import { theme } from "@/theme";
 import Text from "@/components/ui/Text";
 import ReloadButton from "../ReloadButton";
-import LoadingView from "../LoadingView";
+import LoadingView from "../ui/LoadingView";
 
 export interface AnimeListProps {
-  query:
-    | UseQueryResult<JikanAnimeData[], AxiosError<JikanError>>
-    | UseInfiniteQueryResult<
-        {
-          pages: JikanAnimeData[][];
-          pageParams: number[];
-        },
-        AxiosError<JikanError>
-      >;
+  query: AnimeListViewProps["query"];
 }
 
 export default function AnimeList({ query }: AnimeListProps) {
-  const items = getInfiniteData(query.data);
-
-  function refetch() {
-    query.refetch();
-  }
-
   return (
     <View
       style={{
@@ -44,7 +28,7 @@ export default function AnimeList({ query }: AnimeListProps) {
     >
       {query.data ? (
         <FlatList
-          data={items}
+          data={getInfiniteData(query.data)}
           renderItem={({ item }) => <AnimeListItem anime={item} />}
           horizontal
           contentContainerStyle={{ padding: theme.sizes.padding.sm }}
@@ -75,7 +59,7 @@ export default function AnimeList({ query }: AnimeListProps) {
       ) : query.error ? (
         <AnimeFetchError
           message={query.error.response?.data.message}
-          onReload={refetch}
+          onReload={query.refetch}
         />
       ) : (
         <LoadingView color="foreground" />
@@ -128,13 +112,19 @@ export function AnimeListItem({ anime }: AnimeListItemProps) {
   );
 }
 
-interface ListHeaderProps {
+interface AnimeListViewProps {
   title: string;
+  query:
+    | UseQueryResult<JikanAnimeData[], AxiosError<JikanError>>
+    | UseInfiniteQueryResult<
+        {
+          pages: JikanAnimeData[][];
+          pageParams: number[];
+        },
+        AxiosError<JikanError>
+      >;
 }
-export function AnimeListHeader({
-  title,
-  children,
-}: PropsWithChildren<ListHeaderProps>) {
+export function AnimeListView({ title, query }: AnimeListViewProps) {
   return (
     <View style={{ rowGap: theme.sizes.gap.xs }}>
       <Text
@@ -146,7 +136,7 @@ export function AnimeListHeader({
         {title}
       </Text>
 
-      {children}
+      <AnimeList query={query} />
     </View>
   );
 }
