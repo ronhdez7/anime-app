@@ -17,6 +17,7 @@ const COLS = 3;
 
 export default function AnimeGrid({ query, onRefresh }: AnimeGridProps) {
   const [refreshing, setRefreshing] = useState(false);
+  const items = getInfiniteData(query.data);
 
   function refresh() {
     setRefreshing(true);
@@ -31,7 +32,7 @@ export default function AnimeGrid({ query, onRefresh }: AnimeGridProps) {
       <View style={{ paddingHorizontal: theme.sizes.padding.sm, flex: 1 }}>
         <FlatList
           style={{ flex: 1 }}
-          data={getInfiniteData(query.data)}
+          data={{ ...items, length: Math.ceil(items.length / COLS) * 3 }}
           numColumns={COLS}
           columnWrapperStyle={{ columnGap: theme.sizes.padding.sm }}
           contentContainerStyle={{
@@ -46,7 +47,7 @@ export default function AnimeGrid({ query, onRefresh }: AnimeGridProps) {
                 alignItems: "center",
               }}
             >
-              <AnimeListItem anime={item} />
+              {item && <AnimeListItem anime={item} />}
             </View>
           )}
           keyExtractor={(item, index) => item?.title ?? index.toString()}
