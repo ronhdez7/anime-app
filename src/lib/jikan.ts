@@ -24,7 +24,7 @@ interface TopAnimeOptions {
   limit?: number;
 }
 
-interface AnimeSearchOptions extends Omit<TopAnimeOptions, "filter"> {
+export interface AnimeSearchOptions extends Omit<TopAnimeOptions, "filter"> {
   unapproved?: boolean;
   q?: string;
   score?: number;
@@ -85,7 +85,6 @@ class Jikan {
     config?: AxiosRequestConfig
   ): PaginatedRes<JikanAnimeData[]> {
     const params = new URLSearchParams(options as any).toString();
-    console.log("hit:", params);
     return this.axios.get(`/anime?${params}`, config);
   }
 }

@@ -3,10 +3,10 @@ import { Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { theme } from "@/theme";
 import * as SplashScreen from "expo-splash-screen";
-import useLoadAssets from "@/hooks/use-load-assets";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/query-client";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useFonts } from "expo-font";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -45,4 +45,15 @@ export default function RootLayout() {
       </GestureHandlerRootView>
     </QueryClientProvider>
   );
+}
+
+function useLoadAssets() {
+  const [fontsLoaded, fontError] = useFonts({
+    "Inter-Light": require("../../assets/fonts/Inter/Inter-Light.otf"),
+    "Inter-Medium": require("../../assets/fonts/Inter/Inter-Medium.otf"),
+    "Inter-Bold": require("../../assets/fonts/Inter/Inter-Bold.otf"),
+    "Inter-Black": require("../../assets/fonts/Inter/Inter-Black.otf"),
+  });
+
+  return [fontsLoaded, fontError];
 }

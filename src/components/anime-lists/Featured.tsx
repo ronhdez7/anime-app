@@ -1,13 +1,5 @@
-import {
-  View,
-  ImageBackground,
-  Dimensions,
-  Pressable,
-  ActivityIndicator,
-} from "react-native";
+import { View, ImageBackground, Dimensions, Pressable } from "react-native";
 import { JikanAnimeData } from "@/types/jikan";
-import { useJikanQuery } from "@/hooks/use-jikan-query";
-import jikan from "@/lib/jikan";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import { theme } from "@/theme";
 import Text from "../ui/Text";
@@ -16,12 +8,10 @@ import { PlusIcon } from "react-native-heroicons/solid";
 import { useRef, useState } from "react";
 import { AnimeFetchError } from "./AnimeList";
 import LoadingView from "../ui/LoadingView";
+import useFeaturedAnime from "@/queries/jikan/use-featured-anime";
 
 export default function Featured() {
-  const { data, error, refetch } = useJikanQuery({
-    queryKey: ["anime-list", "featured"],
-    queryFn: ({ signal }) => jikan.getFeaturedAnime({ signal }),
-  });
+  const { data, error, refetch } = useFeaturedAnime();
 
   if (data) {
     return <FeaturedSlider items={data} />;

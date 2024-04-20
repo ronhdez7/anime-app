@@ -11,20 +11,19 @@ import {
   JikanError,
   JikanPaginatedResponse,
   JikanResponse,
-} from "../types/jikan";
+} from "@/types/jikan";
 import { MakeRequired } from "@/types";
+import { AnimeSearchOptions } from "@/lib/jikan";
 
 type SuccessRes<T> = AxiosResponse<JikanResponse<T>, JikanError>;
 type PaginatedRes<T> = AxiosResponse<JikanPaginatedResponse<T>, JikanError>;
 
 type ErrorRes = AxiosError<JikanError>;
 
-export function useJikanQuery<T>({
-  queryKey,
+export function useJikanQuery<T, Q extends QueryKey = QueryKey>({
   ...options
-}: UndefinedInitialDataOptions<SuccessRes<T>, ErrorRes, T, QueryKey>) {
+}: UndefinedInitialDataOptions<SuccessRes<T>, ErrorRes, T, Q>) {
   const query = useQuery({
-    queryKey: ["normal", "jikan", ...queryKey],
     select: (data) => {
       const result = data?.data;
       if (result && "error" in result) throw result;
@@ -37,21 +36,19 @@ export function useJikanQuery<T>({
   return query;
 }
 
-export function useJikanInfiniteQuery<T>({
-  queryKey,
+export function useJikanInfiniteQuery<T, Q extends QueryKey = QueryKey>({
   ...options
 }: MakeRequired<
   UndefinedInitialDataInfiniteOptions<
     PaginatedRes<T>,
     ErrorRes,
     InfiniteData<T, number>,
-    QueryKey,
+    Q,
     number
   >,
   "queryKey"
 >) {
   const query = useInfiniteQuery({
-    queryKey: ["infinite", "jikan", ...queryKey],
     select(data) {
       return {
         ...data,
@@ -66,3 +63,13 @@ export function useJikanInfiniteQuery<T>({
 
   return query;
 }
+
+export const jikanKeys = {
+  all: ["jikan", "anime"] as const,
+  normal: () => ["normal", ...jikanKeys.all] as const,
+  infinite: () => ["infinite", ...jikanKeys.all] as const,
+  featured: () => [...jikanKeys.normal(), "featured"] as const,
+  top: () => [...jikanKeys.infinite(), "top"] as const,
+  search: (params: AnimeSearchOptions = {}) =>
+    [...jikanKeys.infinite(), "search", params] as const,
+};
