@@ -7,9 +7,9 @@ export default function useAnimeSearch(params: AnimeSearchOptions = {}) {
     queryFn: ({ queryKey, pageParam, signal }) =>
       jikan.getAnimeSearch(
         {
+          ...queryKey[4],
           page: pageParam,
           sfw: true,
-          ...queryKey[4],
         },
         { signal }
       ),

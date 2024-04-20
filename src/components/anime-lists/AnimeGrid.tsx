@@ -1,4 +1,4 @@
-import { View, FlatList } from "react-native";
+import { View, FlatList, RefreshControl } from "react-native";
 import {
   AnimeFetchError,
   AnimeListItem,
@@ -7,20 +7,31 @@ import {
 } from "./AnimeList";
 import { theme } from "@/theme";
 import LoadingView from "../ui/LoadingView";
+import { useState } from "react";
 
-interface AnimeGridProps extends AnimeListProps {}
+interface AnimeGridProps extends AnimeListProps {
+  onRefresh: () => void;
+}
 
 const COLS = 3;
 
-export default function AnimeGrid({ query }: AnimeGridProps) {
-  const items = getInfiniteData(query.data);
+export default function AnimeGrid({ query, onRefresh }: AnimeGridProps) {
+  const [refreshing, setRefreshing] = useState(false);
+
+  function refresh() {
+    setRefreshing(true);
+    onRefresh();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 500);
+  }
 
   if (query.data) {
     return (
       <View style={{ paddingHorizontal: theme.sizes.padding.sm, flex: 1 }}>
         <FlatList
           style={{ flex: 1 }}
-          data={items}
+          data={getInfiniteData(query.data)}
           numColumns={COLS}
           columnWrapperStyle={{ columnGap: theme.sizes.padding.sm }}
           contentContainerStyle={{
@@ -57,6 +68,9 @@ export default function AnimeGrid({ query }: AnimeGridProps) {
                 ? undefined
                 : "none",
           }}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+          }
         />
       </View>
     );

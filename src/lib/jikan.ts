@@ -85,6 +85,7 @@ class Jikan {
     config?: AxiosRequestConfig
   ): PaginatedRes<JikanAnimeData[]> {
     const params = new URLSearchParams(options as any).toString();
+    console.log("hit:", params);
     return this.axios.get(`/anime?${params}`, config);
   }
 }
