@@ -13,7 +13,7 @@ export default forwardRef<BottomSheet>(function FiltersBottomSheet(_, ref) {
       backgroundStyle={{ backgroundColor: theme.colors.foreground }}
       handleIndicatorStyle={{ backgroundColor: theme.colors.text }}
       enablePanDownToClose
-      index={2}
+      index={-1}
     >
       <BottomSheetScrollView style={{ padding: theme.sizes.padding.sm }}>
         <GenresList />

@@ -29,6 +29,7 @@ export default function SearchPage() {
           <SearchBar />
 
           <TouchableOpacity
+            activeOpacity={0.75}
             style={{
               padding: theme.sizes.padding.sm,
               backgroundColor: theme.colors.foreground,

@@ -5,7 +5,7 @@ import { theme } from "@/theme";
 interface Props extends TextInputProps {}
 
 export default forwardRef<TextInput, Props>(function Input(
-  { style, cursorColor, placeholderTextColor, ...props },
+  { style, cursorColor, placeholderTextColor, onTouchStart, ...props },
   ref
 ) {
   return (
@@ -27,6 +27,10 @@ export default forwardRef<TextInput, Props>(function Input(
       ]}
       cursorColor={cursorColor ?? theme.colors.primary}
       placeholderTextColor={placeholderTextColor ?? theme.colors.inactive}
+      onTouchStart={(e) => {
+        e.stopPropagation();
+        onTouchStart?.(e);
+      }}
       {...props}
     />
   );
