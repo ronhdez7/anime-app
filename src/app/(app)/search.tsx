@@ -32,8 +32,9 @@ export default function SearchPage() {
             activeOpacity={0.75}
             style={{
               padding: theme.sizes.padding.sm,
-              backgroundColor: theme.colors.foreground,
+              backgroundColor: theme.colors.neutral,
               borderRadius: theme.sizes.radius.xs,
+              elevation: 10,
             }}
             onPress={openBottomSheet}
           >

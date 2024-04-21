@@ -8,6 +8,7 @@ import {
 import { theme } from "@/theme";
 import LoadingView from "../ui/LoadingView";
 import { useState } from "react";
+import Text from "../ui/Text";
 
 interface AnimeGridProps extends AnimeListProps {
   onRefresh: () => void;
@@ -74,6 +75,11 @@ export default function AnimeGrid({ query, onRefresh }: AnimeGridProps) {
           }
           keyboardShouldPersistTaps="never"
           keyboardDismissMode="on-drag"
+          ListEmptyComponent={() => (
+            <View style={{ alignItems: "center" }}>
+              <Text>No anime found</Text>
+            </View>
+          )}
         />
       </View>
     );

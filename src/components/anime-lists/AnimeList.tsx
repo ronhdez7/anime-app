@@ -57,6 +57,11 @@ export default function AnimeList({ query }: AnimeListProps) {
           }}
           keyboardShouldPersistTaps="never"
           keyboardDismissMode="on-drag"
+          ListEmptyComponent={() => (
+            <View style={{ alignItems: "center" }}>
+              <Text foreground>No anime found</Text>
+            </View>
+          )}
         />
       ) : query.error ? (
         <AnimeFetchError

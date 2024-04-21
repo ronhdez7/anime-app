@@ -10,19 +10,23 @@ interface Actions {
   selectStatus: (status?: AnimeSearchOptions["status"]) => void;
   selectOrder: (order?: AnimeSearchOptions["order_by"]) => void;
   selectSort: (sort?: AnimeSearchOptions["sort"]) => void;
+  resetFilters: () => void;
 }
-type SearchContext = AnimeSearchOptions & {
-  actions: Actions;
+
+type SearchState = AnimeSearchOptions & {
   genres: number[];
 };
+type SearchContext = SearchState & { actions: Actions };
 type SearchContextStore = StoreApi<SearchContext>;
 
 const SearchContext = createContext<SearchContextStore | undefined>(undefined);
 
+const initialState: SearchState = { genres: [] };
+
 export default function SearchStoreProvider({ children }: PropsWithChildren) {
   const [store] = useState(() =>
     createStore<SearchContext>((set) => ({
-      genres: [],
+      ...initialState,
       actions: {
         setQuery: (query) => set(() => ({ q: query })),
         addGenre: (genre) =>
@@ -33,6 +37,15 @@ export default function SearchStoreProvider({ children }: PropsWithChildren) {
         selectStatus: (status) => set(() => ({ status })),
         selectOrder: (order) => set(() => ({ order_by: order })),
         selectSort: (sort) => set(() => ({ sort })),
+        resetFilters: () =>
+          set(
+            (state) => ({
+              ...initialState,
+              q: state.q,
+              actions: state.actions,
+            }),
+            true
+          ),
       },
     }))
   );
