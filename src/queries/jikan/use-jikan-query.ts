@@ -72,4 +72,5 @@ export const jikanKeys = {
   top: () => [...jikanKeys.infinite(), "top"] as const,
   search: (params: AnimeSearchOptions = {}) =>
     [...jikanKeys.infinite(), "search", params] as const,
+  genres: () => [...jikanKeys.normal(), "genres"] as const,
 };

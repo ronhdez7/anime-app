@@ -14,6 +14,13 @@ type PaginatedRes<T> = Promise<
   AxiosResponse<JikanPaginatedResponse<T>, JikanError>
 >;
 
+export interface JikanGenre {
+  mal_id: number;
+  name: string;
+  url: string;
+  count: number;
+}
+
 interface TopAnimeOptions {
   // prettier-ignore
   type?: "tv" | "movie" | "ova" | "special" | "ona" | "music" | "cm" | "pv" | "tv_special";
@@ -82,6 +89,10 @@ class Jikan {
   ): PaginatedRes<JikanAnimeData[]> {
     const params = new URLSearchParams(options as any).toString();
     return this.axios.get(`/anime?${params}`, config);
+  }
+
+  getAnimeGenres(config?: AxiosRequestConfig): Res<JikanGenre[]> {
+    return this.axios.get("/genres/anime?filter=genres", config);
   }
 }
 
