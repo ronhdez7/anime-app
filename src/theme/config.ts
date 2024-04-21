@@ -29,9 +29,11 @@ export interface Theme {
 
 const sizes = {
   icon: {
-    sm: 20,
+    xs: 20,
+    sm: 24,
     md: 28,
-    lg: 36,
+    lg: 32,
+    xl: 36,
   },
   text: {
     xs: 10,
