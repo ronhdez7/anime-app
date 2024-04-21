@@ -72,6 +72,8 @@ export default function AnimeGrid({ query, onRefresh }: AnimeGridProps) {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={refresh} />
           }
+          keyboardShouldPersistTaps="never"
+          keyboardDismissMode="on-drag"
         />
       </View>
     );

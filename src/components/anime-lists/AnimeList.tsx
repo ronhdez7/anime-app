@@ -55,6 +55,8 @@ export default function AnimeList({ query }: AnimeListProps) {
                 ? undefined
                 : "none",
           }}
+          keyboardShouldPersistTaps="never"
+          keyboardDismissMode="on-drag"
         />
       ) : query.error ? (
         <AnimeFetchError
@@ -92,16 +94,16 @@ export function AnimeListItem({ anime }: AnimeListItemProps) {
         <View
           style={{
             backgroundColor: theme.colors.overlay,
-            height: "25%",
+            height: "30%",
             justifyContent: "center",
             alignItems: "center",
             padding: theme.sizes.padding.xs,
           }}
         >
           <Text
-            size="sm"
+            size="xs"
             foreground
-            numberOfLines={2}
+            numberOfLines={3}
             style={{ textAlign: "center" }}
           >
             {anime.title_english ?? anime.title_japanese}
