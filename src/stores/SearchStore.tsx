@@ -4,8 +4,13 @@ import { StoreApi, createStore, useStore } from "zustand";
 
 interface Actions {
   setQuery: (query: string) => void;
+  addGenre: (genre: number) => void;
+  removeGenre: (genre: number) => void;
 }
-type SearchContext = AnimeSearchOptions & { actions: Actions };
+type SearchContext = AnimeSearchOptions & {
+  actions: Actions;
+  genres: number[];
+};
 type SearchContextStore = StoreApi<SearchContext>;
 
 const SearchContext = createContext<SearchContextStore | undefined>(undefined);
@@ -13,8 +18,13 @@ const SearchContext = createContext<SearchContextStore | undefined>(undefined);
 export default function SearchStoreProvider({ children }: PropsWithChildren) {
   const [store] = useState(() =>
     createStore<SearchContext>((set) => ({
+      genres: [],
       actions: {
         setQuery: (query) => set(() => ({ q: query })),
+        addGenre: (genre) =>
+          set((state) => ({ genres: [...state.genres, genre] })),
+        removeGenre: (genre) =>
+          set((state) => ({ genres: state.genres.filter((e) => e !== genre) })),
       },
     }))
   );
@@ -38,4 +48,10 @@ function useSearchStore<U>(
 export const useSearchAll = () => useSearchStore((state) => state);
 
 export const useSearchQuery = () => useSearchStore((state) => state.q);
+export const useSearchGenres = () => useSearchStore((state) => state.genres);
+export const useSearchSFW = () => useSearchStore((state) => state.sfw);
+export const useSearchType = () => useSearchStore((state) => state.type);
+export const useSearchStatus = () => useSearchStore((state) => state.status);
+export const useSearchSort = () => useSearchStore((state) => state.sort);
+
 export const useSearchActions = () => useSearchStore((state) => state.actions);

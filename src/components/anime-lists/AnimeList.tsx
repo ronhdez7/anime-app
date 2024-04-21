@@ -132,8 +132,8 @@ export function AnimeListView({ title, query }: AnimeListViewProps) {
       <Text
         style={{
           paddingLeft: theme.sizes.padding.sm,
-          fontFamily: theme.fonts.inter.bold,
         }}
+        weight="bold"
       >
         {title}
       </Text>

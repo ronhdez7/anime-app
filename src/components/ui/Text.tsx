@@ -5,10 +5,11 @@ import { theme } from "@/theme";
 interface Props extends TextProps {
   size?: keyof typeof theme.sizes.text;
   foreground?: boolean;
+  weight?: keyof typeof theme.fonts.inter;
 }
 
 export default forwardRef<RNText, Props>(function Text(
-  { style, size = "md", foreground = false, ...props },
+  { style, size = "md", foreground = false, weight = "medium", ...props },
   ref
 ) {
   return (
@@ -16,7 +17,7 @@ export default forwardRef<RNText, Props>(function Text(
       style={[
         {
           fontSize: theme.sizes.text[size],
-          fontFamily: theme.fonts.inter.medium,
+          fontFamily: theme.fonts.inter[weight],
           color: foreground ? theme.colors.foreground : theme.colors.text,
         },
         style,
