@@ -1,9 +1,10 @@
 import { theme } from "@/theme";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import React, { forwardRef, useMemo } from "react";
-import GenresList from "./GenresList";
-import TypesList from "./TypesList";
-import StatusList from "./StatusList";
+import GenresSelection from "./GenresSelection";
+import TypesSelection from "./TypesSelection";
+import StatusSelection from "./StatusSelection";
+import OrderSelection from "./OrderSelection";
 
 export default forwardRef<BottomSheet>(function FiltersBottomSheet(_, ref) {
   const snapPoints = useMemo(() => [25, "25%", "50%", "90%"], []);
@@ -24,9 +25,10 @@ export default forwardRef<BottomSheet>(function FiltersBottomSheet(_, ref) {
         }}
         contentContainerStyle={{ rowGap: theme.sizes.gap.md }}
       >
-        <GenresList />
-        <TypesList />
-        <StatusList />
+        <GenresSelection />
+        <TypesSelection />
+        <StatusSelection />
+        <OrderSelection />
       </BottomSheetScrollView>
     </BottomSheet>
   );

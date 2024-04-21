@@ -1,31 +1,25 @@
 import { View } from "react-native";
 import React from "react";
-import { useSearchActions, useSearchType } from "@/stores/SearchStore";
+import { useSearchActions, useSearchStatus } from "@/stores/SearchStore";
 import { theme } from "@/theme";
 import Text from "../ui/Text";
-import { JikanAnimeSearchType } from "@/lib/jikan";
 import Badge from "../ui/Badge";
+import { JikanAnimeStatus } from "@/lib/jikan";
 
-const types: { name: string; value?: JikanAnimeSearchType }[] = [
+const statuses: { name: string; value?: JikanAnimeStatus }[] = [
   { name: "All" },
-  { name: "TV", value: "tv" },
-  { name: "Movie", value: "movie" },
-  { name: "OVA", value: "ova" },
-  { name: "Special", value: "special" },
-  { name: "ONA", value: "ona" },
-  { name: "Music", value: "music" },
-  { name: "CM", value: "cm" },
-  { name: "PV", value: "pv" },
-  { name: "TV Special", value: "tv_special" },
+  { name: "Finished", value: "complete" },
+  { name: "Airing", value: "airing" },
+  { name: "Upcoming", value: "upcoming" },
 ] as const;
 
-export default function TypesList() {
-  const searchType = useSearchType();
-  const { selectType } = useSearchActions();
+export default function StatusSelection() {
+  const searchStatus = useSearchStatus();
+  const { selectStatus } = useSearchActions();
 
   return (
     <View style={{ rowGap: theme.sizes.gap.sm }}>
-      <Text weight="bold">Type</Text>
+      <Text weight="bold">Status</Text>
       <View
         style={{
           flexDirection: "row",
@@ -33,14 +27,14 @@ export default function TypesList() {
           gap: theme.sizes.gap.xs,
         }}
       >
-        {types.map((type) => {
-          const isSelected = type.value === searchType;
+        {statuses.map((status) => {
+          const isSelected = status.value === searchStatus;
 
           return (
             <Badge
               style={isSelected && { backgroundColor: theme.colors.primary }}
-              onPress={() => selectType(type.value)}
-              key={type.name}
+              onPress={() => selectStatus(status.value)}
+              key={status.name}
             >
               <Text
                 size="sm"
@@ -51,7 +45,7 @@ export default function TypesList() {
                   textAlign: "center",
                 }}
               >
-                {type.name}
+                {status.name}
               </Text>
             </Badge>
           );

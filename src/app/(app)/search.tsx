@@ -33,7 +33,7 @@ export default function SearchPage() {
             style={{
               padding: theme.sizes.padding.sm,
               backgroundColor: theme.colors.foreground,
-              borderRadius: theme.sizes.radius.md,
+              borderRadius: theme.sizes.radius.xs,
             }}
             onPress={openBottomSheet}
           >

@@ -8,6 +8,8 @@ interface Actions {
   removeGenre: (genre: number) => void;
   selectType: (type?: AnimeSearchOptions["type"]) => void;
   selectStatus: (status?: AnimeSearchOptions["status"]) => void;
+  selectOrder: (order?: AnimeSearchOptions["order_by"]) => void;
+  selectSort: (sort?: AnimeSearchOptions["sort"]) => void;
 }
 type SearchContext = AnimeSearchOptions & {
   actions: Actions;
@@ -29,6 +31,8 @@ export default function SearchStoreProvider({ children }: PropsWithChildren) {
           set((state) => ({ genres: state.genres.filter((e) => e !== genre) })),
         selectType: (type) => set(() => ({ type })),
         selectStatus: (status) => set(() => ({ status })),
+        selectOrder: (order) => set(() => ({ order_by: order })),
+        selectSort: (sort) => set(() => ({ sort })),
       },
     }))
   );
@@ -57,5 +61,6 @@ export const useSearchSFW = () => useSearchStore((state) => state.sfw);
 export const useSearchType = () => useSearchStore((state) => state.type);
 export const useSearchStatus = () => useSearchStore((state) => state.status);
 export const useSearchSort = () => useSearchStore((state) => state.sort);
+export const useSearchOrder = () => useSearchStore((state) => state.order_by);
 
 export const useSearchActions = () => useSearchStore((state) => state.actions);

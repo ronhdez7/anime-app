@@ -7,7 +7,7 @@ import Text from "../ui/Text";
 import LoadingView from "../ui/LoadingView";
 import ReloadButton from "../ReloadButton";
 
-export default function GenresList() {
+export default function GenresSelection() {
   const genres = useSearchGenres();
   const { addGenre, removeGenre } = useSearchActions();
 

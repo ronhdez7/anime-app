@@ -34,6 +34,9 @@ export type JikanAnimeSearchType =
 
 export type JikanAnimeStatus = "airing" | "complete" | "upcoming";
 
+// prettier-ignore
+export type JikanAnimeSearchOrder = "mal_id" | "title" | "start_date" | "end_date" | "episodes" | "score" | "scored_by" | "rank" | "popularity" | "members" | "favorites"
+
 interface TopAnimeOptions {
   // prettier-ignore
   type?: JikanAnimeSearchType;
@@ -53,8 +56,7 @@ export interface AnimeSearchOptions extends Omit<TopAnimeOptions, "filter"> {
   status?: JikanAnimeStatus;
   genres?: number[];
   genres_exclude?: number[];
-  // prettier-ignore
-  order_by?: "mal_id" | "title" | "start_date" | "end_date" | "episodes" | "score" | "scored_by" | "rank" | "popularity" | "members" | "favorites"
+  order_by?: JikanAnimeSearchOrder;
   sort?: "desc" | "asc";
   letter?: string;
   producers?: number[];
