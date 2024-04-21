@@ -4,12 +4,14 @@ import { theme } from "@/theme";
 import { View } from "react-native";
 import Badge from "../ui/Badge";
 import Text from "../ui/Text";
+import LoadingView from "../ui/LoadingView";
+import ReloadButton from "../ReloadButton";
 
 export default function GenresList() {
   const genres = useSearchGenres();
   const { addGenre, removeGenre } = useSearchActions();
 
-  const { data } = useAnimeGenres();
+  const { data, error, refetch } = useAnimeGenres();
 
   return (
     <View style={{ rowGap: theme.sizes.gap.sm }}>
@@ -21,7 +23,7 @@ export default function GenresList() {
           gap: theme.sizes.gap.xs,
         }}
       >
-        {data &&
+        {data ? (
           data.map((genre) => {
             const isSelected = genres.includes(genre.mal_id);
 
@@ -47,8 +49,25 @@ export default function GenresList() {
                 </Text>
               </Badge>
             );
-          })}
+          })
+        ) : error ? (
+          <GenresFetchingError onReload={refetch} />
+        ) : (
+          <LoadingView />
+        )}
       </View>
+    </View>
+  );
+}
+
+interface GenresErrorProps {
+  onReload?: () => void;
+}
+function GenresFetchingError({ onReload }: GenresErrorProps) {
+  return (
+    <View style={{ flexDirection: "row", columnGap: 12 }}>
+      <Text size="sm">Could not get genres</Text>
+      {onReload && <ReloadButton onReload={onReload} size="xs" color="text" />}
     </View>
   );
 }

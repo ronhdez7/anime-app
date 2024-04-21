@@ -5,14 +5,17 @@ import { theme } from "@/theme";
 
 interface Props {
   onReload: () => void;
+  size?: keyof typeof theme.sizes.icon
+  color?: keyof typeof theme.colors
+
 }
 
-export default function ReloadButton({ onReload }: Props) {
+export default function ReloadButton({ onReload, size="md", color="foreground" }: Props) {
   return (
     <TouchableOpacity onPress={onReload}>
       <ArrowPathIcon
-        color={theme.colors.foreground}
-        size={theme.sizes.icon.md}
+        color={theme.colors[color]}
+        size={theme.sizes.icon[size]}
       />
     </TouchableOpacity>
   );
