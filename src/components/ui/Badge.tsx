@@ -20,6 +20,7 @@ export default forwardRef<TouchableOpacity, Props>(function Badge(
           borderRadius: 10000,
           paddingHorizontal: theme.sizes.padding.sm,
           paddingVertical: theme.sizes.padding.sm,
+          minWidth: 50,
         },
         style,
       ]}

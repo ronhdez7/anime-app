@@ -6,6 +6,8 @@ interface Actions {
   setQuery: (query: string) => void;
   addGenre: (genre: number) => void;
   removeGenre: (genre: number) => void;
+  selectType: (type?: AnimeSearchOptions["type"]) => void;
+  selectStatus: (status?: AnimeSearchOptions["status"]) => void;
 }
 type SearchContext = AnimeSearchOptions & {
   actions: Actions;
@@ -25,6 +27,8 @@ export default function SearchStoreProvider({ children }: PropsWithChildren) {
           set((state) => ({ genres: [...state.genres, genre] })),
         removeGenre: (genre) =>
           set((state) => ({ genres: state.genres.filter((e) => e !== genre) })),
+        selectType: (type) => set(() => ({ type })),
+        selectStatus: (status) => set(() => ({ status })),
       },
     }))
   );

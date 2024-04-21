@@ -21,9 +21,22 @@ export interface JikanGenre {
   count: number;
 }
 
+export type JikanAnimeSearchType =
+  | "tv"
+  | "movie"
+  | "ova"
+  | "special"
+  | "ona"
+  | "music"
+  | "cm"
+  | "pv"
+  | "tv_special";
+
+export type JikanAnimeStatus = "airing" | "complete" | "upcoming";
+
 interface TopAnimeOptions {
   // prettier-ignore
-  type?: "tv" | "movie" | "ova" | "special" | "ona" | "music" | "cm" | "pv" | "tv_special";
+  type?: JikanAnimeSearchType;
   filter?: "airing" | "upcoming" | "bypopularity" | "favorite";
   rating?: JikanRating;
   sfw?: boolean;
@@ -37,7 +50,7 @@ export interface AnimeSearchOptions extends Omit<TopAnimeOptions, "filter"> {
   score?: number;
   min_score?: number;
   max_score?: number;
-  status?: "airing" | "complete" | "upcoming";
+  status?: JikanAnimeStatus;
   genres?: number[];
   genres_exclude?: number[];
   // prettier-ignore
