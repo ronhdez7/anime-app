@@ -68,9 +68,6 @@ class Jikan {
   readonly BASE_URL = "https://api.jikan.moe/v4";
   readonly axios = ogAxios.create({
     baseURL: this.BASE_URL,
-    headers: {
-      "Content-Type": "application/json"
-    }
   });
 
   error(..._: any[]): any {

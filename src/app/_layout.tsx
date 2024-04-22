@@ -57,5 +57,9 @@ function useLoadAssets() {
     "Inter-Black": require("../../assets/fonts/Inter/Inter-Black.otf"),
   });
 
+  // For some reason, in some devices requests to the api fail.
+  // So this dummy request to a verified api is needed.
+  // axios.get("https://jsonplaceholder.typicode.com/posts/1");
+
   return [fontsLoaded, fontError];
 }
