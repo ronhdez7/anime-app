@@ -4,11 +4,12 @@ import { jikanKeys } from "@/queries/jikan/use-jikan-query";
 import { useSearchAll } from "@/stores/SearchStore";
 import { InfiniteData } from "@tanstack/react-query";
 import AnimeGrid from "../anime-lists/AnimeGrid";
+import { useDebounce } from "use-debounce";
 
 export default function SearchResults() {
   const params = useSearchAll();
-
-  const query = useAnimeSearch(params);
+  const [debouncedParams] = useDebounce(params, 400);
+  const query = useAnimeSearch(debouncedParams);
 
   function refresh() {
     queryClient.setQueryData<InfiniteData<any>>(
