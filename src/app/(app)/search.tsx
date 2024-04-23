@@ -4,9 +4,9 @@ import SearchProvider from "@/stores/SearchStore";
 import SearchBar from "@/components/search/SearchBar";
 import SearchResults from "@/components/search/SearchResults";
 import FiltersBottomSheet from "@/components/search/FiltersBottomSheet";
-import { AdjustmentsHorizontalIcon } from "react-native-heroicons/outline";
 import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet";
 import { useRef } from "react";
+import { Icon } from "@/styles/icons";
 
 export default function SearchPage() {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -38,10 +38,7 @@ export default function SearchPage() {
             }}
             onPress={openBottomSheet}
           >
-            <AdjustmentsHorizontalIcon
-              color={theme.colors.text}
-              size={theme.sizes.icon.sm}
-            />
+            <Icon name="filters" size={theme.sizes.icon.sm} />
           </TouchableOpacity>
         </View>
         <SearchResults />

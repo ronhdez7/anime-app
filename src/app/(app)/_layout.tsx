@@ -1,14 +1,6 @@
 import { Tabs } from "expo-router";
-import {
-  HomeIcon as SolidHomeIcon,
-  UserIcon as SolidUserIcon,
-} from "react-native-heroicons/solid";
 import { theme } from "@/styles/theme";
-import {
-  HomeIcon as OutlineHomeIcon,
-  MagnifyingGlassIcon,
-  UserIcon as OutlineUserIcon,
-} from "react-native-heroicons/outline";
+import { Icon } from "@/styles/icons";
 
 export default function AppLayout() {
   return (
@@ -26,12 +18,12 @@ export default function AppLayout() {
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ color, focused }) =>
-            focused ? (
-              <SolidHomeIcon color={color} size={theme.sizes.icon.md} />
-            ) : (
-              <OutlineHomeIcon color={color} size={theme.sizes.icon.md} />
-            ),
+          tabBarIcon: ({ color, focused }) => (
+            <Icon
+              name={focused ? "home-filled" : "home-outline"}
+              color={color}
+            />
+          ),
         }}
       />
 
@@ -39,9 +31,7 @@ export default function AppLayout() {
         name="search"
         options={{
           title: "Search",
-          tabBarIcon: ({ color }) => (
-            <MagnifyingGlassIcon color={color} size={theme.sizes.icon.md} />
-          ),
+          tabBarIcon: ({ color }) => <Icon name="search" color={color} />,
         }}
       />
 
@@ -49,12 +39,12 @@ export default function AppLayout() {
         name="profile"
         options={{
           title: "Profile",
-          tabBarIcon: ({ color, focused }) =>
-            focused ? (
-              <SolidUserIcon color={color} size={theme.sizes.icon.md} />
-            ) : (
-              <OutlineUserIcon color={color} size={theme.sizes.icon.md} />
-            ),
+          tabBarIcon: ({ color, focused }) => (
+            <Icon
+              name={focused ? "user-filled" : "user-outline"}
+              color={color}
+            />
+          ),
         }}
       />
     </Tabs>

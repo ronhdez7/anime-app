@@ -4,11 +4,11 @@ import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import { theme } from "@/styles/theme";
 import Text from "../ui/Text";
 import Button from "../ui/Button";
-import { PlusIcon } from "react-native-heroicons/solid";
 import { useRef, useState } from "react";
 import { AnimeFetchError } from "./AnimeList";
 import LoadingView from "../ui/LoadingView";
 import useFeaturedAnime from "@/queries/jikan/use-featured-anime";
+import { Icon } from "@/styles/icons";
 
 export default function Featured() {
   const { data, error, refetch } = useFeaturedAnime();
@@ -113,7 +113,8 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
             paddingVertical: theme.sizes.padding.md,
           }}
         >
-          <PlusIcon
+          <Icon
+            name="plus"
             size={theme.sizes.icon.sm}
             color={theme.colors.foreground}
           />

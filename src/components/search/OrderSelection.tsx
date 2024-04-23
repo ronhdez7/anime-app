@@ -9,7 +9,7 @@ import { theme } from "@/styles/theme";
 import Text from "../ui/Text";
 import Badge from "../ui/Badge";
 import { JikanAnimeSearchOrder } from "@/lib/jikan";
-import { ArrowDownIcon, ArrowUpIcon } from "react-native-heroicons/mini";
+import { Icon } from "@/styles/icons";
 
 const orders: { name: string; value?: JikanAnimeSearchOrder }[] = [
   { name: "N/A" },
@@ -46,17 +46,10 @@ export default function OrderSelection() {
           <TouchableOpacity
             onPress={() => selectSort(searchSort === "desc" ? "asc" : "desc")}
           >
-            {searchSort === "desc" ? (
-              <ArrowDownIcon
-                size={theme.sizes.icon.xs}
-                color={theme.colors.text}
-              />
-            ) : (
-              <ArrowUpIcon
-                size={theme.sizes.icon.xs}
-                color={theme.colors.text}
-              />
-            )}
+            <Icon
+              name={searchSort === "desc" ? "arrow-down" : "arrow-up"}
+              size={theme.sizes.icon.xs}
+            />
           </TouchableOpacity>
         </View>
       </View>
