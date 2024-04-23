@@ -5,7 +5,7 @@ import {
   useSearchOrder,
   useSearchSort,
 } from "@/stores/SearchStore";
-import { theme } from "@/theme";
+import { theme } from "@/styles/theme";
 import Text from "../ui/Text";
 import Badge from "../ui/Badge";
 import { JikanAnimeSearchOrder } from "@/lib/jikan";

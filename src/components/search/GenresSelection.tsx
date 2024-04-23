@@ -1,6 +1,6 @@
 import useAnimeGenres from "@/queries/jikan/use-anime-genres";
 import { useSearchGenres, useSearchActions } from "@/stores/SearchStore";
-import { theme } from "@/theme";
+import { theme } from "@/styles/theme";
 import { View } from "react-native";
 import Badge from "../ui/Badge";
 import Text from "../ui/Text";

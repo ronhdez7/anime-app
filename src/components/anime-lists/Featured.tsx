@@ -1,7 +1,7 @@
 import { View, ImageBackground, Dimensions, Pressable } from "react-native";
 import { JikanAnimeData } from "@/types/jikan";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
-import { theme } from "@/theme";
+import { theme } from "@/styles/theme";
 import Text from "../ui/Text";
 import Button from "../ui/Button";
 import { PlusIcon } from "react-native-heroicons/solid";

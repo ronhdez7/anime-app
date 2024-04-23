@@ -5,7 +5,7 @@ import {
   AnimeListProps,
   getInfiniteData,
 } from "./AnimeList";
-import { theme } from "@/theme";
+import { theme } from "@/styles/theme";
 import LoadingView from "../ui/LoadingView";
 import { useState } from "react";
 import Text from "../ui/Text";

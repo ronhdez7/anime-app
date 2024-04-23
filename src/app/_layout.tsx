@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { theme } from "@/theme";
+import { theme } from "@/styles/theme";
 import * as SplashScreen from "expo-splash-screen";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/query-client";

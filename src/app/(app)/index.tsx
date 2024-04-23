@@ -1,7 +1,7 @@
 import Featured from "@/components/anime-lists/Featured";
 import ActionAnimeList from "@/components/anime-lists/ActionAnimeList";
 import TopAnimeList from "@/components/anime-lists/TopAnimeList";
-import { theme } from "@/theme";
+import { theme } from "@/styles/theme";
 import { ScrollView, View } from "react-native";
 
 export default function HomePage() {

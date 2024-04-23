@@ -1,6 +1,6 @@
 import { View, ActivityIndicator, ViewProps } from "react-native";
 import React from "react";
-import { theme } from "@/theme";
+import { theme } from "@/styles/theme";
 
 interface Props extends ViewProps {
   size?: number;

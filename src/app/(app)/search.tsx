@@ -1,5 +1,5 @@
 import { TouchableOpacity, View } from "react-native";
-import { theme } from "@/theme";
+import { theme } from "@/styles/theme";
 import SearchProvider from "@/stores/SearchStore";
 import SearchBar from "@/components/search/SearchBar";
 import SearchResults from "@/components/search/SearchResults";

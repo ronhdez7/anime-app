@@ -3,7 +3,7 @@ import {
   HomeIcon as SolidHomeIcon,
   UserIcon as SolidUserIcon,
 } from "react-native-heroicons/solid";
-import { theme } from "@/theme";
+import { theme } from "@/styles/theme";
 import {
   HomeIcon as OutlineHomeIcon,
   MagnifyingGlassIcon,

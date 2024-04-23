@@ -1,6 +1,6 @@
 import { TextInputProps, TextInput } from "react-native";
 import React, { forwardRef } from "react";
-import { theme } from "@/theme";
+import { theme } from "@/styles/theme";
 
 interface Props extends TextInputProps {}
 

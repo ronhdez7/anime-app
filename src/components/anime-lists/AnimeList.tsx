@@ -7,7 +7,7 @@ import {
 import { UseInfiniteQueryResult, UseQueryResult } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { JikanAnimeData, JikanError } from "@/types/jikan";
-import { theme } from "@/theme";
+import { theme } from "@/styles/theme";
 import Text from "@/components/ui/Text";
 import ReloadButton from "../ReloadButton";
 import LoadingView from "../ui/LoadingView";

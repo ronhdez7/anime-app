@@ -1,7 +1,7 @@
 import { TouchableOpacity } from "react-native";
 import React from "react";
 import { ArrowPathIcon } from "react-native-heroicons/solid";
-import { theme } from "@/theme";
+import { theme } from "@/styles/theme";
 import { TouchableOpacityProps } from "react-native-gesture-handler";
 
 interface Props extends TouchableOpacityProps {

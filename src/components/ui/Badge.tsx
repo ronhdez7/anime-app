@@ -1,4 +1,4 @@
-import { theme } from "@/theme";
+import { theme } from "@/styles/theme";
 import { forwardRef } from "react";
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 

@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import React from "react";
 import { useSearchActions, useSearchType } from "@/stores/SearchStore";
-import { theme } from "@/theme";
+import { theme } from "@/styles/theme";
 import Text from "../ui/Text";
 import { JikanAnimeSearchType } from "@/lib/jikan";
 import Badge from "../ui/Badge";
