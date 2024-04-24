@@ -1,5 +1,5 @@
 import { View, ImageBackground, Dimensions, Pressable } from "react-native";
-import { JikanAnimeData } from "@/types/jikan";
+import { AnimeData } from "@/types";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import { theme } from "@/styles/theme";
 import Text from "../ui/Text";
@@ -50,7 +50,7 @@ export default function Featured() {
 }
 
 interface FeaturedSliderProps {
-  items: JikanAnimeData[];
+  items: AnimeData[];
 }
 function FeaturedSlider({ items }: FeaturedSliderProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -125,7 +125,7 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
 }
 
 interface FeaturedItemProps {
-  item: JikanAnimeData;
+  item: AnimeData;
 }
 function FeaturedItem({ item }: FeaturedItemProps) {
   return (

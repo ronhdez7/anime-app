@@ -13,7 +13,7 @@ import {
   JikanResponse,
 } from "@/types/jikan";
 import { MakeRequired } from "@/types";
-import { AnimeSearchOptions } from "@/lib/jikan";
+import { AnimeSearchParams } from "@/types";
 
 type SuccessRes<T> = AxiosResponse<JikanResponse<T>, JikanError>;
 type PaginatedRes<T> = AxiosResponse<JikanPaginatedResponse<T>, JikanError>;
@@ -70,7 +70,7 @@ export const jikanKeys = {
   infinite: () => ["infinite", ...jikanKeys.all] as const,
   featured: () => [...jikanKeys.normal(), "featured"] as const,
   top: () => [...jikanKeys.infinite(), "top"] as const,
-  search: (params: AnimeSearchOptions = {}) =>
+  search: (params: AnimeSearchParams = {}) =>
     [...jikanKeys.infinite(), "search", params] as const,
   genres: () => [...jikanKeys.normal(), "genres"] as const,
 };

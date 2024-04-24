@@ -1,10 +1,12 @@
 import {
+  JikanAnimeFullData,
   JikanAnimeData,
   JikanError,
-  JikanFullAnimeData,
+  JikanGenre,
   JikanPaginatedResponse,
-  JikanRating,
   JikanResponse,
+  JikanAnimeSearchParams,
+  JikanTopAnimeParams,
   MALID,
 } from "@/types/jikan";
 import ogAxios, { AxiosRequestConfig, AxiosResponse } from "axios";
@@ -13,56 +15,6 @@ type Res<T> = Promise<AxiosResponse<JikanResponse<T>, JikanError>>;
 type PaginatedRes<T> = Promise<
   AxiosResponse<JikanPaginatedResponse<T>, JikanError>
 >;
-
-export interface JikanGenre {
-  mal_id: number;
-  name: string;
-  url: string;
-  count: number;
-}
-
-export type JikanAnimeSearchType =
-  | "tv"
-  | "movie"
-  | "ova"
-  | "special"
-  | "ona"
-  | "music"
-  | "cm"
-  | "pv"
-  | "tv_special";
-
-export type JikanAnimeStatus = "airing" | "complete" | "upcoming";
-
-// prettier-ignore
-export type JikanAnimeSearchOrder = "mal_id" | "title" | "start_date" | "end_date" | "episodes" | "score" | "scored_by" | "rank" | "popularity" | "members" | "favorites"
-
-interface TopAnimeOptions {
-  // prettier-ignore
-  type?: JikanAnimeSearchType;
-  filter?: "airing" | "upcoming" | "bypopularity" | "favorite";
-  rating?: JikanRating;
-  sfw?: boolean;
-  page?: number;
-  limit?: number;
-}
-
-export interface AnimeSearchOptions extends Omit<TopAnimeOptions, "filter"> {
-  unapproved?: boolean;
-  q?: string;
-  score?: number;
-  min_score?: number;
-  max_score?: number;
-  status?: JikanAnimeStatus;
-  genres?: number[];
-  genres_exclude?: number[];
-  order_by?: JikanAnimeSearchOrder;
-  sort?: "desc" | "asc";
-  letter?: string;
-  producers?: number[];
-  start_date?: string;
-  end_date?: string;
-}
 
 class Jikan {
   readonly BASE_URL = "https://api.jikan.moe/v4";
@@ -84,7 +36,7 @@ class Jikan {
   }
 
   getTopAnime(
-    options: TopAnimeOptions = {},
+    options: JikanTopAnimeParams,
     config?: AxiosRequestConfig
   ): PaginatedRes<JikanAnimeData[]> {
     const params = new URLSearchParams(options as any).toString();
@@ -94,12 +46,12 @@ class Jikan {
   getAnimeFullById(
     id: MALID,
     config?: AxiosRequestConfig
-  ): Res<JikanFullAnimeData> {
+  ): Res<JikanAnimeFullData> {
     return this.axios.get(`/anime/${id}/full`, config);
   }
 
   getAnimeSearch(
-    options: AnimeSearchOptions = {},
+    options: JikanAnimeSearchParams,
     config?: AxiosRequestConfig
   ): PaginatedRes<JikanAnimeData[]> {
     const params = new URLSearchParams(options as any).toString();

@@ -1,21 +1,22 @@
-import { AnimeSearchOptions } from "@/lib/jikan";
+import { AnimeSearchParams } from "@/types";
 import { PropsWithChildren, createContext, useContext, useState } from "react";
 import { StoreApi, createStore, useStore } from "zustand";
+
+type SearchState = AnimeSearchParams & {
+  genres: number[];
+};
 
 interface Actions {
   setQuery: (query: string) => void;
   addGenre: (genre: number) => void;
   removeGenre: (genre: number) => void;
-  selectType: (type?: AnimeSearchOptions["type"]) => void;
-  selectStatus: (status?: AnimeSearchOptions["status"]) => void;
-  selectOrder: (order?: AnimeSearchOptions["order_by"]) => void;
-  selectSort: (sort?: AnimeSearchOptions["sort"]) => void;
+  selectType: (type?: SearchState["type"]) => void;
+  selectStatus: (status?: SearchState["status"]) => void;
+  selectOrder: (order?: SearchState["order_by"]) => void;
+  selectSort: (sort?: SearchState["sort"]) => void;
   resetFilters: () => void;
 }
 
-type SearchState = AnimeSearchOptions & {
-  genres: number[];
-};
 type SearchContext = SearchState & { actions: Actions };
 type SearchContextStore = StoreApi<SearchContext>;
 

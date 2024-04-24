@@ -8,10 +8,10 @@ import {
 import { theme } from "@/styles/theme";
 import Text from "../ui/Text";
 import Badge from "../ui/Badge";
-import { JikanAnimeSearchOrder } from "@/lib/jikan";
+import { AnimeSearchOrder } from "@/types";
 import { Icon } from "@/styles/icons";
 
-const orders: { name: string; value?: JikanAnimeSearchOrder }[] = [
+const orders: { name: string; value?: AnimeSearchOrder }[] = [
   { name: "N/A" },
   { name: "Title", value: "title" },
   { name: "Start Date", value: "start_date" },

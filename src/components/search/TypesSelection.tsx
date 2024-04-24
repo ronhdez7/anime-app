@@ -3,10 +3,10 @@ import React from "react";
 import { useSearchActions, useSearchType } from "@/stores/SearchStore";
 import { theme } from "@/styles/theme";
 import Text from "../ui/Text";
-import { JikanAnimeSearchType } from "@/lib/jikan";
+import { AnimeSearchType } from "@/types";
 import Badge from "../ui/Badge";
 
-const types: { name: string; value?: JikanAnimeSearchType }[] = [
+const types: { name: string; value?: AnimeSearchType }[] = [
   { name: "All" },
   { name: "TV", value: "tv" },
   { name: "Movie", value: "movie" },

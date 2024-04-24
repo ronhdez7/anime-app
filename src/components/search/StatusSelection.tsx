@@ -4,9 +4,9 @@ import { useSearchActions, useSearchStatus } from "@/stores/SearchStore";
 import { theme } from "@/styles/theme";
 import Text from "../ui/Text";
 import Badge from "../ui/Badge";
-import { JikanAnimeStatus } from "@/lib/jikan";
+import { AnimeStatus } from "@/types";
 
-const statuses: { name: string; value?: JikanAnimeStatus }[] = [
+const statuses: { name: string; value?: AnimeStatus }[] = [
   { name: "All" },
   { name: "Finished", value: "complete" },
   { name: "Airing", value: "airing" },

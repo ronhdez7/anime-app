@@ -6,11 +6,12 @@ import {
 } from "react-native";
 import { UseInfiniteQueryResult, UseQueryResult } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { JikanAnimeData, JikanError } from "@/types/jikan";
 import { theme } from "@/styles/theme";
 import Text from "@/components/ui/Text";
 import ReloadButton from "../ReloadButton";
 import LoadingView from "../ui/LoadingView";
+import { AnimeData } from "@/types";
+import { JikanError } from "@/types/jikan";
 
 export interface AnimeListProps {
   query: AnimeListViewProps["query"];
@@ -76,7 +77,7 @@ export default function AnimeList({ query }: AnimeListProps) {
 }
 
 interface AnimeListItemProps {
-  anime: JikanAnimeData;
+  anime: AnimeData;
 }
 
 export function AnimeListItem({ anime }: AnimeListItemProps) {
@@ -122,10 +123,10 @@ export function AnimeListItem({ anime }: AnimeListItemProps) {
 interface AnimeListViewProps {
   title: string;
   query:
-    | UseQueryResult<JikanAnimeData[], AxiosError<JikanError>>
+    | UseQueryResult<AnimeData[], AxiosError<JikanError>>
     | UseInfiniteQueryResult<
         {
-          pages: JikanAnimeData[][];
+          pages: AnimeData[][];
           pageParams: number[];
         },
         AxiosError<JikanError>
@@ -181,8 +182,8 @@ export function AnimeFetchError({ message, onReload }: AnimeFetchErrorProps) {
 }
 
 export function getInfiniteData(
-  data?: JikanAnimeData[] | { pages: JikanAnimeData[][] }
-): JikanAnimeData[] {
+  data?: AnimeData[] | { pages: AnimeData[][] }
+): AnimeData[] {
   return (
     (Array.isArray(data) ? data : data?.pages.flatMap((page) => page)) ?? []
   );
