@@ -1,3 +1,4 @@
+import { UseInfiniteQueryResult, UseQueryResult } from "@tanstack/react-query";
 import {
   JikanAnimeData,
   JikanAnimeFullData,
@@ -6,7 +7,9 @@ import {
   JikanEpisodeData,
   JikanAnimeSearchType,
   JikanAnimeStatus,
+  JikanError,
 } from "./jikan";
+import { AxiosError } from "axios";
 
 export * from "./helpers";
 
@@ -19,3 +22,14 @@ export type AnimeData = JikanAnimeData;
 export type AnimeFullData = JikanAnimeFullData;
 
 export type EpisodeData = JikanEpisodeData;
+
+export type QueryResult<T> =
+  | UseQueryResult<T, AxiosError<JikanError>>
+  | UseInfiniteQueryResult<
+      {
+        pages: T[];
+        pageParams: number[];
+      },
+      AxiosError<JikanError>
+    >;
+export type AnimeDataQueryResult = QueryResult<AnimeData[]>;

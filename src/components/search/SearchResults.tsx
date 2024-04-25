@@ -3,7 +3,7 @@ import useAnimeSearch from "@/queries/jikan/use-anime-search";
 import { jikanKeys } from "@/queries/jikan/use-jikan-query";
 import { useSearchAll } from "@/stores/SearchStore";
 import { InfiniteData } from "@tanstack/react-query";
-import AnimeGrid from "../anime-lists/AnimeGrid";
+import { AnimeGridView } from "../anime-lists/AnimeGrid";
 import { useDebounce } from "use-debounce";
 
 export default function SearchResults() {
@@ -22,5 +22,5 @@ export default function SearchResults() {
     query.refetch();
   }
 
-  return <AnimeGrid query={query} onRefresh={refresh} />;
+  return <AnimeGridView query={query} onRefresh={refresh} />;
 }

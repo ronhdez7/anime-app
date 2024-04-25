@@ -1,58 +1,82 @@
-import { View, FlatList, RefreshControl } from "react-native";
-import {
-  AnimeFetchError,
-  AnimeListItem,
-  AnimeListProps,
-  getInfiniteData,
-} from "./AnimeList";
+import { View, FlatList, RefreshControl, FlatListProps } from "react-native";
+import { AnimeFetchError, NoAnimeFound, getInfiniteData } from "./AnimeList";
 import { theme } from "@/styles/theme";
 import LoadingView from "../ui/LoadingView";
 import { useState } from "react";
-import Text from "../ui/Text";
-
-interface AnimeGridProps extends AnimeListProps {
-  onRefresh: () => void;
-}
+import { AnimeListItem } from "./AnimeListItem";
+import { AnimeData, AnimeDataQueryResult } from "@/types";
 
 const COLS = 3;
 
-export default function AnimeGrid({ query, onRefresh }: AnimeGridProps) {
+export interface AnimeGridProps extends Partial<FlatListProps<AnimeData>> {
+  data: AnimeData[];
+  onRefresh?: () => void;
+}
+export default function AnimeGrid({
+  data,
+  onRefresh,
+  ...props
+}: AnimeGridProps) {
   const [refreshing, setRefreshing] = useState(false);
-  const items = getInfiniteData(query.data);
+  const items: AnimeData[] = {
+    ...data,
+    length: Math.ceil(data.length / COLS) * COLS,
+  };
 
   function refresh() {
     setRefreshing(true);
-    onRefresh();
+    onRefresh?.();
     setTimeout(() => {
       setRefreshing(false);
     }, 500);
   }
 
-  if (query.data) {
-    return (
-      <View style={{ paddingHorizontal: theme.sizes.padding.sm, flex: 1 }}>
-        <FlatList
-          style={{ flex: 1 }}
-          data={{ ...items, length: Math.ceil(items.length / COLS) * 3 }}
-          numColumns={COLS}
-          columnWrapperStyle={{ columnGap: theme.sizes.padding.sm }}
-          contentContainerStyle={{
-            rowGap: theme.sizes.padding.sm,
-            paddingBottom: theme.sizes.padding.sm,
+  return (
+    <FlatList
+      data={items}
+      numColumns={COLS}
+      columnWrapperStyle={{ columnGap: theme.sizes.padding.sm }}
+      contentContainerStyle={{
+        rowGap: theme.sizes.padding.sm,
+        paddingBottom: theme.sizes.padding.sm,
+      }}
+      renderItem={({ item }) => (
+        <View
+          style={{
+            flex: 1 / COLS,
+            flexDirection: "row",
           }}
-          renderItem={({ item }) => (
-            <View
-              style={{
-                flex: 1 / COLS,
-                aspectRatio: 17 / 24,
-                alignItems: "center",
-              }}
-            >
-              {item && <AnimeListItem anime={item} />}
-            </View>
-          )}
-          keyExtractor={(item, index) => item?.title ?? index.toString()}
-          showsVerticalScrollIndicator={false}
+        >
+          {item && <AnimeListItem anime={item} />}
+        </View>
+      )}
+      keyExtractor={(item, index) => item?.title ?? index.toString()}
+      showsVerticalScrollIndicator={false}
+      onEndReachedThreshold={2}
+      ListFooterComponent={() => <LoadingView color={"foreground"} />}
+      refreshControl={
+        onRefresh && (
+          <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+        )
+      }
+      keyboardShouldPersistTaps="never"
+      keyboardDismissMode="on-drag"
+      ListEmptyComponent={NoAnimeFound}
+      {...props}
+    />
+  );
+}
+
+interface AnimeGridViewProps {
+  query: AnimeDataQueryResult;
+  onRefresh?: () => void;
+}
+export function AnimeGridView({ query, onRefresh }: AnimeGridViewProps) {
+  return (
+    <View style={{ paddingHorizontal: theme.sizes.padding.sm, flex: 1 }}>
+      {query.data ? (
+        <AnimeGrid
+          data={getInfiniteData(query.data)}
           onEndReached={() => {
             if (
               "fetchNextPage" in query &&
@@ -62,37 +86,23 @@ export default function AnimeGrid({ query, onRefresh }: AnimeGridProps) {
               query.fetchNextPage();
             }
           }}
-          onEndReachedThreshold={1}
-          ListFooterComponent={() => <LoadingView color={"foreground"} />}
           ListFooterComponentStyle={{
             display:
               "isFetchingNextPage" in query && query.isFetchingNextPage
                 ? undefined
                 : "none",
           }}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={refresh} />
-          }
-          keyboardShouldPersistTaps="never"
-          keyboardDismissMode="on-drag"
-          ListEmptyComponent={() => (
-            <View style={{ alignItems: "center" }}>
-              <Text>No anime found</Text>
-            </View>
-          )}
+          ListFooterComponent={() => <LoadingView color="foreground" />}
+          onRefresh={onRefresh}
         />
-      </View>
-    );
-  }
-
-  if (query.error) {
-    return (
-      <AnimeFetchError
-        message={query.error.response?.data.message}
-        onReload={query.refetch}
-      />
-    );
-  }
-
-  return <LoadingView color="foreground" />;
+      ) : query.error ? (
+        <AnimeFetchError
+          message={query.error.response?.data.message}
+          onReload={query.refetch}
+        />
+      ) : (
+        <LoadingView color="foreground" />
+      )}
+    </View>
+  );
 }

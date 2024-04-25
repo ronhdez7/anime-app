@@ -100,6 +100,7 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
           }}
         >
           {items[currentIdx]?.title_english ??
+            items[currentIdx]?.title ??
             items[currentIdx]?.title_japanese}
         </Text>
 

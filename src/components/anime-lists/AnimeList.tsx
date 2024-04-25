@@ -1,150 +1,85 @@
-import {
-  FlatList,
-  ImageBackground,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { UseInfiniteQueryResult, UseQueryResult } from "@tanstack/react-query";
-import { AxiosError } from "axios";
+import { FlatList, FlatListProps, View } from "react-native";
 import { theme } from "@/styles/theme";
 import Text from "@/components/ui/Text";
 import ReloadButton from "../ReloadButton";
 import LoadingView from "../ui/LoadingView";
-import { AnimeData } from "@/types";
-import { JikanError } from "@/types/jikan";
+import { AnimeData, AnimeDataQueryResult } from "@/types";
+import { AnimeListItem } from "./AnimeListItem";
 
-export interface AnimeListProps {
-  query: AnimeListViewProps["query"];
+export interface AnimeListProps extends Partial<FlatListProps<AnimeData>> {
+  data: AnimeData[];
 }
-
-export default function AnimeList({ query }: AnimeListProps) {
+export default function AnimeList({ ...props }: AnimeListProps) {
   return (
-    <View
-      style={{
-        height: 180,
-        borderRadius: theme.sizes.radius.md,
-        backgroundColor: theme.colors.secondary,
-        overflow: "hidden",
+    <FlatList
+      renderItem={({ item }) => <AnimeListItem anime={item} />}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={{
+        padding: theme.sizes.padding.sm,
+        gap: theme.sizes.padding.sm,
       }}
-    >
-      {query.data ? (
-        <FlatList
-          data={getInfiniteData(query.data)}
-          renderItem={({ item }) => <AnimeListItem anime={item} />}
-          horizontal
-          contentContainerStyle={{ padding: theme.sizes.padding.sm }}
-          keyExtractor={(item, index) => item?.title ?? index.toString()}
-          showsHorizontalScrollIndicator={false}
-          ItemSeparatorComponent={() => (
-            <View style={{ width: theme.sizes.padding.sm }} />
-          )}
-          onEndReached={() => {
-            if (
-              "fetchNextPage" in query &&
-              !query.isFetching &&
-              query.hasNextPage
-            ) {
-              query.fetchNextPage();
-            }
-          }}
-          onEndReachedThreshold={2}
-          ListFooterComponent={() => <LoadingView color="foreground" />}
-          ListFooterComponentStyle={{
-            paddingLeft: theme.sizes.padding.xs,
-            display:
-              "isFetchingNextPage" in query && query.isFetchingNextPage
-                ? undefined
-                : "none",
-          }}
-          keyboardShouldPersistTaps="never"
-          keyboardDismissMode="on-drag"
-          ListEmptyComponent={() => (
-            <View style={{ alignItems: "center" }}>
-              <Text foreground>No anime found</Text>
-            </View>
-          )}
-        />
-      ) : query.error ? (
-        <AnimeFetchError
-          message={query.error.response?.data.message}
-          onReload={query.refetch}
-        />
-      ) : (
-        <LoadingView color="foreground" />
-      )}
-    </View>
-  );
-}
-
-interface AnimeListItemProps {
-  anime: AnimeData;
-}
-
-export function AnimeListItem({ anime }: AnimeListItemProps) {
-  return (
-    <TouchableOpacity
-      style={{
-        aspectRatio: 17 / 24,
-        borderRadius: theme.sizes.radius.md,
-        height: "100%",
-        overflow: "hidden",
-      }}
-      activeOpacity={0.75}
-    >
-      <ImageBackground
-        style={{ justifyContent: "flex-end", height: "100%" }}
-        source={{ uri: anime.images.webp.image_url }}
-        resizeMode="cover"
-        borderRadius={theme.sizes.radius.md}
-      >
-        <View
-          style={{
-            backgroundColor: theme.colors.overlay,
-            height: "30%",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: theme.sizes.padding.xs,
-          }}
-        >
-          <Text
-            size="xs"
-            foreground
-            numberOfLines={3}
-            style={{ textAlign: "center" }}
-          >
-            {anime.title_english ?? anime.title_japanese}
-          </Text>
-        </View>
-      </ImageBackground>
-    </TouchableOpacity>
+      keyExtractor={(item, index) =>
+        item?.mal_id.toString() ?? index.toString()
+      }
+      onEndReachedThreshold={2}
+      keyboardShouldPersistTaps="never"
+      keyboardDismissMode="on-drag"
+      ListEmptyComponent={NoAnimeFound}
+      {...props}
+    />
   );
 }
 
 interface AnimeListViewProps {
   title: string;
-  query:
-    | UseQueryResult<AnimeData[], AxiosError<JikanError>>
-    | UseInfiniteQueryResult<
-        {
-          pages: AnimeData[][];
-          pageParams: number[];
-        },
-        AxiosError<JikanError>
-      >;
+  query: AnimeDataQueryResult;
 }
 export function AnimeListView({ title, query }: AnimeListViewProps) {
   return (
     <View style={{ rowGap: theme.sizes.gap.xs }}>
-      <Text
-        style={{
-          paddingLeft: theme.sizes.padding.sm,
-        }}
-        weight="bold"
-      >
+      <Text style={{ paddingLeft: theme.sizes.padding.sm }} weight="bold">
         {title}
       </Text>
 
-      <AnimeList query={query} />
+      <View
+        style={{
+          height: 180,
+          borderRadius: theme.sizes.radius.md,
+          backgroundColor: theme.colors.secondary,
+          overflow: "hidden",
+        }}
+      >
+        {query.data ? (
+          <AnimeList
+            data={getInfiniteData(query.data)}
+            onEndReached={() => {
+              if (
+                "fetchNextPage" in query &&
+                !query.isFetching &&
+                query.hasNextPage
+              ) {
+                query.fetchNextPage();
+              }
+            }}
+            ListFooterComponentStyle={{
+              paddingLeft: theme.sizes.padding.xs,
+              display:
+                "isFetchingNextPage" in query && query.isFetchingNextPage
+                  ? undefined
+                  : "none",
+            }}
+            ListFooterComponent={() => <LoadingView color="foreground" />}
+          />
+        ) : query.error ? (
+          <AnimeFetchError
+            message={query.error.response?.data.message}
+            onReload={query.refetch}
+          />
+        ) : (
+          <LoadingView color="foreground" />
+        )}
+      </View>
     </View>
   );
 }
@@ -186,5 +121,13 @@ export function getInfiniteData(
 ): AnimeData[] {
   return (
     (Array.isArray(data) ? data : data?.pages.flatMap((page) => page)) ?? []
+  );
+}
+
+export function NoAnimeFound() {
+  return (
+    <View style={{ alignItems: "center" }}>
+      <Text>No anime found</Text>
+    </View>
   );
 }
