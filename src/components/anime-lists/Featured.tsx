@@ -3,12 +3,10 @@ import { AnimeData } from "@/types";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import { theme } from "@/styles/theme";
 import Text from "../ui/Text";
-import Button from "../ui/Button";
 import { useRef, useState } from "react";
 import { AnimeFetchError } from "./AnimeList";
 import LoadingView from "../ui/LoadingView";
 import useFeaturedAnime from "@/queries/jikan/use-featured-anime";
-import { Icon } from "@/styles/icons";
 import IconButton from "../ui/IconButton";
 
 export default function Featured() {
@@ -41,6 +39,7 @@ export default function Featured() {
           <AnimeFetchError
             message={error.response?.data.message}
             onReload={refetch}
+            foreground
           />
         </View>
       </View>

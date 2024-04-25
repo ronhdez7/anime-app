@@ -98,7 +98,7 @@ export function AnimeGridView({ query, onRefresh }: AnimeGridViewProps) {
           onReload={query.refetch}
         />
       ) : (
-        <LoadingView color="foreground" />
+        <LoadingView />
       )}
     </View>
   );

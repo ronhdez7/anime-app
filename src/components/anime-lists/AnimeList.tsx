@@ -72,6 +72,7 @@ export function AnimeListView({ title, query }: AnimeListViewProps) {
           <AnimeFetchError
             message={query.error.response?.data.message}
             onReload={query.refetch}
+            foreground
           />
         ) : (
           <LoadingView color="foreground" />
@@ -84,8 +85,13 @@ export function AnimeListView({ title, query }: AnimeListViewProps) {
 interface AnimeFetchErrorProps {
   message?: string;
   onReload?: () => void;
+  foreground?: boolean;
 }
-export function AnimeFetchError({ message, onReload }: AnimeFetchErrorProps) {
+export function AnimeFetchError({
+  message,
+  onReload,
+  foreground,
+}: AnimeFetchErrorProps) {
   return (
     <View
       style={{
@@ -101,14 +107,19 @@ export function AnimeFetchError({ message, onReload }: AnimeFetchErrorProps) {
           rowGap: theme.sizes.gap.sm,
         }}
       >
-        <Text foreground>Could not get anime</Text>
+        <Text foreground={foreground}>Could not get anime</Text>
         {message && (
-          <Text size="sm" foreground>
+          <Text size="sm" foreground={foreground}>
             Error: {message}
           </Text>
         )}
       </View>
-      {onReload && <ReloadButton onReload={onReload} />}
+      {onReload && (
+        <ReloadButton
+          onReload={onReload}
+          color={foreground ? "foreground" : "text"}
+        />
+      )}
     </View>
   );
 }
