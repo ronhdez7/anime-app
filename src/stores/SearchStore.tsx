@@ -70,11 +70,22 @@ function useSearchStore<U>(
 export const useSearchAll = () => useSearchStore((state) => state);
 
 export const useSearchQuery = () => useSearchStore((state) => state.q);
-export const useSearchGenres = () => useSearchStore((state) => state.genres);
-export const useSearchSFW = () => useSearchStore((state) => state.sfw);
 export const useSearchType = () => useSearchStore((state) => state.type);
+export const useSearchScore = () => useSearchStore((state) => state.score);
+export const useSearchMinScore = () =>
+  useSearchStore((state) => state.min_score);
+export const useSearchMaxScore = () =>
+  useSearchStore((state) => state.max_score);
 export const useSearchStatus = () => useSearchStore((state) => state.status);
+export const useSearchRating = () => useSearchStore((state) => state.rating);
+export const useSearchSFW = () => useSearchStore((state) => state.sfw);
+export const useSearchGenres = () => useSearchStore((state) => state.genres);
+export const useSearchGenresExclude = () =>
+  useSearchStore((state) => state.genres_exclude);
+export const useSearchOrderBy = () => useSearchStore((state) => state.order_by);
 export const useSearchSort = () => useSearchStore((state) => state.sort);
-export const useSearchOrder = () => useSearchStore((state) => state.order_by);
+export const useSearchStartDate = () =>
+  useSearchStore((state) => state.start_date);
+export const useSearchEndDate = () => useSearchStore((state) => state.end_date);
 
 export const useSearchActions = () => useSearchStore((state) => state.actions);

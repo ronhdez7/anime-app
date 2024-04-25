@@ -2,7 +2,7 @@ import { TouchableOpacity, View } from "react-native";
 import React from "react";
 import {
   useSearchActions,
-  useSearchOrder,
+  useSearchOrderBy,
   useSearchSort,
 } from "@/stores/SearchStore";
 import { theme } from "@/styles/theme";
@@ -23,7 +23,7 @@ const orders: { name: string; value?: AnimeSearchOrder }[] = [
 ] as const;
 
 export default function OrderSelection() {
-  const searchOrder = useSearchOrder();
+  const searchOrder = useSearchOrderBy();
   const searchSort = useSearchSort();
   const { selectOrder, selectSort } = useSearchActions();
 
