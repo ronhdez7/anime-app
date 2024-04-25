@@ -1,14 +1,15 @@
-import { View, FlatList, RefreshControl, FlatListProps } from "react-native";
+import { View, RefreshControl } from "react-native";
 import { AnimeFetchError, NoAnimeFound, getInfiniteData } from "./AnimeList";
 import { theme } from "@/styles/theme";
 import LoadingView from "../ui/LoadingView";
 import { useState } from "react";
 import { AnimeListItem } from "./AnimeListItem";
 import { AnimeData, AnimeDataQueryResult } from "@/types";
+import List, { ListProps } from "@/components/ui/List";
 
 const COLS = 3;
 
-export interface AnimeGridProps extends Partial<FlatListProps<AnimeData>> {
+export interface AnimeGridProps extends Partial<ListProps<AnimeData>> {
   data: AnimeData[];
   onRefresh?: () => void;
 }
@@ -32,7 +33,7 @@ export default function AnimeGrid({
   }
 
   return (
-    <FlatList
+    <List
       data={items}
       numColumns={COLS}
       columnWrapperStyle={{ columnGap: theme.sizes.padding.sm }}
@@ -51,16 +52,12 @@ export default function AnimeGrid({
         </View>
       )}
       keyExtractor={(item, index) => item?.title ?? index.toString()}
-      showsVerticalScrollIndicator={false}
-      onEndReachedThreshold={2}
       ListFooterComponent={() => <LoadingView color={"foreground"} />}
       refreshControl={
         onRefresh && (
           <RefreshControl refreshing={refreshing} onRefresh={refresh} />
         )
       }
-      keyboardShouldPersistTaps="never"
-      keyboardDismissMode="on-drag"
       ListEmptyComponent={NoAnimeFound}
       {...props}
     />

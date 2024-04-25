@@ -1,20 +1,20 @@
-import { FlatList, FlatListProps, View } from "react-native";
+import { View } from "react-native";
 import { theme } from "@/styles/theme";
 import Text from "@/components/ui/Text";
 import ReloadButton from "../ReloadButton";
 import LoadingView from "../ui/LoadingView";
 import { AnimeData, AnimeDataQueryResult } from "@/types";
 import { AnimeListItem } from "./AnimeListItem";
+import List, { ListProps } from "@/components/ui/List";
 
-export interface AnimeListProps extends Partial<FlatListProps<AnimeData>> {
+export interface AnimeListProps extends Partial<ListProps<AnimeData>> {
   data: AnimeData[];
 }
 export default function AnimeList({ ...props }: AnimeListProps) {
   return (
-    <FlatList
+    <List
       renderItem={({ item }) => <AnimeListItem anime={item} />}
       horizontal
-      showsHorizontalScrollIndicator={false}
       contentContainerStyle={{
         padding: theme.sizes.padding.sm,
         gap: theme.sizes.padding.sm,
@@ -22,9 +22,6 @@ export default function AnimeList({ ...props }: AnimeListProps) {
       keyExtractor={(item, index) =>
         item?.mal_id.toString() ?? index.toString()
       }
-      onEndReachedThreshold={2}
-      keyboardShouldPersistTaps="never"
-      keyboardDismissMode="on-drag"
       ListEmptyComponent={NoAnimeFound}
       {...props}
     />
