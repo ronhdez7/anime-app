@@ -2,6 +2,7 @@ import React from "react";
 import { Svg, Path } from "react-native-svg";
 import { IconProps } from ".";
 
+// lucide rotate-ccw
 export default function RefreshIcon({ size = 24, ...props }: IconProps) {
   return (
     <Svg

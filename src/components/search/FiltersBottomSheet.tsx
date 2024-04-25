@@ -10,7 +10,7 @@ import StatusSelection from "./StatusSelection";
 import OrderSelection from "./OrderSelection";
 import { View } from "react-native";
 import { useSearchActions } from "@/stores/SearchStore";
-import ReloadButton from "../ReloadButton";
+import ReloadButton from "../ui/ReloadButton";
 
 export default forwardRef<BottomSheet>(function FiltersBottomSheet(_, ref) {
   const snapPoints = useMemo(() => [25, "25%", "50%", "90%"], []);

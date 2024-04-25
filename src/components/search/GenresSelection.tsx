@@ -5,7 +5,7 @@ import { View } from "react-native";
 import Badge from "../ui/Badge";
 import Text from "../ui/Text";
 import LoadingView from "../ui/LoadingView";
-import ReloadButton from "../ReloadButton";
+import ReloadButton from "../ui/ReloadButton";
 
 export default function GenresSelection() {
   const genres = useSearchGenres();

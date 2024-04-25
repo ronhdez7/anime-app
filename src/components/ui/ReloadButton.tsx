@@ -1,7 +1,7 @@
 import React from "react";
 import { theme } from "@/styles/theme";
 import { TouchableOpacityProps } from "react-native-gesture-handler";
-import IconButton from "./ui/IconButton";
+import IconButton from "./IconButton";
 
 interface Props extends TouchableOpacityProps {
   onReload: () => void;

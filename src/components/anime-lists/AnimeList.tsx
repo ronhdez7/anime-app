@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { theme } from "@/styles/theme";
 import Text from "@/components/ui/Text";
-import ReloadButton from "../ReloadButton";
+import ReloadButton from "../ui/ReloadButton";
 import LoadingView from "../ui/LoadingView";
 import { AnimeData, AnimeDataQueryResult } from "@/types";
 import { AnimeListItem } from "./AnimeListItem";
