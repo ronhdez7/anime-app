@@ -43,6 +43,7 @@ export default function GenresSelection() {
                     color: isSelected
                       ? theme.colors.foreground
                       : theme.colors.primary,
+                    textAlign: "center",
                   }}
                 >
                   {genre.name}

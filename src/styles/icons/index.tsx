@@ -34,7 +34,7 @@ const icons = {
   "arrow-down": ArrowDownIcon,
 } satisfies IconRegister;
 
-interface IconControllerProps extends IconProps {
+export interface IconControllerProps extends IconProps {
   name: keyof typeof icons;
 }
 export function Icon({ name, ...props }: IconControllerProps) {

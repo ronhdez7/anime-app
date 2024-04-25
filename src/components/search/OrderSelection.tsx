@@ -10,6 +10,7 @@ import Text from "../ui/Text";
 import Badge from "../ui/Badge";
 import { AnimeSearchOrder } from "@/types";
 import { Icon } from "@/styles/icons";
+import IconButton from "../ui/IconButton";
 
 const orders: { name: string; value?: AnimeSearchOrder }[] = [
   { name: "N/A" },
@@ -43,14 +44,12 @@ export default function OrderSelection() {
           }}
         >
           <Text weight="bold">Sort</Text>
-          <TouchableOpacity
+          <IconButton
             onPress={() => selectSort(searchSort === "desc" ? "asc" : "desc")}
-          >
-            <Icon
-              name={searchSort === "desc" ? "arrow-down" : "arrow-up"}
-              size={theme.sizes.icon.xs}
-            />
-          </TouchableOpacity>
+            name={searchSort === "desc" ? "arrow-down" : "arrow-up"}
+            size={theme.sizes.icon.xs}
+            style={{ padding: 0 }}
+          />
         </View>
       </View>
       <View

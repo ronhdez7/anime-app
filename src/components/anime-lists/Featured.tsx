@@ -9,6 +9,7 @@ import { AnimeFetchError } from "./AnimeList";
 import LoadingView from "../ui/LoadingView";
 import useFeaturedAnime from "@/queries/jikan/use-featured-anime";
 import { Icon } from "@/styles/icons";
+import IconButton from "../ui/IconButton";
 
 export default function Featured() {
   const { data, error, refetch } = useFeaturedAnime();
@@ -104,22 +105,18 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
             items[currentIdx]?.title_japanese}
         </Text>
 
-        <Button
-          activeOpacity={0.75}
+        <IconButton
+          name="plus"
+          size={theme.sizes.icon.sm}
+          color={theme.colors.foreground}
           style={{
             elevation: 10,
             shadowColor: theme.colors.shadow,
-            borderRadius: 10000,
-            paddingHorizontal: theme.sizes.padding.md,
-            paddingVertical: theme.sizes.padding.md,
+            backgroundColor: theme.colors.primary,
+            padding: theme.sizes.padding.md,
           }}
-        >
-          <Icon
-            name="plus"
-            size={theme.sizes.icon.sm}
-            color={theme.colors.foreground}
-          />
-        </Button>
+          activeOpacity={0.75}
+        />
       </View>
     </View>
   );

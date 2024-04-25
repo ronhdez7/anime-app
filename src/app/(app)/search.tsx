@@ -7,6 +7,7 @@ import FiltersBottomSheet from "@/components/search/FiltersBottomSheet";
 import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet";
 import { useRef } from "react";
 import { Icon } from "@/styles/icons";
+import IconButton from "@/components/ui/IconButton";
 
 export default function SearchPage() {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -28,18 +29,18 @@ export default function SearchPage() {
         >
           <SearchBar />
 
-          <TouchableOpacity
-            activeOpacity={0.75}
+          <IconButton
+            name="filters"
+            size={theme.sizes.icon.sm}
             style={{
-              padding: theme.sizes.padding.sm,
               backgroundColor: theme.colors.neutral,
               borderRadius: theme.sizes.radius.xs,
               elevation: 10,
+              shadowColor: theme.colors.shadow,
             }}
+            activeOpacity={0.75}
             onPress={openBottomSheet}
-          >
-            <Icon name="filters" size={theme.sizes.icon.sm} />
-          </TouchableOpacity>
+          />
         </View>
         <SearchResults />
 
