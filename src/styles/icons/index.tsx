@@ -14,8 +14,9 @@ import { ArrowDownIcon, ArrowUpIcon } from "react-native-heroicons/mini";
 
 import { NumberProp, SvgProps } from "react-native-svg";
 import { theme } from "../theme";
+import RefreshIcon from "./RefreshIcon";
 
-interface IconProps extends SvgProps {
+export interface IconProps extends SvgProps {
   size?: NumberProp;
 }
 type IconComponent = (props: IconProps) => JSX.Element;
@@ -28,7 +29,7 @@ const icons = {
   "user-outline": OutlineUserIcon,
   search: MagnifyingGlassIcon,
   filters: AdjustmentsHorizontalIcon,
-  refresh: ArrowPathIcon,
+  refresh: RefreshIcon,
   plus: PlusIcon,
   "arrow-up": ArrowUpIcon,
   "arrow-down": ArrowDownIcon,
