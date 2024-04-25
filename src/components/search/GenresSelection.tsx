@@ -1,62 +1,41 @@
 import useAnimeGenres from "@/queries/jikan/use-anime-genres";
 import { useSearchGenres, useSearchActions } from "@/stores/SearchStore";
 import { theme } from "@/styles/theme";
-import { View } from "react-native";
-import Badge from "../ui/Badge";
+import { StyleSheet, View } from "react-native";
 import Text from "../ui/Text";
 import LoadingView from "../ui/LoadingView";
 import ReloadButton from "../ui/ReloadButton";
+import FiltersList from "./FiltersList";
 
 export default function GenresSelection() {
+  const styles = stylesheet;
+
   const genres = useSearchGenres();
   const { addGenre, removeGenre } = useSearchActions();
 
   const { data, error, refetch } = useAnimeGenres();
 
   return (
-    <View style={{ rowGap: theme.sizes.gap.sm }}>
+    <View style={styles.main}>
       <Text weight="bold">Genres</Text>
-      <View
-        style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: theme.sizes.gap.xs,
-        }}
-      >
-        {data ? (
-          data.map((genre) => {
-            const isSelected = genres.includes(genre.mal_id);
 
-            return (
-              <Badge
-                style={isSelected && { backgroundColor: theme.colors.primary }}
-                onPress={() =>
-                  isSelected
-                    ? removeGenre(genre.mal_id)
-                    : addGenre(genre.mal_id)
-                }
-                key={genre.name}
-              >
-                <Text
-                  size="sm"
-                  style={{
-                    color: isSelected
-                      ? theme.colors.foreground
-                      : theme.colors.primary,
-                    textAlign: "center",
-                  }}
-                >
-                  {genre.name}
-                </Text>
-              </Badge>
-            );
-          })
-        ) : error ? (
-          <GenresFetchingError onReload={refetch} />
-        ) : (
-          <LoadingView />
-        )}
-      </View>
+      {data ? (
+        <FiltersList
+          data={data.map((i) => ({
+            name: i.name,
+            value: i.mal_id,
+            key: i.name,
+          }))}
+          isSelected={(item) => genres.includes(item.value)}
+          onPress={(item, selected) =>
+            selected ? removeGenre(item.value) : addGenre(item.value)
+          }
+        />
+      ) : error ? (
+        <GenresFetchingError onReload={refetch} />
+      ) : (
+        <LoadingView />
+      )}
     </View>
   );
 }
@@ -65,10 +44,17 @@ interface GenresErrorProps {
   onReload?: () => void;
 }
 function GenresFetchingError({ onReload }: GenresErrorProps) {
+  const styles = stylesheet;
+
   return (
-    <View style={{ flexDirection: "row", columnGap: 12 }}>
+    <View style={styles.error}>
       <Text size="sm">Could not get genres</Text>
       {onReload && <ReloadButton onReload={onReload} size="xs" color="text" />}
     </View>
   );
 }
+
+const stylesheet = StyleSheet.create({
+  main: { rowGap: theme.sizes.gap.sm },
+  error: { flexDirection: "row", columnGap: 12, alignItems: "center" },
+});

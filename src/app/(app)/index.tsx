@@ -2,20 +2,25 @@ import Featured from "@/components/anime-lists/Featured";
 import ActionAnimeList from "@/components/anime-lists/ActionAnimeList";
 import TopAnimeList from "@/components/anime-lists/TopAnimeList";
 import { theme } from "@/styles/theme";
-import { ScrollView, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function HomePage() {
+  const styles = stylesheet;
+
   return (
     <ScrollView>
-      <View style={{ aspectRatio: 17 / 24 }}>
+      <View style={styles.featuredContainer}>
         <Featured />
       </View>
-      <View
-        style={{ padding: theme.sizes.padding.xs, rowGap: theme.sizes.gap.lg }}
-      >
+      <View style={styles.main}>
         <TopAnimeList />
         <ActionAnimeList />
       </View>
     </ScrollView>
   );
 }
+
+const stylesheet = StyleSheet.create({
+  main: { padding: theme.sizes.padding.xs, rowGap: theme.sizes.gap.lg },
+  featuredContainer: { aspectRatio: 17 / 24 },
+});

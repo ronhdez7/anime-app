@@ -1,4 +1,4 @@
-import { TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
 import {
   useSearchActions,
@@ -7,10 +7,9 @@ import {
 } from "@/stores/SearchStore";
 import { theme } from "@/styles/theme";
 import Text from "../ui/Text";
-import Badge from "../ui/Badge";
 import { AnimeSearchOrder } from "@/types";
-import { Icon } from "@/styles/icons";
 import IconButton from "../ui/IconButton";
+import FiltersList from "./FiltersList";
 
 const orders: { name: string; value?: AnimeSearchOrder }[] = [
   { name: "N/A" },
@@ -23,26 +22,16 @@ const orders: { name: string; value?: AnimeSearchOrder }[] = [
 ] as const;
 
 export default function OrderSelection() {
+  const styles = stylesheet;
+
   const searchOrder = useSearchOrderBy();
   const searchSort = useSearchSort();
   const { selectOrder, selectSort } = useSearchActions();
 
   return (
-    <View style={{ rowGap: theme.sizes.gap.sm }}>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            columnGap: theme.sizes.gap.sm,
-          }}
-        >
+    <View style={styles.main}>
+      <View style={styles.filterHeader}>
+        <View style={styles.headerLeft}>
           <Text weight="bold">Sort</Text>
           <IconButton
             onPress={() => selectSort(searchSort === "desc" ? "asc" : "desc")}
@@ -52,37 +41,27 @@ export default function OrderSelection() {
           />
         </View>
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: theme.sizes.gap.xs,
-        }}
-      >
-        {orders.map((order) => {
-          const isSelected = order.value === searchOrder;
 
-          return (
-            <Badge
-              style={isSelected && { backgroundColor: theme.colors.primary }}
-              onPress={() => selectOrder(order.value)}
-              key={order.name}
-            >
-              <Text
-                size="sm"
-                style={{
-                  color: isSelected
-                    ? theme.colors.foreground
-                    : theme.colors.primary,
-                  textAlign: "center",
-                }}
-              >
-                {order.name}
-              </Text>
-            </Badge>
-          );
-        })}
-      </View>
+      <FiltersList
+        data={orders.map((i) => ({ ...i, key: i.name }))}
+        isSelected={(item) => item.value === searchOrder}
+        onPress={(item) => selectOrder(item.value)}
+      />
     </View>
   );
 }
+
+const stylesheet = StyleSheet.create({
+  main: { rowGap: theme.sizes.gap.sm },
+  error: { flexDirection: "row", columnGap: 12, alignItems: "center" },
+  filterHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  headerLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    columnGap: theme.sizes.gap.sm,
+  },
+});

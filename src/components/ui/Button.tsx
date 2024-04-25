@@ -1,4 +1,8 @@
-import { TouchableOpacity, TouchableOpacityProps } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from "react-native";
 import React, { forwardRef } from "react";
 import { theme } from "@/styles/theme";
 
@@ -8,19 +12,16 @@ export default forwardRef<TouchableOpacity, Props>(function Button(
   { style, ...props },
   ref
 ) {
-  return (
-    <TouchableOpacity
-      ref={ref}
-      style={[
-        {
-          backgroundColor: theme.colors.primary,
-          paddingHorizontal: theme.sizes.padding.lg,
-          paddingVertical: theme.sizes.padding.sm,
-          borderRadius: theme.sizes.radius.md,
-        },
-        style,
-      ]}
-      {...props}
-    />
-  );
+  const styles = stylesheet;
+
+  return <TouchableOpacity ref={ref} style={[styles.main, style]} {...props} />;
+});
+
+const stylesheet = StyleSheet.create({
+  main: {
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: theme.sizes.padding.lg,
+    paddingVertical: theme.sizes.padding.sm,
+    borderRadius: theme.sizes.radius.md,
+  },
 });

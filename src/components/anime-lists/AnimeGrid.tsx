@@ -1,11 +1,12 @@
-import { View, RefreshControl } from "react-native";
-import { AnimeFetchError, NoAnimeFound, getInfiniteData } from "./AnimeList";
+import { View, RefreshControl, StyleSheet } from "react-native";
+import { NoAnimeFound, getInfiniteData } from "./AnimeList";
 import { theme } from "@/styles/theme";
 import LoadingView from "../ui/LoadingView";
 import { useState } from "react";
 import { AnimeListItem } from "./AnimeListItem";
 import { AnimeData, AnimeDataQueryResult } from "@/types";
 import List, { ListProps } from "@/components/ui/List";
+import AnimeFetchError from "../AnimeFetchError";
 
 const COLS = 3;
 
@@ -18,6 +19,8 @@ export default function AnimeGrid({
   onRefresh,
   ...props
 }: AnimeGridProps) {
+  const styles = stylesheet;
+
   const [refreshing, setRefreshing] = useState(false);
   const items: AnimeData[] = {
     ...data,
@@ -36,11 +39,8 @@ export default function AnimeGrid({
     <List
       data={items}
       numColumns={COLS}
-      columnWrapperStyle={{ columnGap: theme.sizes.padding.sm }}
-      contentContainerStyle={{
-        rowGap: theme.sizes.padding.sm,
-        paddingBottom: theme.sizes.padding.sm,
-      }}
+      columnWrapperStyle={styles.listColumn}
+      contentContainerStyle={styles.listContainer}
       renderItem={({ item }) => (
         <View
           style={{
@@ -69,8 +69,9 @@ interface AnimeGridViewProps {
   onRefresh?: () => void;
 }
 export function AnimeGridView({ query, onRefresh }: AnimeGridViewProps) {
+  const styles = stylesheet;
   return (
-    <View style={{ paddingHorizontal: theme.sizes.padding.sm, flex: 1 }}>
+    <View style={styles.main}>
       {query.data ? (
         <AnimeGrid
           data={getInfiniteData(query.data)}
@@ -103,3 +104,12 @@ export function AnimeGridView({ query, onRefresh }: AnimeGridViewProps) {
     </View>
   );
 }
+
+const stylesheet = StyleSheet.create({
+  main: { paddingHorizontal: theme.sizes.padding.sm, flex: 1 },
+  listColumn: { columnGap: theme.sizes.padding.sm },
+  listContainer: {
+    rowGap: theme.sizes.padding.sm,
+    paddingBottom: theme.sizes.padding.sm,
+  },
+});

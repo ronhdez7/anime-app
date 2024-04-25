@@ -1,4 +1,8 @@
-import { TouchableOpacity, TouchableOpacityProps } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from "react-native";
 import React from "react";
 import { Icon, IconControllerProps } from "@/styles/icons";
 import { theme } from "@/styles/theme";
@@ -14,12 +18,14 @@ export default function IconButton({
   style,
   ...props
 }: IconButtonProps) {
+  const styles = stylesheet;
   return (
-    <TouchableOpacity
-      style={[{ padding: theme.sizes.padding.sm, borderRadius: 10000 }, style]}
-      {...props}
-    >
+    <TouchableOpacity style={[styles.main, style]} {...props}>
       <Icon name={name} color={color} size={size} />
     </TouchableOpacity>
   );
 }
+
+const stylesheet = StyleSheet.create({
+  main: { padding: theme.sizes.padding.sm, borderRadius: 10000 },
+});

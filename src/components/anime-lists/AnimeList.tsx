@@ -1,24 +1,23 @@
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { theme } from "@/styles/theme";
 import Text from "@/components/ui/Text";
-import ReloadButton from "../ui/ReloadButton";
 import LoadingView from "../ui/LoadingView";
 import { AnimeData, AnimeDataQueryResult } from "@/types";
 import { AnimeListItem } from "./AnimeListItem";
 import List, { ListProps } from "@/components/ui/List";
+import AnimeFetchError from "../AnimeFetchError";
 
 export interface AnimeListProps extends Partial<ListProps<AnimeData>> {
   data: AnimeData[];
 }
 export default function AnimeList({ ...props }: AnimeListProps) {
+  const styles = stylesheet;
+
   return (
     <List
       renderItem={({ item }) => <AnimeListItem anime={item} />}
       horizontal
-      contentContainerStyle={{
-        padding: theme.sizes.padding.sm,
-        gap: theme.sizes.padding.sm,
-      }}
+      contentContainerStyle={styles.listContainer}
       keyExtractor={(item, index) =>
         item?.mal_id.toString() ?? index.toString()
       }
@@ -33,20 +32,15 @@ interface AnimeListViewProps {
   query: AnimeDataQueryResult;
 }
 export function AnimeListView({ title, query }: AnimeListViewProps) {
+  const styles = stylesheet;
+
   return (
-    <View style={{ rowGap: theme.sizes.gap.xs }}>
-      <Text style={{ paddingLeft: theme.sizes.padding.sm }} weight="bold">
+    <View style={styles.listView}>
+      <Text style={styles.listHeader} weight="bold">
         {title}
       </Text>
 
-      <View
-        style={{
-          height: 180,
-          borderRadius: theme.sizes.radius.md,
-          backgroundColor: theme.colors.secondary,
-          overflow: "hidden",
-        }}
-      >
+      <View style={styles.listWrapper}>
         {query.data ? (
           <AnimeList
             data={getInfiniteData(query.data)}
@@ -82,48 +76,6 @@ export function AnimeListView({ title, query }: AnimeListViewProps) {
   );
 }
 
-interface AnimeFetchErrorProps {
-  message?: string;
-  onReload?: () => void;
-  foreground?: boolean;
-}
-export function AnimeFetchError({
-  message,
-  onReload,
-  foreground,
-}: AnimeFetchErrorProps) {
-  return (
-    <View
-      style={{
-        alignItems: "center",
-        flex: 1,
-        justifyContent: "center",
-        rowGap: theme.sizes.gap.xl,
-      }}
-    >
-      <View
-        style={{
-          alignItems: "center",
-          rowGap: theme.sizes.gap.sm,
-        }}
-      >
-        <Text foreground={foreground}>Could not get anime</Text>
-        {message && (
-          <Text size="sm" foreground={foreground}>
-            Error: {message}
-          </Text>
-        )}
-      </View>
-      {onReload && (
-        <ReloadButton
-          onReload={onReload}
-          color={foreground ? "foreground" : "text"}
-        />
-      )}
-    </View>
-  );
-}
-
 export function getInfiniteData(
   data?: AnimeData[] | { pages: AnimeData[][] }
 ): AnimeData[] {
@@ -139,3 +91,18 @@ export function NoAnimeFound() {
     </View>
   );
 }
+
+const stylesheet = StyleSheet.create({
+  listContainer: {
+    padding: theme.sizes.padding.sm,
+    gap: theme.sizes.padding.sm,
+  },
+  listView: { rowGap: theme.sizes.gap.xs },
+  listHeader: { paddingLeft: theme.sizes.padding.sm },
+  listWrapper: {
+    height: 180,
+    borderRadius: theme.sizes.radius.md,
+    backgroundColor: theme.colors.secondary,
+    overflow: "hidden",
+  },
+});

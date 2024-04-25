@@ -8,11 +8,13 @@ import GenresSelection from "./GenresSelection";
 import TypesSelection from "./TypesSelection";
 import StatusSelection from "./StatusSelection";
 import OrderSelection from "./OrderSelection";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useSearchActions } from "@/stores/SearchStore";
 import ReloadButton from "../ui/ReloadButton";
 
 export default forwardRef<BottomSheet>(function FiltersBottomSheet(_, ref) {
+  const styles = stylesheet;
+
   const snapPoints = useMemo(() => [25, "25%", "50%", "90%"], []);
   const { resetFilters } = useSearchActions();
 
@@ -20,18 +22,12 @@ export default forwardRef<BottomSheet>(function FiltersBottomSheet(_, ref) {
     <BottomSheet
       ref={ref}
       snapPoints={snapPoints}
-      backgroundStyle={{ backgroundColor: theme.colors.foreground }}
-      handleIndicatorStyle={{ backgroundColor: theme.colors.text }}
+      backgroundStyle={styles.background}
+      handleIndicatorStyle={styles.indicator}
       enablePanDownToClose
       index={-1}
       handleComponent={({ animatedIndex, animatedPosition }) => (
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-            position: "relative",
-          }}
-        >
+        <View style={styles.handle}>
           <BottomSheetHandle
             animatedIndex={animatedIndex}
             animatedPosition={animatedPosition}
@@ -40,23 +36,14 @@ export default forwardRef<BottomSheet>(function FiltersBottomSheet(_, ref) {
             onReload={resetFilters}
             color="text"
             size="sm"
-            style={{
-              top: 0,
-              right: 0,
-              padding: theme.sizes.padding.xs,
-              position: "absolute",
-              alignSelf: "flex-end",
-            }}
+            style={styles.resetButton}
           />
         </View>
       )}
     >
       <BottomSheetScrollView
-        style={{
-          padding: theme.sizes.padding.sm,
-          flex: 1,
-        }}
-        contentContainerStyle={{ rowGap: theme.sizes.gap.md }}
+        style={styles.content}
+        contentContainerStyle={styles.contentContainer}
       >
         <GenresSelection />
         <TypesSelection />
@@ -65,4 +52,26 @@ export default forwardRef<BottomSheet>(function FiltersBottomSheet(_, ref) {
       </BottomSheetScrollView>
     </BottomSheet>
   );
+});
+
+const stylesheet = StyleSheet.create({
+  background: { backgroundColor: theme.colors.foreground },
+  indicator: { backgroundColor: theme.colors.text },
+  handle: {
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+  },
+  resetButton: {
+    top: 0,
+    right: 0,
+    padding: theme.sizes.padding.xs,
+    position: "absolute",
+    alignSelf: "flex-end",
+  },
+  content: {
+    padding: theme.sizes.padding.sm,
+    flex: 1,
+  },
+  contentContainer: { rowGap: theme.sizes.gap.md },
 });

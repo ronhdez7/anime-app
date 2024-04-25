@@ -1,10 +1,10 @@
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
 import { useSearchActions, useSearchType } from "@/stores/SearchStore";
 import { theme } from "@/styles/theme";
 import Text from "../ui/Text";
 import { AnimeSearchType } from "@/types";
-import Badge from "../ui/Badge";
+import FiltersList from "./FiltersList";
 
 const types: { name: string; value?: AnimeSearchType }[] = [
   { name: "All" },
@@ -20,43 +20,24 @@ const types: { name: string; value?: AnimeSearchType }[] = [
 ] as const;
 
 export default function TypesSelection() {
+  const styles = stylesheet;
+
   const searchType = useSearchType();
   const { selectType } = useSearchActions();
 
   return (
-    <View style={{ rowGap: theme.sizes.gap.sm }}>
+    <View style={styles.main}>
       <Text weight="bold">Type</Text>
-      <View
-        style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: theme.sizes.gap.xs,
-        }}
-      >
-        {types.map((type) => {
-          const isSelected = type.value === searchType;
 
-          return (
-            <Badge
-              style={isSelected && { backgroundColor: theme.colors.primary }}
-              onPress={() => selectType(type.value)}
-              key={type.name}
-            >
-              <Text
-                size="sm"
-                style={{
-                  color: isSelected
-                    ? theme.colors.foreground
-                    : theme.colors.primary,
-                  textAlign: "center",
-                }}
-              >
-                {type.name}
-              </Text>
-            </Badge>
-          );
-        })}
-      </View>
+      <FiltersList
+        data={types.map((i) => ({ ...i, key: i.name }))}
+        isSelected={(item) => item.value === searchType}
+        onPress={(item) => selectType(item.value)}
+      />
     </View>
   );
 }
+
+const stylesheet = StyleSheet.create({
+  main: { rowGap: theme.sizes.gap.sm },
+});
