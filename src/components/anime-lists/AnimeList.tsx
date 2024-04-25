@@ -18,9 +18,6 @@ export default function AnimeList({ ...props }: AnimeListProps) {
       renderItem={({ item }) => <AnimeListItem anime={item} />}
       horizontal
       contentContainerStyle={styles.listContainer}
-      keyExtractor={(item, index) =>
-        item?.mal_id.toString() ?? index.toString()
-      }
       ListEmptyComponent={NoAnimeFound}
       {...props}
     />
@@ -53,14 +50,11 @@ export function AnimeListView({ title, query }: AnimeListViewProps) {
                 query.fetchNextPage();
               }
             }}
-            ListFooterComponentStyle={{
-              paddingLeft: theme.sizes.padding.xs,
-              display:
-                "isFetchingNextPage" in query && query.isFetchingNextPage
-                  ? undefined
-                  : "none",
-            }}
-            ListFooterComponent={() => <LoadingView color="foreground" />}
+            ListFooterComponent={() =>
+              (query as any).isFetchingNextPage && (
+                <LoadingView color="foreground" />
+              )
+            }
           />
         ) : query.error ? (
           <AnimeFetchError

@@ -51,8 +51,6 @@ export default function AnimeGrid({
           {item && <AnimeListItem anime={item} />}
         </View>
       )}
-      keyExtractor={(item, index) => item?.title ?? index.toString()}
-      ListFooterComponent={() => <LoadingView color={"foreground"} />}
       refreshControl={
         onRefresh && (
           <RefreshControl refreshing={refreshing} onRefresh={refresh} />
@@ -84,13 +82,11 @@ export function AnimeGridView({ query, onRefresh }: AnimeGridViewProps) {
               query.fetchNextPage();
             }
           }}
-          ListFooterComponentStyle={{
-            display:
-              "isFetchingNextPage" in query && query.isFetchingNextPage
-                ? undefined
-                : "none",
-          }}
-          ListFooterComponent={() => <LoadingView color="foreground" />}
+          ListFooterComponent={() =>
+            (query as any).isFetchingNextPage && (
+              <LoadingView color="foreground" />
+            )
+          }
           onRefresh={onRefresh}
         />
       ) : query.error ? (
