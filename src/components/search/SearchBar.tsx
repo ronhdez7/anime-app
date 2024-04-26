@@ -1,9 +1,9 @@
 import { useSearchActions, useSearchQuery } from "@/stores/SearchStore";
 import Input from "../ui/Input";
-import { StyleSheet } from "react-native";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 export default function SearchBar() {
-  const styles = stylesheet;
+  const { styles } = useStyles(stylesheet);
 
   const searchQuery = useSearchQuery();
   const { setQuery } = useSearchActions();
@@ -18,6 +18,6 @@ export default function SearchBar() {
   );
 }
 
-const stylesheet = StyleSheet.create({
+const stylesheet = createStyleSheet((theme) => ({
   main: { flex: 1 },
-});
+}));

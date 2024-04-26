@@ -1,5 +1,5 @@
-import { StyleSheet, View } from "react-native";
-import { theme } from "@/styles/theme";
+import { View } from "react-native";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 import SearchProvider from "@/stores/SearchStore";
 import SearchBar from "@/components/search/SearchBar";
 import SearchResults from "@/components/search/SearchResults";
@@ -9,7 +9,7 @@ import { useRef } from "react";
 import IconButton from "@/components/ui/IconButton";
 
 export default function SearchPage() {
-  const style = stylesheet;
+  const { styles } = useStyles(stylesheet);
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 
@@ -19,14 +19,14 @@ export default function SearchPage() {
 
   return (
     <SearchProvider>
-      <View style={style.main}>
-        <View style={style.searchHeader}>
+      <View style={styles.main}>
+        <View style={styles.searchHeader}>
           <SearchBar />
 
           <IconButton
             name="filters"
-            size={theme.sizes.icon.sm}
-            style={style.filterIcon}
+            size="sm"
+            style={styles.filterIcon}
             activeOpacity={0.75}
             onPress={openBottomSheet}
           />
@@ -39,7 +39,7 @@ export default function SearchPage() {
   );
 }
 
-const stylesheet = StyleSheet.create({
+const stylesheet = createStyleSheet((theme) => ({
   main: { height: "100%" },
   searchHeader: {
     flexDirection: "row",
@@ -53,4 +53,4 @@ const stylesheet = StyleSheet.create({
     elevation: 10,
     shadowColor: theme.colors.shadow,
   },
-});
+}));

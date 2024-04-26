@@ -12,8 +12,8 @@ import {
 import { ArrowDownIcon, ArrowUpIcon } from "react-native-heroicons/mini";
 
 import { NumberProp, SvgProps } from "react-native-svg";
-import { theme } from "../theme";
 import RefreshIcon from "./RefreshIcon";
+import { UnistylesThemes, useStyles } from "react-native-unistyles";
 
 export interface IconProps extends SvgProps {
   size?: NumberProp;
@@ -38,6 +38,7 @@ export interface IconControllerProps extends IconProps {
   name: keyof typeof icons;
 }
 export function Icon({ name, ...props }: IconControllerProps) {
+  const { theme } = useStyles();
   const ChosenIcon = icons[name];
 
   return (

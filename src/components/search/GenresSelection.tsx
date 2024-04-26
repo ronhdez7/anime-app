@@ -1,14 +1,14 @@
 import useAnimeGenres from "@/queries/jikan/use-anime-genres";
 import { useSearchGenres, useSearchActions } from "@/stores/SearchStore";
-import { theme } from "@/styles/theme";
-import { StyleSheet, View } from "react-native";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { View } from "react-native";
 import Text from "../ui/Text";
 import LoadingView from "../ui/LoadingView";
 import ReloadButton from "../ui/ReloadButton";
 import FiltersList from "./FiltersList";
 
 export default function GenresSelection() {
-  const styles = stylesheet;
+  const { styles } = useStyles(stylesheet);
 
   const genres = useSearchGenres();
   const { addGenre, removeGenre } = useSearchActions();
@@ -44,7 +44,7 @@ interface GenresErrorProps {
   onReload?: () => void;
 }
 function GenresFetchingError({ onReload }: GenresErrorProps) {
-  const styles = stylesheet;
+  const { styles } = useStyles(stylesheet);
 
   return (
     <View style={styles.error}>
@@ -54,7 +54,7 @@ function GenresFetchingError({ onReload }: GenresErrorProps) {
   );
 }
 
-const stylesheet = StyleSheet.create({
+const stylesheet = createStyleSheet((theme) => ({
   main: { rowGap: theme.spacing.sm },
   error: { flexDirection: "row", columnGap: 12, alignItems: "center" },
-});
+}));

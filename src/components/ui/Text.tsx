@@ -1,24 +1,26 @@
 import { Text as RNText, TextProps } from "react-native";
 import React, { forwardRef } from "react";
-import { theme } from "@/styles/theme";
+import { UnistylesThemes, useStyles } from "react-native-unistyles";
 
 interface Props extends TextProps {
-  size?: keyof typeof theme.sizes.text;
-  foreground?: boolean;
-  weight?: keyof typeof theme.fonts.inter;
+  size?: keyof UnistylesThemes["light"]["sizes"]["text"];
+  color?: keyof UnistylesThemes["light"]["colors"];
+  weight?: keyof UnistylesThemes["light"]["fonts"]["inter"];
 }
 
 export default forwardRef<RNText, Props>(function Text(
-  { style, size = "md", foreground = false, weight = "medium", ...props },
+  { style, size = "md", color = "text", weight = "medium", ...props },
   ref
 ) {
+  const { theme } = useStyles();
+
   return (
     <RNText
       style={[
         {
           fontSize: theme.sizes.text[size],
           fontFamily: theme.fonts.inter[weight],
-          color: foreground ? theme.colors.foreground : theme.colors.text,
+          color: theme.colors[color],
         },
         style,
       ]}

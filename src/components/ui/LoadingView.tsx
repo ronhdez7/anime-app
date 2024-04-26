@@ -1,18 +1,20 @@
 import { View, ActivityIndicator, ViewProps } from "react-native";
 import React from "react";
-import { theme } from "@/styles/theme";
+import { UnistylesThemes, useStyles } from "react-native-unistyles";
 
 interface Props extends ViewProps {
-  size?: number;
-  color?: keyof typeof theme.colors;
+  size?: keyof UnistylesThemes["light"]["sizes"]["text"];
+  color?: keyof UnistylesThemes["light"]["colors"];
 }
 
 export default function LoadingView({
-  size = theme.sizes.icon.md,
+  size = "md",
   color = "text",
   style,
   ...props
 }: Props) {
+  const { theme } = useStyles();
+
   return (
     <View
       style={[
@@ -25,7 +27,10 @@ export default function LoadingView({
       ]}
       {...props}
     >
-      <ActivityIndicator color={theme.colors[color]} size={size} />
+      <ActivityIndicator
+        color={theme.colors[color]}
+        size={theme.sizes.icon[size]}
+      />
     </View>
   );
 }

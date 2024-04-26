@@ -1,10 +1,6 @@
-import { theme } from "@/styles/theme";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { forwardRef } from "react";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  TouchableOpacityProps,
-} from "react-native";
+import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 
 interface Props extends TouchableOpacityProps {}
 
@@ -12,7 +8,7 @@ export default forwardRef<TouchableOpacity, Props>(function Badge(
   { style, ...props },
   ref
 ) {
-  const styles = stylesheet;
+  const { styles } = useStyles(stylesheet);
   return (
     <TouchableOpacity
       ref={ref}
@@ -23,7 +19,7 @@ export default forwardRef<TouchableOpacity, Props>(function Badge(
   );
 });
 
-const stylesheet = StyleSheet.create({
+const stylesheet = createStyleSheet((theme) => ({
   main: {
     borderWidth: 1,
     borderColor: theme.colors.primary,
@@ -33,4 +29,4 @@ const stylesheet = StyleSheet.create({
     paddingVertical: theme.spacing.sm,
     minWidth: 50,
   },
-});
+}));

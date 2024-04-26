@@ -1,6 +1,6 @@
 import { TextInputProps, TextInput, StyleSheet } from "react-native";
 import React, { forwardRef } from "react";
-import { theme } from "@/styles/theme";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 interface Props extends TextInputProps {}
 
@@ -8,7 +8,7 @@ export default forwardRef<TextInput, Props>(function Input(
   { style, cursorColor, placeholderTextColor, onTouchStart, ...props },
   ref
 ) {
-  const styles = stylesheet;
+  const { styles, theme } = useStyles(stylesheet);
 
   return (
     <TextInput
@@ -25,7 +25,7 @@ export default forwardRef<TextInput, Props>(function Input(
   );
 });
 
-const stylesheet = StyleSheet.create({
+const stylesheet = createStyleSheet((theme) => ({
   main: {
     height: 40,
     fontSize: theme.sizes.text.md,
@@ -37,4 +37,4 @@ const stylesheet = StyleSheet.create({
     shadowOffset: { height: 10, width: 10 },
     elevation: 10,
   },
-});
+}));

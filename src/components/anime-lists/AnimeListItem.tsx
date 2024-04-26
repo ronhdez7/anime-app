@@ -1,19 +1,14 @@
 import { AnimeData } from "@/types";
-import {
-  ImageBackground,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ImageBackground, TouchableOpacity, View } from "react-native";
 import Text from "../ui/Text";
-import { theme } from "@/styles/theme";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 interface AnimeListItemProps {
   anime: AnimeData;
 }
 
 export function AnimeListItem({ anime }: AnimeListItemProps) {
-  const styles = stylesheet;
+  const { styles } = useStyles(stylesheet);
 
   return (
     <TouchableOpacity style={styles.main} activeOpacity={0.75}>
@@ -21,10 +16,14 @@ export function AnimeListItem({ anime }: AnimeListItemProps) {
         style={styles.image}
         source={{ uri: anime.images.webp.image_url }}
         resizeMode="cover"
-        borderRadius={theme.radius.md}
       >
         <View style={styles.titleContainer}>
-          <Text size="xs" foreground numberOfLines={3} style={styles.title}>
+          <Text
+            size="xs"
+            color="foreground"
+            numberOfLines={3}
+            style={styles.title}
+          >
             {anime.title_english ?? anime.title_japanese}
           </Text>
         </View>
@@ -33,14 +32,19 @@ export function AnimeListItem({ anime }: AnimeListItemProps) {
   );
 }
 
-const stylesheet = StyleSheet.create({
+const stylesheet = createStyleSheet((theme) => ({
   main: {
     aspectRatio: 17 / 24,
     borderRadius: theme.radius.md,
     flex: 1,
     overflow: "hidden",
   },
-  image: { justifyContent: "flex-end", height: "100%" },
+  image: {
+    justifyContent: "flex-end",
+    height: "100%",
+    borderRadius: theme.radius.md,
+    overflow: "hidden",
+  },
   titleContainer: {
     backgroundColor: theme.colors.overlay,
     height: "30%",
@@ -49,4 +53,4 @@ const stylesheet = StyleSheet.create({
     padding: theme.spacing.xs,
   },
   title: { textAlign: "center" },
-});
+}));

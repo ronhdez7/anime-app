@@ -1,8 +1,8 @@
 import React from "react";
 import Badge from "../ui/Badge";
 import Text from "../ui/Text";
-import { StyleSheet, View } from "react-native";
-import { theme } from "@/styles/theme";
+import { View } from "react-native";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 interface FilterItem {
   name: string;
@@ -21,7 +21,7 @@ export default function FiltersList<T extends FilterItem>({
   isSelected,
   onPress,
 }: Props<T>) {
-  const styles = stylesheet;
+  const { styles } = useStyles(stylesheet);
 
   return (
     <View style={styles.main}>
@@ -36,12 +36,8 @@ export default function FiltersList<T extends FilterItem>({
           >
             <Text
               size="sm"
-              style={{
-                color: selected
-                  ? theme.colors.foreground
-                  : theme.colors.primary,
-                textAlign: "center",
-              }}
+              style={{ textAlign: "center" }}
+              color={selected ? "foreground" : "primary"}
             >
               {item.name}
             </Text>
@@ -52,11 +48,11 @@ export default function FiltersList<T extends FilterItem>({
   );
 }
 
-const stylesheet = StyleSheet.create({
+const stylesheet = createStyleSheet((theme) => ({
   main: {
     flexDirection: "row",
     flexWrap: "wrap",
     gap: theme.spacing.xs,
   },
   selectedBadge: { backgroundColor: theme.colors.primary },
-});
+}));

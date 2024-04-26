@@ -1,8 +1,10 @@
 import { Tabs } from "expo-router";
-import { theme } from "@/styles/theme";
 import { Icon } from "@/styles/icons";
+import { useStyles } from "react-native-unistyles";
 
 export default function AppLayout() {
+  const { theme } = useStyles();
+
   return (
     <Tabs
       screenOptions={{

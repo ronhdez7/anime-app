@@ -1,6 +1,6 @@
-import { View, RefreshControl, StyleSheet } from "react-native";
+import { View, RefreshControl } from "react-native";
 import { NoAnimeFound, getInfiniteData } from "./AnimeList";
-import { theme } from "@/styles/theme";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 import LoadingView from "../ui/LoadingView";
 import { useState } from "react";
 import { AnimeListItem } from "./AnimeListItem";
@@ -19,7 +19,7 @@ export default function AnimeGrid({
   onRefresh,
   ...props
 }: AnimeGridProps) {
-  const styles = stylesheet;
+  const { styles } = useStyles(gridStylesheet);
 
   const [refreshing, setRefreshing] = useState(false);
   const items: AnimeData[] = {
@@ -67,7 +67,7 @@ interface AnimeGridViewProps {
   onRefresh?: () => void;
 }
 export function AnimeGridView({ query, onRefresh }: AnimeGridViewProps) {
-  const styles = stylesheet;
+  const { styles } = useStyles(gridViewStylesheet);
   return (
     <View style={styles.main}>
       {query.data ? (
@@ -101,11 +101,14 @@ export function AnimeGridView({ query, onRefresh }: AnimeGridViewProps) {
   );
 }
 
-const stylesheet = StyleSheet.create({
+const gridViewStylesheet = createStyleSheet((theme) => ({
   main: { paddingHorizontal: theme.spacing.sm, flex: 1 },
+}));
+
+const gridStylesheet = createStyleSheet((theme) => ({
   listColumn: { columnGap: theme.spacing.sm },
   listContainer: {
     rowGap: theme.spacing.sm,
     paddingBottom: theme.spacing.sm,
   },
-});
+}));

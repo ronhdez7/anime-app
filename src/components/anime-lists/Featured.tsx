@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { AnimeData } from "@/types";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
-import { theme } from "@/styles/theme";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "../ui/Text";
 import { useRef, useState } from "react";
 import LoadingView from "../ui/LoadingView";
@@ -16,7 +16,7 @@ import IconButton from "../ui/IconButton";
 import AnimeFetchError from "../AnimeFetchError";
 
 export default function Featured() {
-  const styles = stylesheet;
+  const { styles } = useStyles(stylesheet);
   const { data, error, refetch } = useFeaturedAnime();
 
   if (data) {
@@ -44,7 +44,7 @@ interface FeaturedSliderProps {
   items: AnimeData[];
 }
 function FeaturedSlider({ items }: FeaturedSliderProps) {
-  const styles = stylesheet;
+  const { styles } = useStyles(stylesheet);
   const [currentIdx, setCurrentIdx] = useState(0);
   const carouselRef = useRef<ICarouselInstance>(null);
 
@@ -82,8 +82,8 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
 
         <IconButton
           name="plus"
-          size={theme.sizes.icon.sm}
-          color={theme.colors.foreground}
+          size={"sm"}
+          color={"foreground"}
           style={styles.addButton}
           activeOpacity={0.75}
         />
@@ -96,7 +96,7 @@ interface FeaturedItemProps {
   item: AnimeData;
 }
 function FeaturedItem({ item }: FeaturedItemProps) {
-  const styles = stylesheet;
+  const { styles } = useStyles(stylesheet);
 
   return (
     <Pressable style={styles.featuredItem}>
@@ -111,7 +111,7 @@ function FeaturedItem({ item }: FeaturedItemProps) {
   );
 }
 
-const stylesheet = StyleSheet.create({
+const stylesheet = createStyleSheet((theme) => ({
   errorContainer: {
     height: "100%",
     alignItems: "center",
@@ -155,4 +155,4 @@ const stylesheet = StyleSheet.create({
     shadowOffset: { width: 10, height: 10 },
     elevation: 10,
   },
-});
+}));

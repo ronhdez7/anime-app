@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import React from "react";
 import { useSearchActions, useSearchStatus } from "@/stores/SearchStore";
-import { theme } from "@/styles/theme";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "../ui/Text";
 import { AnimeStatus } from "@/types";
 import FiltersList from "./FiltersList";
@@ -14,7 +14,7 @@ const statuses: { name: string; value?: AnimeStatus }[] = [
 ] as const;
 
 export default function StatusSelection() {
-  const styles = stylesheet;
+  const { styles } = useStyles(stylesheet);
 
   const searchStatus = useSearchStatus();
   const { selectStatus } = useSearchActions();
@@ -32,6 +32,6 @@ export default function StatusSelection() {
   );
 }
 
-const stylesheet = StyleSheet.create({
+const stylesheet = createStyleSheet((theme) => ({
   main: { rowGap: theme.spacing.sm },
-});
+}));

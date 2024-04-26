@@ -1,5 +1,5 @@
-import { theme } from "@/styles/theme";
-import { StyleSheet, View } from "react-native";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { View } from "react-native";
 import Text from "./ui/Text";
 import ReloadButton from "./ui/ReloadButton";
 
@@ -13,28 +13,25 @@ export default function AnimeFetchError({
   onReload,
   foreground,
 }: AnimeFetchErrorProps) {
-  const styles = stylesheet;
+  const { styles } = useStyles(stylesheet);
+  const color = foreground ? "foreground" : "text";
+
   return (
     <View style={styles.main}>
       <View style={styles.detailsContainer}>
-        <Text foreground={foreground}>Could not get anime</Text>
+        <Text color={color}>Could not get anime</Text>
         {message && (
-          <Text size="sm" foreground={foreground}>
+          <Text size="sm" color={color}>
             Error: {message}
           </Text>
         )}
       </View>
-      {onReload && (
-        <ReloadButton
-          onReload={onReload}
-          color={foreground ? "foreground" : "text"}
-        />
-      )}
+      {onReload && <ReloadButton onReload={onReload} color={color} />}
     </View>
   );
 }
 
-const stylesheet = StyleSheet.create({
+const stylesheet = createStyleSheet((theme) => ({
   main: {
     alignItems: "center",
     flex: 1,
@@ -45,4 +42,4 @@ const stylesheet = StyleSheet.create({
     alignItems: "center",
     rowGap: theme.spacing.sm,
   },
-});
+}));

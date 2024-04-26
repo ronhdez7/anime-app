@@ -1,5 +1,5 @@
-import { StyleSheet, View } from "react-native";
-import { theme } from "@/styles/theme";
+import { View } from "react-native";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "@/components/ui/Text";
 import LoadingView from "../ui/LoadingView";
 import { AnimeData, AnimeDataQueryResult } from "@/types";
@@ -11,7 +11,7 @@ export interface AnimeListProps extends Partial<ListProps<AnimeData>> {
   data: AnimeData[];
 }
 export default function AnimeList({ ...props }: AnimeListProps) {
-  const styles = stylesheet;
+  const { styles } = useStyles(stylesheet);
 
   return (
     <List
@@ -29,7 +29,7 @@ interface AnimeListViewProps {
   query: AnimeDataQueryResult;
 }
 export function AnimeListView({ title, query }: AnimeListViewProps) {
-  const styles = stylesheet;
+  const { styles } = useStyles(stylesheet);
 
   return (
     <View style={styles.listView}>
@@ -86,7 +86,7 @@ export function NoAnimeFound() {
   );
 }
 
-const stylesheet = StyleSheet.create({
+const stylesheet = createStyleSheet((theme) => ({
   listContainer: {
     padding: theme.spacing.sm,
     gap: theme.spacing.sm,
@@ -99,4 +99,4 @@ const stylesheet = StyleSheet.create({
     backgroundColor: theme.colors.secondary,
     overflow: "hidden",
   },
-});
+}));

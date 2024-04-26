@@ -5,7 +5,7 @@ import {
   useSearchOrderBy,
   useSearchSort,
 } from "@/stores/SearchStore";
-import { theme } from "@/styles/theme";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "../ui/Text";
 import { AnimeSearchOrder } from "@/types";
 import IconButton from "../ui/IconButton";
@@ -22,7 +22,7 @@ const orders: { name: string; value?: AnimeSearchOrder }[] = [
 ] as const;
 
 export default function OrderSelection() {
-  const styles = stylesheet;
+  const { styles } = useStyles(stylesheet);
 
   const searchOrder = useSearchOrderBy();
   const searchSort = useSearchSort();
@@ -36,7 +36,7 @@ export default function OrderSelection() {
           <IconButton
             onPress={() => selectSort(searchSort === "desc" ? "asc" : "desc")}
             name={searchSort === "desc" ? "arrow-down" : "arrow-up"}
-            size={theme.sizes.icon.xs}
+            size={"xs"}
             style={{ padding: 0 }}
           />
         </View>
@@ -51,7 +51,7 @@ export default function OrderSelection() {
   );
 }
 
-const stylesheet = StyleSheet.create({
+const stylesheet = createStyleSheet((theme) => ({
   main: { rowGap: theme.spacing.sm },
   error: { flexDirection: "row", columnGap: 12, alignItems: "center" },
   filterHeader: {
@@ -64,4 +64,4 @@ const stylesheet = StyleSheet.create({
     alignItems: "center",
     columnGap: theme.spacing.sm,
   },
-});
+}));

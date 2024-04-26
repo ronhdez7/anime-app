@@ -1,12 +1,12 @@
 import React from "react";
-import { theme } from "@/styles/theme";
+import { UnistylesThemes } from "react-native-unistyles";
 import { TouchableOpacityProps } from "react-native-gesture-handler";
 import IconButton from "./IconButton";
 
 interface Props extends TouchableOpacityProps {
   onReload: () => void;
-  size?: keyof typeof theme.sizes.icon;
-  color?: keyof typeof theme.colors;
+  size?: keyof UnistylesThemes["light"]["sizes"]["text"];
+  color?: keyof UnistylesThemes["light"]["colors"];
 }
 
 export default function ReloadButton({
@@ -19,8 +19,8 @@ export default function ReloadButton({
   return (
     <IconButton
       name="refresh"
-      color={theme.colors[color]}
-      size={theme.sizes.icon[size]}
+      color={color}
+      size={size}
       onPress={onReload}
       {...props}
     />

@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import React from "react";
 import { useSearchActions, useSearchType } from "@/stores/SearchStore";
-import { theme } from "@/styles/theme";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "../ui/Text";
 import { AnimeSearchType } from "@/types";
 import FiltersList from "./FiltersList";
@@ -20,7 +20,7 @@ const types: { name: string; value?: AnimeSearchType }[] = [
 ] as const;
 
 export default function TypesSelection() {
-  const styles = stylesheet;
+  const { styles } = useStyles(stylesheet);
 
   const searchType = useSearchType();
   const { selectType } = useSearchActions();
@@ -38,6 +38,6 @@ export default function TypesSelection() {
   );
 }
 
-const stylesheet = StyleSheet.create({
+const stylesheet = createStyleSheet((theme) => ({
   main: { rowGap: theme.spacing.sm },
-});
+}));
