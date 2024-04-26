@@ -56,7 +56,7 @@ const stylesheet = StyleSheet.create({
   main: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: theme.sizes.gap.xs,
+    gap: theme.spacing.xs,
   },
   selectedBadge: { backgroundColor: theme.colors.primary },
 });

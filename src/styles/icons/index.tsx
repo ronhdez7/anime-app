@@ -1,7 +1,6 @@
 import {
   HomeIcon as FilledHomeIcon,
   UserIcon as FilledUserIcon,
-  ArrowPathIcon,
   PlusIcon,
 } from "react-native-heroicons/solid";
 import {

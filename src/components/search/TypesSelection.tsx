@@ -39,5 +39,5 @@ export default function TypesSelection() {
 }
 
 const stylesheet = StyleSheet.create({
-  main: { rowGap: theme.sizes.gap.sm },
+  main: { rowGap: theme.spacing.sm },
 });

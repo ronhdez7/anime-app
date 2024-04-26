@@ -55,6 +55,6 @@ function GenresFetchingError({ onReload }: GenresErrorProps) {
 }
 
 const stylesheet = StyleSheet.create({
-  main: { rowGap: theme.sizes.gap.sm },
+  main: { rowGap: theme.spacing.sm },
   error: { flexDirection: "row", columnGap: 12, alignItems: "center" },
 });

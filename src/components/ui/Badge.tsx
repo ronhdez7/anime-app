@@ -29,8 +29,8 @@ const stylesheet = StyleSheet.create({
     borderColor: theme.colors.primary,
     backgroundColor: "transparent",
     borderRadius: 10000,
-    paddingHorizontal: theme.sizes.padding.sm,
-    paddingVertical: theme.sizes.padding.sm,
+    paddingHorizontal: theme.spacing.sm,
+    paddingVertical: theme.spacing.sm,
     minWidth: 50,
   },
 });

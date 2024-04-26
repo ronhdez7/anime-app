@@ -88,14 +88,14 @@ export function NoAnimeFound() {
 
 const stylesheet = StyleSheet.create({
   listContainer: {
-    padding: theme.sizes.padding.sm,
-    gap: theme.sizes.padding.sm,
+    padding: theme.spacing.sm,
+    gap: theme.spacing.sm,
   },
-  listView: { rowGap: theme.sizes.gap.xs },
-  listHeader: { paddingLeft: theme.sizes.padding.sm },
+  listView: { rowGap: theme.spacing.xs },
+  listHeader: { paddingLeft: theme.spacing.sm },
   listWrapper: {
     height: 180,
-    borderRadius: theme.sizes.radius.md,
+    borderRadius: theme.radius.md,
     backgroundColor: theme.colors.secondary,
     overflow: "hidden",
   },

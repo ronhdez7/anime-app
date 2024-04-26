@@ -39,10 +39,10 @@ const stylesheet = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center",
-    rowGap: theme.sizes.gap.xl,
+    rowGap: theme.spacing.xl,
   },
   detailsContainer: {
     alignItems: "center",
-    rowGap: theme.sizes.gap.sm,
+    rowGap: theme.spacing.sm,
   },
 });

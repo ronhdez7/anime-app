@@ -21,6 +21,6 @@ export default function HomePage() {
 }
 
 const stylesheet = StyleSheet.create({
-  main: { padding: theme.sizes.padding.xs, rowGap: theme.sizes.gap.lg },
+  main: { padding: theme.spacing.xs, rowGap: theme.spacing.lg },
   featuredContainer: { aspectRatio: 17 / 24 },
 });

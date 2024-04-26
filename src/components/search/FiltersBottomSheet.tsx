@@ -65,13 +65,13 @@ const stylesheet = StyleSheet.create({
   resetButton: {
     top: 0,
     right: 0,
-    padding: theme.sizes.padding.xs,
+    padding: theme.spacing.xs,
     position: "absolute",
     alignSelf: "flex-end",
   },
   content: {
-    padding: theme.sizes.padding.sm,
+    padding: theme.spacing.sm,
     flex: 1,
   },
-  contentContainer: { rowGap: theme.sizes.gap.md },
+  contentContainer: { rowGap: theme.spacing.md },
 });

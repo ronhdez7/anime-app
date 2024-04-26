@@ -43,13 +43,13 @@ const stylesheet = StyleSheet.create({
   main: { height: "100%" },
   searchHeader: {
     flexDirection: "row",
-    padding: theme.sizes.padding.sm,
-    columnGap: theme.sizes.gap.sm,
+    padding: theme.spacing.sm,
+    columnGap: theme.spacing.sm,
     alignItems: "center",
   },
   filterIcon: {
     backgroundColor: theme.colors.neutral,
-    borderRadius: theme.sizes.radius.xs,
+    borderRadius: theme.radius.xs,
     elevation: 10,
     shadowColor: theme.colors.shadow,
   },

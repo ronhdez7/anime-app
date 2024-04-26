@@ -21,7 +21,7 @@ export function AnimeListItem({ anime }: AnimeListItemProps) {
         style={styles.image}
         source={{ uri: anime.images.webp.image_url }}
         resizeMode="cover"
-        borderRadius={theme.sizes.radius.md}
+        borderRadius={theme.radius.md}
       >
         <View style={styles.titleContainer}>
           <Text size="xs" foreground numberOfLines={3} style={styles.title}>
@@ -36,7 +36,7 @@ export function AnimeListItem({ anime }: AnimeListItemProps) {
 const stylesheet = StyleSheet.create({
   main: {
     aspectRatio: 17 / 24,
-    borderRadius: theme.sizes.radius.md,
+    borderRadius: theme.radius.md,
     flex: 1,
     overflow: "hidden",
   },
@@ -46,7 +46,7 @@ const stylesheet = StyleSheet.create({
     height: "30%",
     justifyContent: "center",
     alignItems: "center",
-    padding: theme.sizes.padding.xs,
+    padding: theme.spacing.xs,
   },
   title: { textAlign: "center" },
 });

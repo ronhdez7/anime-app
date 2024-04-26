@@ -13,7 +13,7 @@ export default function TestingPage() {
       <Text>TestingPage</Text>
       <TouchableOpacity
         onPress={goBack}
-        style={{ padding: theme.sizes.padding.lg, backgroundColor: "skyblue" }}
+        style={{ padding: theme.spacing["2xl"], backgroundColor: "skyblue" }}
       >
         <Text>Go Back</Text>
       </TouchableOpacity>

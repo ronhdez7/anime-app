@@ -27,5 +27,5 @@ export default function IconButton({
 }
 
 const stylesheet = StyleSheet.create({
-  main: { padding: theme.sizes.padding.sm, borderRadius: 10000 },
+  main: { padding: theme.spacing.sm, borderRadius: 10000 },
 });

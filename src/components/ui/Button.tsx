@@ -20,8 +20,8 @@ export default forwardRef<TouchableOpacity, Props>(function Button(
 const stylesheet = StyleSheet.create({
   main: {
     backgroundColor: theme.colors.primary,
-    paddingHorizontal: theme.sizes.padding.lg,
-    paddingVertical: theme.sizes.padding.sm,
-    borderRadius: theme.sizes.radius.md,
+    paddingHorizontal: theme.spacing["2xl"],
+    paddingVertical: theme.spacing.sm,
+    borderRadius: theme.radius.md,
   },
 });

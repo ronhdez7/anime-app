@@ -102,10 +102,10 @@ export function AnimeGridView({ query, onRefresh }: AnimeGridViewProps) {
 }
 
 const stylesheet = StyleSheet.create({
-  main: { paddingHorizontal: theme.sizes.padding.sm, flex: 1 },
-  listColumn: { columnGap: theme.sizes.padding.sm },
+  main: { paddingHorizontal: theme.spacing.sm, flex: 1 },
+  listColumn: { columnGap: theme.spacing.sm },
   listContainer: {
-    rowGap: theme.sizes.padding.sm,
-    paddingBottom: theme.sizes.padding.sm,
+    rowGap: theme.spacing.sm,
+    paddingBottom: theme.spacing.sm,
   },
 });

@@ -52,7 +52,7 @@ export default function OrderSelection() {
 }
 
 const stylesheet = StyleSheet.create({
-  main: { rowGap: theme.sizes.gap.sm },
+  main: { rowGap: theme.spacing.sm },
   error: { flexDirection: "row", columnGap: 12, alignItems: "center" },
   filterHeader: {
     flexDirection: "row",
@@ -62,6 +62,6 @@ const stylesheet = StyleSheet.create({
   headerLeft: {
     flexDirection: "row",
     alignItems: "center",
-    columnGap: theme.sizes.gap.sm,
+    columnGap: theme.spacing.sm,
   },
 });

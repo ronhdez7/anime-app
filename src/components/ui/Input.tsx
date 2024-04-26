@@ -29,8 +29,8 @@ const stylesheet = StyleSheet.create({
   main: {
     height: 40,
     fontSize: theme.sizes.text.md,
-    paddingHorizontal: theme.sizes.padding.sm,
-    borderRadius: theme.sizes.radius.xs,
+    paddingHorizontal: theme.spacing.sm,
+    borderRadius: theme.radius.xs,
     backgroundColor: theme.colors.neutral,
     color: theme.colors.text,
     shadowColor: theme.colors.shadow,
