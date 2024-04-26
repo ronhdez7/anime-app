@@ -1,10 +1,11 @@
 import { View, ActivityIndicator, ViewProps } from "react-native";
 import React from "react";
-import { UnistylesThemes, useStyles } from "react-native-unistyles";
+import { useStyles } from "react-native-unistyles";
+import { ThemeConfig } from "@/styles/theme";
 
 interface Props extends ViewProps {
-  size?: keyof UnistylesThemes["light"]["sizes"]["text"];
-  color?: keyof UnistylesThemes["light"]["colors"];
+  size?: keyof ThemeConfig["sizes"]["text"];
+  color?: keyof ThemeConfig["colors"];
 }
 
 export default function LoadingView({

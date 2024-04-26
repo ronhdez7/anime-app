@@ -13,7 +13,7 @@ import { ArrowDownIcon, ArrowUpIcon } from "react-native-heroicons/mini";
 
 import { NumberProp, SvgProps } from "react-native-svg";
 import RefreshIcon from "./RefreshIcon";
-import { UnistylesThemes, useStyles } from "react-native-unistyles";
+import { useStyles } from "react-native-unistyles";
 
 export interface IconProps extends SvgProps {
   size?: NumberProp;

@@ -1,6 +1,5 @@
 import { StatusBarStyle } from "expo-status-bar";
 import lightColors from "./light";
-import { UnistylesRegistry } from "react-native-unistyles";
 
 type ThemeColor = string;
 
@@ -17,18 +16,6 @@ export interface ThemeColorsConfig {
   overlay: ThemeColor;
   shadow: ThemeColor;
 }
-
-// export type ThemeSizesConfig = typeof sizes;
-
-// export type ThemeFontsConfig = typeof fonts;
-
-// export interface Theme {
-//   colors: ThemeColorsConfig;
-//   sizes: ThemeSizesConfig;
-//   fonts: ThemeFontsConfig;
-//   spacing: typeof spacing;
-//   radius: typeof radius;
-// }
 
 const sizes = {
   icon: {
@@ -75,35 +62,16 @@ const fonts = {
   },
 } as const;
 
-const lightTheme = {
-  colors: lightColors,
+const themeConstants = {
   sizes,
   fonts,
   spacing,
   radius,
+} as const
+
+export const lightTheme = {
+  colors: lightColors,
+  ...themeConstants
 } as const;
 
-// type AppBreakpoints = typeof breakpoints
-
-type AppThemes = {
-  light: typeof lightTheme;
-};
-
-// override library types
-declare module "react-native-unistyles" {
-  // export interface UnistylesBreakpoints extends AppBreakpoints {}
-  export interface UnistylesThemes extends AppThemes {}
-}
-
-UnistylesRegistry
-  // .addBreakpoints(breakpoints)
-  .addThemes({
-    light: lightTheme,
-    // dark: darkTheme,
-    // register other themes with unique names
-  })
-  .addConfig({
-    // you can pass here optional config described below
-    // adaptiveThemes: true
-    initialTheme: "light",
-  });
+export type ThemeConfig = typeof themeConstants & { colors: ThemeColorsConfig }

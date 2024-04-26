@@ -1,17 +1,14 @@
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 import React from "react";
 import { Icon, IconControllerProps } from "@/styles/icons";
-import {
-  UnistylesThemes,
-  createStyleSheet,
-  useStyles,
-} from "react-native-unistyles";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { ThemeConfig } from "@/styles/theme";
 
 interface IconButtonProps
   extends TouchableOpacityProps,
     Pick<IconControllerProps, "name"> {
-  size?: keyof UnistylesThemes["light"]["sizes"]["text"];
-  color?: keyof UnistylesThemes["light"]["colors"];
+  size?: keyof ThemeConfig["sizes"]["text"];
+  color?: keyof ThemeConfig["colors"];
 }
 
 export default function IconButton({
