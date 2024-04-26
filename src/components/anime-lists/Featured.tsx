@@ -68,6 +68,9 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
         onScrollBegin={() =>
           setCurrentIdx((v) => carouselRef.current?.getCurrentIndex() ?? v)
         }
+        panGestureHandlerProps={{
+          activeOffsetX: [-10, 10],
+        }}
       />
 
       <View style={styles.cardBottom}>
