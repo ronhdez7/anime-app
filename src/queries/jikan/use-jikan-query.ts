@@ -65,12 +65,14 @@ export function useJikanInfiniteQuery<T, Q extends QueryKey = QueryKey>({
 }
 
 export const jikanKeys = {
-  all: ["jikan", "anime"] as const,
+  all: ["jikan"] as const,
   normal: () => ["normal", ...jikanKeys.all] as const,
   infinite: () => ["infinite", ...jikanKeys.all] as const,
+
   featured: () => [...jikanKeys.normal(), "featured"] as const,
   top: () => [...jikanKeys.infinite(), "top"] as const,
   search: (params: AnimeSearchParams = {}) =>
     [...jikanKeys.infinite(), "search", params] as const,
   genres: () => [...jikanKeys.normal(), "genres"] as const,
+  anime: (id: number) => [...jikanKeys.normal(), "anime", id] as const,
 };

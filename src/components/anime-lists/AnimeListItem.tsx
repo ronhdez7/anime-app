@@ -2,33 +2,37 @@ import { AnimeData } from "@/types";
 import { ImageBackground, TouchableOpacity, View } from "react-native";
 import Text from "../ui/Text";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { Link } from "expo-router";
 
 interface AnimeListItemProps {
   anime: AnimeData;
+  disabled?: boolean;
 }
 
-export function AnimeListItem({ anime }: AnimeListItemProps) {
+export function AnimeListItem({ anime, disabled = false }: AnimeListItemProps) {
   const { styles } = useStyles(stylesheet);
 
   return (
-    <TouchableOpacity style={styles.main} activeOpacity={0.75}>
-      <ImageBackground
-        style={styles.image}
-        source={{ uri: anime.images.webp.image_url }}
-        resizeMode="cover"
-      >
-        <View style={styles.titleContainer}>
-          <Text
-            size="xs"
-            color="foreground"
-            numberOfLines={3}
-            style={styles.title}
-          >
-            {anime.title_english ?? anime.title_japanese}
-          </Text>
-        </View>
-      </ImageBackground>
-    </TouchableOpacity>
+    <Link href={`/anime/${anime.mal_id}`} disabled={disabled} asChild>
+      <TouchableOpacity style={styles.main} activeOpacity={0.75}>
+        <ImageBackground
+          style={styles.image}
+          source={{ uri: anime.images.webp.image_url }}
+          resizeMode="cover"
+        >
+          <View style={styles.titleContainer}>
+            <Text
+              size="xs"
+              color="foreground"
+              numberOfLines={3}
+              style={styles.title}
+            >
+              {anime.title_english ?? anime.title_japanese}
+            </Text>
+          </View>
+        </ImageBackground>
+      </TouchableOpacity>
+    </Link>
   );
 }
 

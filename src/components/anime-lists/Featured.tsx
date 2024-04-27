@@ -14,6 +14,7 @@ import LoadingView from "../ui/LoadingView";
 import useFeaturedAnime from "@/queries/jikan/use-featured-anime";
 import IconButton from "../ui/IconButton";
 import AnimeFetchError from "../AnimeFetchError";
+import { Link } from "expo-router";
 
 export default function Featured() {
   const { styles } = useStyles(stylesheet);
@@ -99,15 +100,17 @@ function FeaturedItem({ item }: FeaturedItemProps) {
   const { styles } = useStyles(stylesheet);
 
   return (
-    <Pressable style={styles.featuredItem}>
-      <ImageBackground
-        source={{
-          uri: item?.images.webp.large_image_url,
-        }}
-        resizeMode="cover"
-        style={{ height: "100%" }}
-      />
-    </Pressable>
+    <Link href={`/anime/${item.mal_id}`} asChild>
+      <Pressable style={styles.featuredItem}>
+        <ImageBackground
+          source={{
+            uri: item?.images.webp.large_image_url,
+          }}
+          resizeMode="cover"
+          style={{ height: "100%" }}
+        />
+      </Pressable>
+    </Link>
   );
 }
 

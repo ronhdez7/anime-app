@@ -20,6 +20,7 @@ export type AnimeSearchParams = JikanAnimeSearchParams;
 
 export type AnimeData = JikanAnimeData;
 export type AnimeFullData = JikanAnimeFullData;
+export type MaybeFullData = Partial<AnimeFullData> & AnimeData;
 
 export type EpisodeData = JikanEpisodeData;
 

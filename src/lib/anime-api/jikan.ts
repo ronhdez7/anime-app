@@ -31,6 +31,10 @@ class Jikan {
     return new Promise((_, reject) => setTimeout(reject, 10000));
   }
 
+  fakeResponse<T>(data: T): AxiosResponse<JikanResponse<T>> {
+    return { data: { data: data } } as any;
+  }
+
   getFeaturedAnime(config?: AxiosRequestConfig) {
     return this.getTopAnime({ limit: 5, sfw: true }, config);
   }
