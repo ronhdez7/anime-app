@@ -41,6 +41,7 @@ export default function AnimeGrid({
       numColumns={COLS}
       columnWrapperStyle={styles.listColumn}
       contentContainerStyle={styles.listContainer}
+      onEndReachedThreshold={1}
       renderItem={({ item }) => (
         <View
           style={{
@@ -68,20 +69,29 @@ interface AnimeGridViewProps {
 }
 export function AnimeGridView({ query, onRefresh }: AnimeGridViewProps) {
   const { styles } = useStyles(gridViewStylesheet);
+
+  function handleEndReached() {
+    if ("fetchNextPage" in query && !query.isFetching && query.hasNextPage) {
+      query.fetchNextPage();
+    }
+  }
+
   return (
     <View style={styles.main}>
       {query.data ? (
         <AnimeGrid
           data={getInfiniteData(query.data)}
-          onEndReached={() => {
-            if (
-              "fetchNextPage" in query &&
-              !query.isFetching &&
-              query.hasNextPage
-            ) {
-              query.fetchNextPage();
-            }
-          }}
+          onEndReached={handleEndReached}
+          // onScrollEndDrag={(e) => {
+          //   if (
+          //     e.nativeEvent.contentOffset.y +
+          //       e.nativeEvent.layoutMeasurement.height +
+          //       e.nativeEvent.layoutMeasurement.height / 3 >
+          //     e.nativeEvent.contentSize.height
+          //   ) {
+          //     handleEndReached();
+          //   }
+          // }}
           ListFooterComponent={() =>
             (query as any).isFetchingNextPage && (
               <LoadingView color="foreground" />

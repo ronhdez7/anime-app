@@ -1,6 +1,7 @@
 import animeApi from "@/lib/anime-api";
 import { jikanKeys, useJikanInfiniteQuery } from "./use-jikan-query";
 import { AnimeSearchParams } from "@/types";
+import { keepPreviousData } from "@tanstack/react-query";
 
 export default function useAnimeSearch(params?: AnimeSearchParams) {
   return useJikanInfiniteQuery({
@@ -14,5 +15,6 @@ export default function useAnimeSearch(params?: AnimeSearchParams) {
         },
         { signal }
       ),
+    placeholderData: keepPreviousData,
   });
 }

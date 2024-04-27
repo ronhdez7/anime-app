@@ -14,7 +14,7 @@ export default function SearchResults() {
 
   function refresh() {
     queryClient.setQueryData<InfiniteData<any>>(
-      jikanKeys.search(params),
+      jikanKeys.search(debouncedParams),
       (data) => ({
         pages: data?.pages.slice(0, 1) ?? [],
         pageParams: data?.pageParams.slice(0, 1) ?? [],
