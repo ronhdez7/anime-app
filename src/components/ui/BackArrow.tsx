@@ -13,5 +13,5 @@ export default function BackArrow({
     }
   }
 
-  return <IconButton name="arrow-left" onPress={goBack} {...props} />;
+  return <IconButton name="arrow-left" onPress={goBack} size="sm" {...props} />;
 }

@@ -13,6 +13,9 @@ import Animated, {
   useAnimatedStyle,
   useScrollViewOffset,
 } from "react-native-reanimated";
+import { Stack } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import BackArrow from "./ui/BackArrow";
 
 interface AnimeScreenProps {
   id: MALID;
@@ -28,6 +31,7 @@ export default function AnimeScreen({ id }: AnimeScreenProps) {
   const { data, error, refetch } = useAnime(id);
   useAnimeEpisodes(id);
 
+  const insets = useSafeAreaInsets();
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
 
@@ -52,9 +56,44 @@ export default function AnimeScreen({ id }: AnimeScreenProps) {
     };
   });
 
+  const headerAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(
+        scrollOffset.value,
+        [0, HEIGHT / 2, HEIGHT / 1.25],
+        [0, 0, 1]
+      ),
+    };
+  });
+
   if (data) {
     return (
       <View style={styles.main}>
+        {/* Header */}
+        <Stack.Screen
+          options={{
+            headerShown: true,
+            headerTransparent: true,
+            header() {
+              return (
+                <View>
+                  <Animated.View
+                    style={[styles.headerBackground, headerAnimatedStyle]}
+                  />
+                  <View
+                    style={[{ paddingTop: insets.top }, styles.headerContainer]}
+                  >
+                    <View style={styles.headerLeft}>
+                      <BackArrow color="foreground" />
+                    </View>
+                  </View>
+                </View>
+              );
+            },
+          }}
+        />
+        {/* END Heder */}
+
         <Animated.ScrollView
           ref={scrollRef}
           style={[styles.scroll]}
@@ -88,5 +127,22 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   main: {
     flex: 1,
+  },
+  headerBackground: {
+    backgroundColor: theme.colors.background,
+    height: "100%",
+    width: "100%",
+    position: "absolute",
+  },
+  headerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: theme.spacing.xs,
+  },
+  headerLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    columnGap: theme.spacing.xs,
   },
 }));
