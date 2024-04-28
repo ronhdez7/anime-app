@@ -1,7 +1,7 @@
 import "@/styles/theme";
 import React, { useEffect } from "react";
 import { Stack } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as SplashScreen from "expo-splash-screen";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/query-client";
@@ -28,15 +28,15 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <SafeAreaView
-          style={{ flex: 1, backgroundColor: theme.colors.background }}
-          onTouchStart={Keyboard.dismiss}
-        >
+      <GestureHandlerRootView
+        style={{ flex: 1 }}
+        onTouchStart={Keyboard.dismiss}
+      >
+        <SafeAreaProvider>
           <Stack
             screenOptions={{
               headerShown: false,
-              contentStyle: { backgroundColor: "transparent" },
+              contentStyle: { backgroundColor: theme.colors.background },
 
               // Status Bar
               statusBarTranslucent: true,
@@ -45,7 +45,7 @@ export default function RootLayout() {
               statusBarAnimation: "slide",
             }}
           />
-        </SafeAreaView>
+        </SafeAreaProvider>
       </GestureHandlerRootView>
     </QueryClientProvider>
   );

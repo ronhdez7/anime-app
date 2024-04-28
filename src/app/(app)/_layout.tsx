@@ -20,7 +20,9 @@ export default function AppLayout() {
         tabBarActiveTintColor: theme.colors.primary,
         tabBarLabel: TabBarLabel,
       }}
-      sceneContainerStyle={{ backgroundColor: "transparent" }}
+      sceneContainerStyle={{
+        backgroundColor: "transparent",
+      }}
       initialRouteName="index"
     >
       <Tabs.Screen

@@ -13,7 +13,6 @@ import Animated, {
   useAnimatedStyle,
   useScrollViewOffset,
 } from "react-native-reanimated";
-import Text from "./ui/Text";
 
 interface AnimeScreenProps {
   id: MALID;
@@ -53,25 +52,12 @@ export default function AnimeScreen({ id }: AnimeScreenProps) {
     };
   });
 
-  const headerAnimatedStyle = useAnimatedStyle(() => {
-    return {
-      opacity: interpolate(
-        scrollOffset.value,
-        [0, HEIGHT / 2, HEIGHT],
-        [0, 0, 1]
-      ),
-    };
-  });
-
   if (data) {
     return (
       <View style={styles.main}>
-        <Animated.View style={[styles.header, headerAnimatedStyle]}>
-          <Text>header</Text>
-        </Animated.View>
         <Animated.ScrollView
           ref={scrollRef}
-          style={styles.scroll}
+          style={[styles.scroll]}
           scrollEventThrottle={16}
         >
           <Animated.Image
@@ -92,7 +78,7 @@ export default function AnimeScreen({ id }: AnimeScreenProps) {
   return <LoadingView />;
 }
 
-const stylesheet = createStyleSheet({
+const stylesheet = createStyleSheet((theme) => ({
   image: {
     width: "100%",
     aspectRatio: 17 / 24,
@@ -102,10 +88,5 @@ const stylesheet = createStyleSheet({
   },
   main: {
     flex: 1,
-    position: "relative",
   },
-  header: {
-    height: 40,
-    backgroundColor: "red",
-  },
-});
+}));

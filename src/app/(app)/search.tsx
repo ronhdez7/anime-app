@@ -7,6 +7,7 @@ import FiltersBottomSheet from "@/components/search/FiltersBottomSheet";
 import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet";
 import { useRef } from "react";
 import IconButton from "@/components/ui/IconButton";
+import SafeArea from "@/components/ui/SafeArea";
 
 export default function SearchPage() {
   const { styles } = useStyles(stylesheet);
@@ -18,24 +19,26 @@ export default function SearchPage() {
   }
 
   return (
-    <SearchProvider>
-      <View style={styles.main}>
-        <View style={styles.searchHeader}>
-          <SearchBar />
+    <SafeArea>
+      <SearchProvider>
+        <View style={styles.main}>
+          <View style={styles.searchHeader}>
+            <SearchBar />
 
-          <IconButton
-            name="filters"
-            size="sm"
-            style={styles.filterIcon}
-            activeOpacity={0.75}
-            onPress={openBottomSheet}
-          />
+            <IconButton
+              name="filters"
+              size="sm"
+              style={styles.filterIcon}
+              activeOpacity={0.75}
+              onPress={openBottomSheet}
+            />
+          </View>
+          <SearchResults />
+
+          <FiltersBottomSheet ref={bottomSheetRef} />
         </View>
-        <SearchResults />
-
-        <FiltersBottomSheet ref={bottomSheetRef} />
-      </View>
-    </SearchProvider>
+      </SearchProvider>
+    </SafeArea>
   );
 }
 

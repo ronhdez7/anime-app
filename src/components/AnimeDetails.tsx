@@ -16,6 +16,12 @@ export default function AnimeDetails({ anime }: AnimeDetailsProps) {
         {anime.title}
         {anime.mal_id}
       </Text>
+      <Text>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum quod
+        fugiat quos. Molestias, quam voluptatum distinctio aut nihil reiciendis
+        nulla unde adipisci soluta, dicta labore, quae obcaecati. Harum,
+        cupiditate cum.
+      </Text>
     </View>
   );
 }

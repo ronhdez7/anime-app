@@ -8,6 +8,7 @@ import {
   MagnifyingGlassIcon,
   UserIcon as OutlineUserIcon,
   AdjustmentsHorizontalIcon,
+  ArrowLeftIcon,
 } from "react-native-heroicons/outline";
 import { ArrowDownIcon, ArrowUpIcon } from "react-native-heroicons/mini";
 
@@ -32,6 +33,7 @@ const icons = {
   plus: PlusIcon,
   "arrow-up": ArrowUpIcon,
   "arrow-down": ArrowDownIcon,
+  "arrow-left": ArrowLeftIcon,
 } satisfies IconRegister;
 
 export interface IconControllerProps extends IconProps {
