@@ -1,9 +1,9 @@
 import React from "react";
 import { useLocalSearchParams } from "expo-router";
 import AnimeScreen from "@/components/AnimeScreen";
-import { useAnime } from "@/queries/jikan/use-anime";
-import AnimeFetchError from "@/components/AnimeFetchError";
-import LoadingView from "@/components/ui/LoadingView";
+import { View } from "react-native";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
+import Text from "@/components/ui/Text";
 
 type Params = {
   id: string;
@@ -11,17 +11,24 @@ type Params = {
 
 export default function AnimePage() {
   const { id } = useLocalSearchParams<Params>();
+  const { styles } = useStyles(stylesheet);
 
-  const { data, error, refetch } = useAnime(id);
-
-  if (data) {
-    return <AnimeScreen anime={data} />;
-  } else if (error) {
-    <AnimeFetchError
-      onReload={refetch}
-      message={error.response?.data?.message}
-    />;
+  if (!id) {
+    return (
+      <View style={styles.error}>
+        <Text>Sorry, this page does not know which anime to load</Text>
+        <Text>Please try going back and navigating back to this page</Text>
+      </View>
+    );
   }
 
-  return <LoadingView />;
+  return <AnimeScreen id={id} />;
 }
+
+const stylesheet = createStyleSheet(() => ({
+  error: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+}));

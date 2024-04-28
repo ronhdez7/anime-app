@@ -65,6 +65,15 @@ class Jikan {
   getAnimeGenres(config?: AxiosRequestConfig): Res<JikanGenre[]> {
     return this.axios.get("/genres/anime?filter=genres", config);
   }
+
+  getAnimeEpisodes(
+    id: MALID,
+    options?: { page?: number },
+    config?: AxiosRequestConfig
+  ) {
+    const params = new URLSearchParams(options as any).toString();
+    return this.axios.get(`/anime/${id}/episodes?${params}`, config);
+  }
 }
 
 const jikan = new Jikan();

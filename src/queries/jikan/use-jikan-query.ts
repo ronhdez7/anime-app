@@ -75,4 +75,6 @@ export const jikanKeys = {
     [...jikanKeys.infinite(), "search", params] as const,
   genres: () => [...jikanKeys.normal(), "genres"] as const,
   anime: (id: number) => [...jikanKeys.normal(), "anime", id] as const,
+
+  episodes: (id: number) => [...jikanKeys.anime(id), "episodes"] as const,
 };
