@@ -28,6 +28,7 @@ const sizes = {
   text: {
     xs: 10,
     sm: 12,
+    smd: 14,
     md: 16,
     lg: 20,
     xl: 24,
@@ -67,11 +68,11 @@ const themeConstants = {
   fonts,
   spacing,
   radius,
-} as const
+} as const;
 
 export const lightTheme = {
   colors: lightColors,
-  ...themeConstants
+  ...themeConstants,
 } as const;
 
-export type ThemeConfig = typeof themeConstants & { colors: ThemeColorsConfig }
+export type ThemeConfig = typeof themeConstants & { colors: ThemeColorsConfig };

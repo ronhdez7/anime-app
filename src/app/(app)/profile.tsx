@@ -1,15 +1,15 @@
 import React from "react";
 import Text from "@/components/ui/Text";
 import { Link } from "expo-router";
-import SafeArea from "@/components/ui/SafeArea";
+import { View } from "react-native";
 
 export default function ProfilePage() {
   return (
-    <SafeArea>
+    <View>
       <Text>ProfilePage</Text>
       <Link href={"/test"}>
         <Text>Go to Testing Page</Text>
       </Link>
-    </SafeArea>
+    </View>
   );
 }
