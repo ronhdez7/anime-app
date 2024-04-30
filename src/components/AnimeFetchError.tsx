@@ -5,12 +5,14 @@ import ReloadButton from "./ui/ReloadButton";
 
 interface AnimeFetchErrorProps {
   message?: string;
+  error?: string;
   onReload?: () => void;
   foreground?: boolean;
 }
 export default function AnimeFetchError({
   message,
   onReload,
+  error,
   foreground,
 }: AnimeFetchErrorProps) {
   const { styles } = useStyles(stylesheet);
@@ -19,7 +21,7 @@ export default function AnimeFetchError({
   return (
     <View style={styles.main}>
       <View style={styles.detailsContainer}>
-        <Text color={color}>Could not get anime</Text>
+        <Text color={color}>{error ?? "Could not get anime"}</Text>
         {message && (
           <Text size="sm" color={color}>
             Error: {message}
