@@ -15,7 +15,7 @@ export default function AnimeEpisode({ episode, animeId }: Props) {
   const { styles } = useStyles(stylesheet);
 
   return (
-    <Link href={`/watch/${animeId}/${episode.mal_id}`} asChild>
+    <Link href={`/watch/${animeId}/${episode.id}`} asChild>
       <TouchableOpacity style={styles.main}>
         <Text numberOfLines={1}>{episode.title}</Text>
       </TouchableOpacity>

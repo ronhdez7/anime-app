@@ -8,6 +8,7 @@ import {
   JikanAnimeSearchParams,
   JikanTopAnimeParams,
   MALID,
+  JikanEpisodeData,
 } from "@/types/jikan";
 import ogAxios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
@@ -70,7 +71,7 @@ class Jikan {
     id: MALID,
     options?: { page?: number },
     config?: AxiosRequestConfig
-  ) {
+  ): PaginatedRes<JikanEpisodeData[]> {
     const params = new URLSearchParams(options as any).toString();
     return this.axios.get(`/anime/${id}/episodes?${params}`, config);
   }

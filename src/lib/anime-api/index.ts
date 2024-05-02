@@ -11,6 +11,7 @@ import { JikanGenre, MALID } from "@/types/jikan";
 import {
   parseJikanAnime,
   parseJikanAnimeArray,
+  parseJikanEpisodeArray,
   parseJikanError,
 } from "./jikan-parser";
 
@@ -81,10 +82,10 @@ class AnimeApi {
     id: MALID,
     options?: { page?: number },
     config?: AxiosRequestConfig
-  ): PaginatedRes<EpisodeData> {
+  ): PaginatedRes<EpisodeData[]> {
     try {
       const { data } = await jikan.getAnimeEpisodes(id, options, config);
-      return { ...data, data: data.data };
+      return { ...data, data: parseJikanEpisodeArray(data.data) };
     } catch (e) {
       throw parseJikanError(this.getError(e));
     }

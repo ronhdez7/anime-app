@@ -1,5 +1,5 @@
-import { AnimeData, ApiError } from "@/types";
-import { JikanAnimeData, JikanError, JikanResponse } from "@/types/jikan";
+import { AnimeData, ApiError, EpisodeData } from "@/types";
+import { JikanAnimeData, JikanEpisodeData, JikanError } from "@/types/jikan";
 
 export function parseJikanError(error: JikanError): ApiError {
   return error;
@@ -35,4 +35,30 @@ export function parseJikanAnime(anime: JikanAnimeData): AnimeData {
 
 export function parseJikanAnimeArray(animes: JikanAnimeData[]) {
   return animes.map((anime) => parseJikanAnime(anime));
+}
+
+export function parseJikanEpisode(
+  episode: JikanEpisodeData,
+  animeId?: number
+): EpisodeData {
+  return {
+    id: episode.mal_id,
+    animeId: Number(animeId),
+    title:
+      episode.title ??
+      episode.title_japanese ??
+      episode.title_romanji ??
+      `Episode ${episode.mal_id}`,
+    filler: episode.filler,
+    recap: episode.recap,
+    aired: {
+      day: new Date(episode.aired).getDate(),
+      month: new Date(episode.aired).getMonth(),
+      year: new Date(episode.aired).getFullYear(),
+    },
+  };
+}
+
+export function parseJikanEpisodeArray(episodes: JikanEpisodeData[]) {
+  return episodes.map((episode) => parseJikanEpisode(episode));
 }
