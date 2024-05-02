@@ -11,7 +11,7 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "../ui/Text";
 import { useRef, useState } from "react";
 import LoadingView from "../ui/LoadingView";
-import useFeaturedAnime from "@/queries/jikan/use-featured-anime";
+import useFeaturedAnime from "@/queries/use-featured-anime";
 import IconButton from "../ui/IconButton";
 import AnimeFetchError from "../AnimeFetchError";
 import { Link } from "expo-router";
@@ -29,7 +29,7 @@ export default function Featured() {
       <View style={styles.errorContainer}>
         <View style={styles.errorCard}>
           <AnimeFetchError
-            message={error.response?.data.message}
+            message={error.message}
             onReload={refetch}
             foreground
           />
@@ -76,9 +76,7 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
 
       <View style={styles.cardBottom}>
         <Text size="sm" numberOfLines={1} style={styles.cardTitle}>
-          {items[currentIdx]?.title_english ??
-            items[currentIdx]?.title ??
-            items[currentIdx]?.title_japanese}
+          {items[currentIdx]?.title}
         </Text>
 
         <IconButton
@@ -100,11 +98,11 @@ function FeaturedItem({ item }: FeaturedItemProps) {
   const { styles } = useStyles(stylesheet);
 
   return (
-    <Link href={`/anime/${item.mal_id}`} asChild>
+    <Link href={`/anime/${item.id}`} asChild>
       <Pressable style={styles.featuredItem}>
         <ImageBackground
           source={{
-            uri: item?.images.webp.large_image_url,
+            uri: item?.images.large,
           }}
           resizeMode="cover"
           style={{ height: "100%" }}

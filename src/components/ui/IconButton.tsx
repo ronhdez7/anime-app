@@ -7,7 +7,7 @@ import { ThemeConfig } from "@/styles/theme";
 export interface IconButtonProps
   extends TouchableOpacityProps,
     Pick<IconControllerProps, "name"> {
-  size?: keyof ThemeConfig["sizes"]["text"];
+  size?: keyof ThemeConfig["sizes"]["icon"];
   color?: keyof ThemeConfig["colors"];
 }
 

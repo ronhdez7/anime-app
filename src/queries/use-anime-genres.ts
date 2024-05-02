@@ -1,9 +1,9 @@
 import animeApi from "@/lib/anime-api/";
-import { jikanKeys, useJikanQuery } from "./use-jikan-query";
+import { apiKeys, useApiQuery } from "./use-api-query";
 
 export default function useAnimeGenres() {
-  return useJikanQuery({
-    queryKey: jikanKeys.genres(),
+  return useApiQuery({
+    queryKey: apiKeys.genres(),
     queryFn: ({ signal }) => animeApi.getAnimeGenres({ signal }),
   });
 }

@@ -5,7 +5,7 @@ import { ThemeConfig } from "@/styles/theme";
 
 interface Props extends TouchableOpacityProps {
   onReload: () => void;
-  size?: keyof ThemeConfig["sizes"]["text"];
+  size?: keyof ThemeConfig["sizes"]["icon"];
   color?: keyof ThemeConfig["colors"];
 }
 

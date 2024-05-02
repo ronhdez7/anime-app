@@ -1,8 +1,8 @@
 import { View, ScrollView, Image, ImageBackground } from "react-native";
 import React from "react";
 import { MALID } from "@/types/jikan";
-import { useAnime } from "@/queries/jikan/use-anime";
-import { useAnimeEpisodes } from "@/queries/jikan/use-anime-episodes";
+import { useAnime } from "@/queries/use-anime";
+import { useAnimeEpisodes } from "@/queries/use-anime-episodes";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import AnimeFetchError from "./AnimeFetchError";
 import LoadingView from "./ui/LoadingView";
@@ -34,7 +34,7 @@ export default function AnimeScreen({ id }: AnimeScreenProps) {
               />
             ) : (
               <ImageBackground
-                source={{ uri: anime.data.images.webp.large_image_url }}
+                source={{ uri: anime.data.images.large }}
                 style={styles.image}
                 resizeMode="cover"
               />
@@ -44,7 +44,7 @@ export default function AnimeScreen({ id }: AnimeScreenProps) {
           <AnimeEpisodes anime={anime.data} />
         </ScrollView>
         <View style={styles.bottomNav}>
-          <Link href={`/watch/${anime.data.mal_id}`} asChild>
+          <Link href={`/watch/${anime.data.id}`} asChild>
             <Button style={styles.playButton}>
               <Text color="foreground" style={styles.watchText}>
                 Watch
@@ -57,10 +57,7 @@ export default function AnimeScreen({ id }: AnimeScreenProps) {
     );
   } else if (anime.error) {
     return (
-      <AnimeFetchError
-        message={anime.error.response?.data.message}
-        onReload={anime.refetch}
-      />
+      <AnimeFetchError message={anime.error.message} onReload={anime.refetch} />
     );
   }
 

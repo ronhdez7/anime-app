@@ -3,10 +3,11 @@ import {
   AnimeSearchParams,
   ApiPaginatedResponse,
   ApiResponse,
+  EpisodeData,
 } from "@/types";
 import jikan from "./jikan";
 import { AxiosError, AxiosRequestConfig } from "axios";
-import { MALID } from "@/types/jikan";
+import { JikanGenre, MALID } from "@/types/jikan";
 import {
   parseJikanAnime,
   parseJikanAnimeArray,
@@ -17,6 +18,10 @@ type Res<T> = Promise<ApiResponse<T>>;
 type PaginatedRes<T> = Promise<ApiPaginatedResponse<T>>;
 
 class AnimeApi {
+  fakeResponse<T>(data: T): ApiResponse<T> {
+    return jikan.fakeResponse(data).data;
+  }
+
   private getError(e: unknown): any {
     if (e instanceof AxiosError && e.response?.data) return e.response.data;
 
@@ -58,6 +63,28 @@ class AnimeApi {
     try {
       const { data } = await jikan.getAnimeSearch(options, config);
       return { ...data, data: parseJikanAnimeArray(data.data) };
+    } catch (e) {
+      throw parseJikanError(this.getError(e));
+    }
+  }
+
+  async getAnimeGenres(config?: AxiosRequestConfig): Res<JikanGenre[]> {
+    try {
+      const { data } = await jikan.getAnimeGenres(config);
+      return { data: data.data };
+    } catch (e) {
+      throw parseJikanError(this.getError(e));
+    }
+  }
+
+  async getAnimeEpisodes(
+    id: MALID,
+    options?: { page?: number },
+    config?: AxiosRequestConfig
+  ): PaginatedRes<EpisodeData> {
+    try {
+      const { data } = await jikan.getAnimeEpisodes(id, options, config);
+      return { ...data, data: data.data };
     } catch (e) {
       throw parseJikanError(this.getError(e));
     }

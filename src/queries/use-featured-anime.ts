@@ -1,18 +1,18 @@
 import animeApi from "@/lib/anime-api";
-import { jikanKeys, useJikanQuery } from "./use-jikan-query";
 import { useQueryClient } from "@tanstack/react-query";
+import { apiKeys, useApiQuery } from "./use-api-query";
 
 export default function useFeaturedAnime() {
   const queryClient = useQueryClient();
-  const query = useJikanQuery({
-    queryKey: jikanKeys.featured(),
+  const query = useApiQuery({
+    queryKey: apiKeys.featured(),
     queryFn: ({ signal }) => animeApi.getFeaturedAnime({ signal }),
   });
 
   if (query.data) {
     for (const anime of query.data) {
       queryClient.setQueryData(
-        jikanKeys.anime(anime.mal_id),
+        apiKeys.anime(anime.id),
         animeApi.fakeResponse(anime)
       );
     }

@@ -101,7 +101,7 @@ export function AnimeGridView({ query, onRefresh }: AnimeGridViewProps) {
         />
       ) : query.error ? (
         <AnimeFetchError
-          message={query.error.response?.data.message}
+          message={query.error.message}
           onReload={query.refetch}
         />
       ) : (

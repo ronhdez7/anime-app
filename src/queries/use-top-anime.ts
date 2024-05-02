@@ -1,11 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { jikanKeys, useJikanInfiniteQuery } from "./use-jikan-query";
 import animeApi from "@/lib/anime-api";
+import { apiKeys, useApiInfiniteQuery } from "./use-api-query";
 
 export default function useTopAnime() {
   const queryClient = useQueryClient();
-  const query = useJikanInfiniteQuery({
-    queryKey: jikanKeys.top(),
+  const query = useApiInfiniteQuery({
+    queryKey: apiKeys.top(),
     queryFn: ({ pageParam, signal }) =>
       animeApi.getTopAnime({ page: pageParam, sfw: true }, { signal }),
   });
@@ -14,7 +14,7 @@ export default function useTopAnime() {
     for (const page of query.data.pages) {
       for (const anime of page) {
         queryClient.setQueryData(
-          jikanKeys.anime(anime.mal_id),
+          apiKeys.anime(anime.id),
           animeApi.fakeResponse(anime)
         );
       }

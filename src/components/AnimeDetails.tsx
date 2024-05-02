@@ -1,19 +1,17 @@
 import { ScrollView, View } from "react-native";
 import React from "react";
-import { MaybeFullData } from "@/types";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "./ui/Text";
+import { AnimeData } from "@/types";
 
 interface AnimeDetailsProps {
-  anime: MaybeFullData;
+  anime: AnimeData;
 }
 
 export default function AnimeDetails({ anime }: AnimeDetailsProps) {
   const { styles } = useStyles(stylesheet);
 
-  const year = anime.year ?? anime.aired.prop.from.year;
-  const rating = anime.rating?.trim().split(" ")[0];
-  const episodeCount = anime.episodes;
+  const year = anime.dates.from.year;
 
   return (
     <View style={styles.main}>
@@ -24,13 +22,13 @@ export default function AnimeDetails({ anime }: AnimeDetailsProps) {
       </ScrollView>
       <View style={styles.quickInfo}>
         {year && <Text size="sm">{year}</Text>}
-        {rating && <Text size="sm">{rating}</Text>}
-        {episodeCount !== undefined && (
-          <Text size="sm">{episodeCount} episodes</Text>
+        {anime.rating && <Text size="sm">{anime.rating}</Text>}
+        {anime.episodeCount !== undefined && (
+          <Text size="sm">{anime.episodeCount} episodes</Text>
         )}
       </View>
       <Text size="smd" numberOfLines={4} style={styles.description}>
-        {anime.synopsis}
+        {anime.description}
       </Text>
     </View>
   );

@@ -4,7 +4,7 @@ import { useStyles } from "react-native-unistyles";
 import { ThemeConfig } from "@/styles/theme";
 
 interface Props extends ViewProps {
-  size?: keyof ThemeConfig["sizes"]["text"];
+  size?: keyof ThemeConfig["sizes"]["icon"];
   color?: keyof ThemeConfig["colors"];
 }
 

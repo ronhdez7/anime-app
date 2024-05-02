@@ -1,4 +1,4 @@
-import useAnimeGenres from "@/queries/jikan/use-anime-genres";
+import useAnimeGenres from "@/queries/use-anime-genres";
 import { useSearchGenres, useSearchActions } from "@/stores/SearchStore";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { View } from "react-native";

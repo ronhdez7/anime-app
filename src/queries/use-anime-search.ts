@@ -1,12 +1,12 @@
 import animeApi from "@/lib/anime-api";
-import { jikanKeys, useJikanInfiniteQuery } from "./use-jikan-query";
 import { AnimeSearchParams } from "@/types";
 import { keepPreviousData, useQueryClient } from "@tanstack/react-query";
+import { apiKeys, useApiInfiniteQuery } from "./use-api-query";
 
 export default function useAnimeSearch(params?: AnimeSearchParams) {
   const queryClient = useQueryClient();
-  const query = useJikanInfiniteQuery({
-    queryKey: jikanKeys.search(params),
+  const query = useApiInfiniteQuery({
+    queryKey: apiKeys.search(params),
     queryFn: ({ queryKey, pageParam, signal }) =>
       animeApi.getAnimeSearch(
         {
@@ -23,7 +23,7 @@ export default function useAnimeSearch(params?: AnimeSearchParams) {
     for (const page of query.data.pages) {
       for (const anime of page) {
         queryClient.setQueryData(
-          jikanKeys.anime(anime.mal_id),
+          apiKeys.anime(anime.id),
           animeApi.fakeResponse(anime)
         );
       }

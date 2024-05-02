@@ -58,7 +58,7 @@ export function AnimeListView({ title, query }: AnimeListViewProps) {
           />
         ) : query.error ? (
           <AnimeFetchError
-            message={query.error.response?.data.message}
+            message={query.error.message}
             onReload={query.refetch}
             foreground
           />

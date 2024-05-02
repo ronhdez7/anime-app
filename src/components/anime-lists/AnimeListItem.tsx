@@ -13,11 +13,11 @@ export function AnimeListItem({ anime, disabled = false }: AnimeListItemProps) {
   const { styles } = useStyles(stylesheet);
 
   return (
-    <Link href={`/anime/${anime.mal_id}`} disabled={disabled} asChild>
+    <Link href={`/anime/${anime.id}`} disabled={disabled} asChild>
       <TouchableOpacity style={styles.main} activeOpacity={0.75}>
         <ImageBackground
           style={styles.image}
-          source={{ uri: anime.images.webp.image_url }}
+          source={{ uri: anime.images.regular }}
           resizeMode="cover"
         >
           <View style={styles.titleContainer}>
@@ -27,7 +27,7 @@ export function AnimeListItem({ anime, disabled = false }: AnimeListItemProps) {
               numberOfLines={3}
               style={styles.title}
             >
-              {anime.title_english ?? anime.title_japanese}
+              {anime.title}
             </Text>
           </View>
         </ImageBackground>

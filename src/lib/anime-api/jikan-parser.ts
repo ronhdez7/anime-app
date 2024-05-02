@@ -15,7 +15,7 @@ export function parseJikanAnime(anime: JikanAnimeData): AnimeData {
       regular: anime.images.webp.image_url,
       large: anime.images.webp.large_image_url,
     },
-    episodeCount: anime.episodes,
+    episodeCount: anime.episodes ?? 0,
     rating: anime.rating?.trim().split(" ")[0],
     status: anime.status,
     trailer: {
@@ -24,7 +24,10 @@ export function parseJikanAnime(anime: JikanAnimeData): AnimeData {
     },
     type: anime.type,
     dates: {
-      from: anime.aired.prop.from,
+      from: {
+        ...anime.aired.prop.from,
+        year: anime.aired.prop.from.year ?? anime.year,
+      },
       to: anime.aired.prop.to,
     },
   };
