@@ -21,11 +21,13 @@ export default function GenresSelection() {
 
       {data ? (
         <FiltersList
-          data={data.map((i) => ({
-            name: i.name,
-            value: i.mal_id,
-            key: i.name,
-          }))}
+          data={data
+            .filter((i) => i.type === "GENRE")
+            .map((i) => ({
+              name: i.name,
+              value: i.id,
+              key: i.name,
+            }))}
           isSelected={(item) => genres.includes(item.value)}
           onPress={(item, selected) =>
             selected ? removeGenre(item.value) : addGenre(item.value)

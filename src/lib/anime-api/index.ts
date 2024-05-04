@@ -1,5 +1,6 @@
 import {
   AnimeData,
+  AnimeGenre,
   AnimeSearchParams,
   ApiPaginatedResponse,
   ApiResponse,
@@ -7,12 +8,13 @@ import {
 } from "@/types";
 import jikan from "./jikan";
 import { AxiosError, AxiosRequestConfig } from "axios";
-import { JikanGenre, MALID } from "@/types/jikan";
+import { MALID } from "@/types/jikan";
 import {
   parseJikanAnime,
   parseJikanAnimeArray,
   parseJikanEpisodeArray,
   parseJikanError,
+  parseJikanGenreArray,
 } from "./jikan-parser";
 
 type Res<T> = Promise<ApiResponse<T>>;
@@ -69,10 +71,10 @@ class AnimeApi {
     }
   }
 
-  async getAnimeGenres(config?: AxiosRequestConfig): Res<JikanGenre[]> {
+  async getAnimeGenres(config?: AxiosRequestConfig): Res<AnimeGenre[]> {
     try {
       const { data } = await jikan.getAnimeGenres(config);
-      return { data: data.data };
+      return { data: parseJikanGenreArray(data.data) };
     } catch (e) {
       throw parseJikanError(this.getError(e));
     }

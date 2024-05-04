@@ -1,5 +1,16 @@
-import { AnimeData, ApiError, EpisodeData } from "@/types";
-import { JikanAnimeData, JikanEpisodeData, JikanError } from "@/types/jikan";
+import {
+  AnimeData,
+  AnimeGenre,
+  AnimeGenreType,
+  ApiError,
+  EpisodeData,
+} from "@/types";
+import {
+  JikanAnimeData,
+  JikanEpisodeData,
+  JikanError,
+  JikanGenre,
+} from "@/types/jikan";
 
 export function parseJikanError(error: JikanError): ApiError {
   return error;
@@ -61,4 +72,42 @@ export function parseJikanEpisode(
 
 export function parseJikanEpisodeArray(episodes: JikanEpisodeData[]) {
   return episodes.map((episode) => parseJikanEpisode(episode));
+}
+
+export function parseJikanGenre(
+  genre: JikanGenre,
+  type: AnimeGenreType
+): AnimeGenre {
+  return {
+    id: genre.mal_id,
+    name: genre.name,
+    total: genre.count,
+    type,
+  };
+}
+
+const genreIds = {
+  genres: [1, 2, 5, 46, 28, 4, 8, 10, 26, 47, 14, 7, 22, 24, 36, 30, 37, 41],
+  explicit: [9, 49, 12],
+  themes: [
+    50, 51, 52, 53, 54, 81, 55, 39, 56, 57, 58, 35, 59, 13, 60, 61, 62, 63, 64,
+    65, 66, 17, 18, 67, 38, 19, 6, 68, 69, 20, 70, 71, 40, 3, 72, 73, 74, 21,
+    23, 75, 29, 11, 31, 76, 77, 78, 32, 79, 80, 48,
+  ],
+  demographics: [43, 15, 42, 25, 27],
+};
+export function parseJikanGenreArray(genres: JikanGenre[]): AnimeGenre[] {
+  return genres
+    .map((genre) => {
+      if (genreIds.explicit.includes(Number(genre.mal_id))) {
+        return parseJikanGenre(genre, "EXPLICIT");
+      } else if (genreIds.themes.includes(Number(genre.mal_id))) {
+        return parseJikanGenre(genre, "THEME");
+      } else if (genreIds.demographics.includes(Number(genre.mal_id))) {
+        return parseJikanGenre(genre, "DEMOGRAPHIC");
+      }
+
+      return parseJikanGenre(genre, "GENRE");
+    })
+    .filter(Boolean) as any;
 }

@@ -64,7 +64,7 @@ class Jikan {
   }
 
   getAnimeGenres(config?: AxiosRequestConfig): Res<JikanGenre[]> {
-    return this.axios.get("/genres/anime?filter=genres", config);
+    return this.axios.get("/genres/anime", config);
   }
 
   getAnimeEpisodes(
