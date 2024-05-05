@@ -70,7 +70,10 @@ export function parseJikanEpisode(
   };
 }
 
-export function parseJikanEpisodeArray(episodes: JikanEpisodeData[]) {
+export function parseJikanEpisodeArray(
+  episodes: JikanEpisodeData[],
+  animeId?: number
+) {
   return episodes.map((episode) => parseJikanEpisode(episode));
 }
 

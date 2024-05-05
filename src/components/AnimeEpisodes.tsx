@@ -49,7 +49,7 @@ const stylesheet = createStyleSheet((theme) => ({
   main: {
     paddingHorizontal: theme.spacing.sm,
     paddingVertical: theme.spacing.xs,
-    rowGap: theme.spacing.sm,
+    rowGap: theme.spacing.xs,
   },
   episodes: {
     rowGap: theme.spacing.sm,
