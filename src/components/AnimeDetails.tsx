@@ -3,6 +3,7 @@ import React from "react";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "./ui/Text";
 import { AnimeData } from "@/types";
+import { useFindAnime } from "@/queries/use-find-anime";
 
 interface AnimeDetailsProps {
   anime: AnimeData;
@@ -10,6 +11,11 @@ interface AnimeDetailsProps {
 
 export default function AnimeDetails({ anime }: AnimeDetailsProps) {
   const { styles } = useStyles(stylesheet);
+
+  useFindAnime({
+    title: anime.titles.jp,
+    title_en: anime.titles.en,
+  });
 
   const year = anime.dates.from.year;
 

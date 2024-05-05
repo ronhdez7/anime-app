@@ -21,6 +21,10 @@ export function parseJikanAnime(anime: JikanAnimeData): AnimeData {
     id: anime.mal_id,
     description: anime.synopsis,
     title: anime.title ?? anime.title_english ?? anime.title_japanese,
+    titles: {
+      en: anime.title_english,
+      jp: anime.title_japanese,
+    },
     images: {
       small: anime.images.webp.small_image_url,
       regular: anime.images.webp.image_url,
@@ -74,7 +78,7 @@ export function parseJikanEpisodeArray(
   episodes: JikanEpisodeData[],
   animeId?: number
 ) {
-  return episodes.map((episode) => parseJikanEpisode(episode));
+  return episodes.map((episode) => parseJikanEpisode(episode, animeId));
 }
 
 export function parseJikanGenre(

@@ -1,6 +1,10 @@
 export interface AnimeData {
   id: number;
   title?: string;
+  titles: {
+    en?: string;
+    jp?: string;
+  };
   images: {
     small: string;
     regular: string;

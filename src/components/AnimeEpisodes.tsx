@@ -8,6 +8,7 @@ import List from "./ui/List";
 import AnimeFetchError from "./AnimeFetchError";
 import LoadingView from "./ui/LoadingView";
 import AnimeEpisode from "./AnimeEpisode";
+import { useFindAnime } from "@/queries/use-find-anime";
 
 interface Props {
   anime: AnimeData;
@@ -17,6 +18,11 @@ export default function AnimeEpisodes({ anime }: Props) {
   const { styles } = useStyles(stylesheet);
 
   const episodes = useAnimeEpisodes(anime.id);
+
+  const animeStream = useFindAnime({
+    title: anime.titles.jp,
+    title_en: anime.titles.en,
+  });
 
   return (
     <View style={styles.main}>
