@@ -38,6 +38,11 @@ class StreamingApi {
     const { data } = await this.provider.findAnime(params, config);
     return convertResponse(data);
   }
+
+  async getEpisodes(animeUrl: string, config: AxiosRequestConfig) {
+    const { data } = await this.provider.getEpisodes(animeUrl, config);
+    return convertResponse(data);
+  }
 }
 
 export const streamingApi = new StreamingApi();

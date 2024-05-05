@@ -3,6 +3,7 @@ import {
   StreamApiResponse,
   AnimeResult,
   StreamFindAnimeParams,
+  EpisodeResult,
 } from "@/types/stream";
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
@@ -28,5 +29,12 @@ export class NineAnimeProvider {
   ): Res<AnimeResult | null> {
     const params = new URLSearchParams(by as any).toString();
     return this.axios.get(`${this.BASE_PATH}/find?${params}`, config);
+  }
+
+  getEpisodes(
+    animeUrl: string,
+    config?: AxiosRequestConfig
+  ): Res<EpisodeResult[]> {
+    return this.axios.get(`${this.BASE_PATH}/episodes?url=${animeUrl}`, config);
   }
 }
