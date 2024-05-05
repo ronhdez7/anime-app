@@ -1,6 +1,18 @@
-import { ObjectValues } from "@/types";
+import { ApiResponse, ObjectValues } from "@/types";
 import { NineAnimeProvider } from "./9anime";
 import ogAxios, { AxiosRequestConfig } from "axios";
+import {
+  AnimeResult,
+  StreamApiResponse,
+  StreamFindAnimeParams,
+} from "@/types/stream";
+
+type Res<T> = Promise<ApiResponse<T>>;
+
+function convertResponse<T>(data: StreamApiResponse<T>) {
+  if (data.success) return { data: data.data };
+  else throw data.error;
+}
 
 class StreamingApi {
   private axios = ogAxios.create({
@@ -17,8 +29,14 @@ class StreamingApi {
     this.provider = this.providers[name];
   }
 
-  getAnime(config?: AxiosRequestConfig) {
-    return this.provider.getAnime(config);
+  async getAnime(config?: AxiosRequestConfig): Res<AnimeResult[]> {
+    const { data } = await this.provider.getAnime(config);
+    return convertResponse(data);
+  }
+
+  async findAnime(params: StreamFindAnimeParams, config?: AxiosRequestConfig) {
+    const { data } = await this.provider.findAnime(params, config);
+    return convertResponse(data);
   }
 }
 
