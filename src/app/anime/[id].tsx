@@ -4,6 +4,7 @@ import AnimeScreen from "@/components/AnimeScreen";
 import { View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "@/components/ui/Text";
+import AnimePageHeader from "@/components/AnimePageHeader";
 
 type Params = {
   id: string;
@@ -22,7 +23,12 @@ export default function AnimePage() {
     );
   }
 
-  return <AnimeScreen id={id} />;
+  return (
+    <View style={styles.page}>
+      <AnimePageHeader id={id} />
+      <AnimeScreen id={id} />
+    </View>
+  );
 }
 
 const stylesheet = createStyleSheet(() => ({
@@ -31,4 +37,5 @@ const stylesheet = createStyleSheet(() => ({
     alignItems: "center",
     justifyContent: "center",
   },
+  page: { flex: 1 },
 }));

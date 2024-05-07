@@ -22,7 +22,7 @@ export default function AnimeDetails({ anime }: AnimeDetailsProps) {
   return (
     <View style={styles.main}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <Text weight="bold" size="lg">
+        <Text weight="bold" size="xl">
           {anime.title}
         </Text>
       </ScrollView>

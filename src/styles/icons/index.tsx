@@ -2,6 +2,7 @@ import {
   HomeIcon as FilledHomeIcon,
   UserIcon as FilledUserIcon,
   PlusIcon,
+  EllipsisVerticalIcon,
 } from "react-native-heroicons/solid";
 import {
   HomeIcon as OutlineHomeIcon,
@@ -34,6 +35,7 @@ const icons = {
   "arrow-up": ArrowUpIcon,
   "arrow-down": ArrowDownIcon,
   "arrow-left": ArrowLeftIcon,
+  "vertical-dots": EllipsisVerticalIcon,
 } satisfies IconRegister;
 
 export interface IconControllerProps extends IconProps {

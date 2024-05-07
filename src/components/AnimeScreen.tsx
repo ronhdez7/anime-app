@@ -44,7 +44,7 @@ export default function AnimeScreen({ id }: AnimeScreenProps) {
           <AnimeEpisodes anime={anime.data} />
         </ScrollView>
         <View style={styles.bottomNav}>
-          <Link href={`/watch/${anime.data.id}`} asChild>
+          <Link href={`/watch/${anime.data.id}/1`} asChild>
             <Button style={styles.playButton}>
               <Text color="foreground" style={styles.watchText}>
                 Watch
