@@ -9,14 +9,14 @@ import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
 type Res<T> = Promise<AxiosResponse<StreamApiResponse<T>, StreamError>>;
 
-export class NineAnimeProvider {
-  public PROVIDER_NAME = "9ANIME";
-  public BASE_PATH = "/9anime";
+export class StreamProvider {
+  public BASE_PATH: string;
 
-  private readonly axios: AxiosInstance;
+  public readonly axios: AxiosInstance;
 
-  constructor(axios: AxiosInstance) {
+  constructor(axios: AxiosInstance, path: string) {
     this.axios = axios;
+    this.BASE_PATH = path;
   }
 
   getAnime(config?: AxiosRequestConfig): Res<AnimeResult[]> {
