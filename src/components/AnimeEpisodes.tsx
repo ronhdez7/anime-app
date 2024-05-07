@@ -23,7 +23,7 @@ export default function AnimeEpisodes({ anime }: Props) {
     title: anime.titles.jp,
     title_en: anime.titles.en,
   });
-  const episodesStream = useAnimeEpisodes(animeStream.data?.url);
+  useAnimeEpisodes(animeStream.data?.url);
 
   return (
     <View style={styles.main}>

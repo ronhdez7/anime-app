@@ -18,12 +18,16 @@ export default function AnimePageHeader({ id }: AnimeHeaderProps) {
   const name = anime.data?.title;
 
   return (
-    <View style={styles.header}>
+    <View>
       <View style={styles.content}>
         {/* Left */}
         <View style={styles.left}>
           <BackArrow />
-          {name && <Text size="lg">{name}</Text>}
+          {name && (
+            <Text style={styles.title} size="lg" numberOfLines={1}>
+              {name}
+            </Text>
+          )}
         </View>
         <View>
           <IconButton name="vertical-dots" />
@@ -34,7 +38,6 @@ export default function AnimePageHeader({ id }: AnimeHeaderProps) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  header: {},
   content: {
     flexDirection: "row",
     alignItems: "center",
@@ -47,5 +50,7 @@ const stylesheet = createStyleSheet((theme) => ({
     flexDirection: "row",
     alignItems: "center",
     columnGap: theme.spacing.sm,
+    flex: 1,
   },
+  title: { flex: 1 },
 }));
