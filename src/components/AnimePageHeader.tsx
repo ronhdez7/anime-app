@@ -6,6 +6,7 @@ import Text from "./ui/Text";
 import { MALID } from "@/types/jikan";
 import { useAnime } from "@/queries/use-anime";
 import IconButton from "./ui/IconButton";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface AnimeHeaderProps {
   id?: MALID;
@@ -13,12 +14,19 @@ interface AnimeHeaderProps {
 
 export default function AnimePageHeader({ id }: AnimeHeaderProps) {
   const { styles } = useStyles(stylesheet);
+  const insets = useSafeAreaInsets();
   const anime = useAnime(id);
 
   const name = anime.data?.title;
 
   return (
-    <View>
+    <View
+      style={{
+        paddingTop: insets.top,
+        paddingLeft: insets.left,
+        paddingRight: insets.right,
+      }}
+    >
       <View style={styles.content}>
         {/* Left */}
         <View style={styles.left}>

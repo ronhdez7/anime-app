@@ -1,7 +1,6 @@
 import "@/styles/theme";
 import React, { useEffect } from "react";
 import { Stack } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
 import * as SplashScreen from "expo-splash-screen";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/query-client";
@@ -9,6 +8,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useFonts } from "expo-font";
 import { Keyboard } from "react-native";
 import { useStyles } from "react-native-unistyles";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -29,7 +29,7 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <SafeAreaView
+        <SafeAreaProvider
           style={{ flex: 1, backgroundColor: theme.colors.background }}
           onTouchStart={Keyboard.dismiss}
         >
@@ -45,7 +45,7 @@ export default function RootLayout() {
               statusBarAnimation: "slide",
             }}
           />
-        </SafeAreaView>
+        </SafeAreaProvider>
       </GestureHandlerRootView>
     </QueryClientProvider>
   );

@@ -7,58 +7,61 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function AppLayout() {
   const { theme } = useStyles();
 
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: { backgroundColor: theme.colors.neutral },
-        tabBarInactiveTintColor: theme.colors.inactive,
-        tabBarActiveTintColor: theme.colors.primary,
-        tabBarLabel: TabBarLabel,
-      }}
-      sceneContainerStyle={{
-        backgroundColor: "transparent",
-      }}
-      initialRouteName="index"
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ color, focused }) => (
-            <Icon
-              name={focused ? "home-filled" : "home-outline"}
-              color={color}
-            />
-          ),
+    <SafeAreaView style={{ flex: 1 }}>
+      <Tabs
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle: { backgroundColor: theme.colors.neutral },
+          tabBarInactiveTintColor: theme.colors.inactive,
+          tabBarActiveTintColor: theme.colors.primary,
+          tabBarLabel: TabBarLabel,
         }}
-      />
+        sceneContainerStyle={{
+          backgroundColor: "transparent",
+        }}
+        initialRouteName="index"
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "Home",
+            tabBarIcon: ({ color, focused }) => (
+              <Icon
+                name={focused ? "home-filled" : "home-outline"}
+                color={color}
+              />
+            ),
+          }}
+        />
 
-      <Tabs.Screen
-        name="search"
-        options={{
-          title: "Search",
-          tabBarIcon: ({ color }) => <Icon name="search" color={color} />,
-        }}
-      />
+        <Tabs.Screen
+          name="search"
+          options={{
+            title: "Search",
+            tabBarIcon: ({ color }) => <Icon name="search" color={color} />,
+          }}
+        />
 
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Profile",
-          tabBarIcon: ({ color, focused }) => (
-            <Icon
-              name={focused ? "user-filled" : "user-outline"}
-              color={color}
-            />
-          ),
-        }}
-      />
-    </Tabs>
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: "Profile",
+            tabBarIcon: ({ color, focused }) => (
+              <Icon
+                name={focused ? "user-filled" : "user-outline"}
+                color={color}
+              />
+            ),
+          }}
+        />
+      </Tabs>
+    </SafeAreaView>
   );
 }
 
