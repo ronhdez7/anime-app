@@ -8,7 +8,7 @@ import { AnimeData, AnimeDataQueryResult } from "@/types";
 import List, { ListProps } from "@/components/ui/List";
 import AnimeFetchError from "../AnimeFetchError";
 
-const COLS = 3;
+const COLS = 2;
 
 export interface AnimeGridProps extends Partial<ListProps<AnimeData>> {
   data: AnimeData[];
@@ -82,16 +82,6 @@ export function AnimeGridView({ query, onRefresh }: AnimeGridViewProps) {
         <AnimeGrid
           data={getInfiniteData(query.data)}
           onEndReached={handleEndReached}
-          // onScrollEndDrag={(e) => {
-          //   if (
-          //     e.nativeEvent.contentOffset.y +
-          //       e.nativeEvent.layoutMeasurement.height +
-          //       e.nativeEvent.layoutMeasurement.height / 3 >
-          //     e.nativeEvent.contentSize.height
-          //   ) {
-          //     handleEndReached();
-          //   }
-          // }}
           ListFooterComponent={() =>
             (query as any).isFetchingNextPage && (
               <LoadingView color="foreground" />

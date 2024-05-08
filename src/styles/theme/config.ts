@@ -41,9 +41,6 @@ const spacing = {
   md: 12,
   lg: 16,
   xl: 20,
-  "2xl": 24,
-  "3xl": 28,
-  "4xl": 32,
 } as const;
 
 const radius = {
@@ -68,6 +65,9 @@ const themeConstants = {
   fonts,
   spacing,
   radius,
+  config: {
+    imageAspectRatio: 17 / 24,
+  },
 } as const;
 
 export const lightTheme = {
@@ -76,3 +76,11 @@ export const lightTheme = {
 } as const;
 
 export type ThemeConfig = typeof themeConstants & { colors: ThemeColorsConfig };
+
+export const breakpoints = {
+  xs: 0,
+  sm: 576,
+  md: 768,
+  lg: 992,
+  xl: 1200,
+} as const;

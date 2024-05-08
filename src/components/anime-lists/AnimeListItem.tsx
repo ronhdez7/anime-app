@@ -22,7 +22,7 @@ export function AnimeListItem({ anime, disabled = false }: AnimeListItemProps) {
         >
           <View style={styles.titleContainer}>
             <Text
-              size="xs"
+              size="smd"
               color="foreground"
               numberOfLines={3}
               style={styles.title}
@@ -38,7 +38,7 @@ export function AnimeListItem({ anime, disabled = false }: AnimeListItemProps) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: {
-    aspectRatio: 17 / 24,
+    aspectRatio: theme.config.imageAspectRatio,
     borderRadius: theme.radius.md,
     flex: 1,
     overflow: "hidden",

@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import { Icon } from "@/styles/icons";
-import { useStyles } from "react-native-unistyles";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "@/components/ui/Text";
 import Animated, {
   useAnimatedStyle,
@@ -21,6 +21,7 @@ export default function AppLayout() {
           tabBarInactiveTintColor: theme.colors.inactive,
           tabBarActiveTintColor: theme.colors.primary,
           tabBarLabel: TabBarLabel,
+          tabBarItemStyle: { columnGap: theme.spacing.lg },
         }}
         sceneContainerStyle={{
           backgroundColor: "transparent",
@@ -70,6 +71,7 @@ function TabBarLabel(props: {
   color: string;
   children: string;
 }) {
+  const { styles } = useStyles(stylesheet);
   const height = useSharedValue(0);
 
   if (props.focused) {
@@ -78,15 +80,24 @@ function TabBarLabel(props: {
     height.value = withTiming(0);
   }
 
-  const styles = useAnimatedStyle(() => ({
+  const animatedStyle = useAnimatedStyle(() => ({
     height: height.value,
   }));
 
   return (
-    <Animated.View style={styles}>
-      <Text size="xs" style={{ color: props.color }}>
+    <Animated.View style={[animatedStyle]}>
+      <Text style={[styles.tabLabel, { color: props.color }]}>
         {props.children}
       </Text>
     </Animated.View>
   );
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  tabLabel: {
+    fontSize: {
+      xs: theme.sizes.text.xs,
+      sm: theme.sizes.text.sm,
+    },
+  },
+}));

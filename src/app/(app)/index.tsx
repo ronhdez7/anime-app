@@ -9,9 +9,7 @@ export default function HomePage() {
 
   return (
     <ScrollView>
-      <View style={styles.featuredContainer}>
-        <Featured />
-      </View>
+      <Featured />
       <View style={styles.main}>
         <TopAnimeList />
         <ActionAnimeList />
@@ -21,6 +19,6 @@ export default function HomePage() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: { padding: theme.spacing.xs, rowGap: theme.spacing.lg },
-  featuredContainer: { aspectRatio: 17 / 24 },
+  main: { padding: theme.spacing.sm, rowGap: theme.spacing.lg },
+  // featuredContainer: { aspectRatio: theme.config.imageAspectRatio },
 }));

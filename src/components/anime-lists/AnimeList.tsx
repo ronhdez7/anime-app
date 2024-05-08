@@ -33,7 +33,7 @@ export function AnimeListView({ title, query }: AnimeListViewProps) {
 
   return (
     <View style={styles.listView}>
-      <Text style={styles.listHeader} weight="bold">
+      <Text style={styles.listHeader} size="lg" weight="bold">
         {title}
       </Text>
 
@@ -94,7 +94,7 @@ const stylesheet = createStyleSheet((theme) => ({
   listView: { rowGap: theme.spacing.xs },
   listHeader: { paddingLeft: theme.spacing.sm },
   listWrapper: {
-    height: 180,
+    height: 250,
     borderRadius: theme.radius.md,
     backgroundColor: theme.colors.secondary,
     overflow: "hidden",

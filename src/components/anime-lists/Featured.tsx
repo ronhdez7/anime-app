@@ -3,7 +3,7 @@ import {
   ImageBackground,
   Dimensions,
   Pressable,
-  StyleSheet,
+  LayoutRectangle,
 } from "react-native";
 import { AnimeData } from "@/types";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
@@ -48,44 +48,51 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
   const { styles } = useStyles(stylesheet);
   const [currentIdx, setCurrentIdx] = useState(0);
   const carouselRef = useRef<ICarouselInstance>(null);
+  const [layout, setLayout] = useState<LayoutRectangle>();
+
+  console.log(layout);
 
   return (
-    <View>
-      <Carousel
-        ref={carouselRef}
-        loop
-        autoPlay
-        autoPlayInterval={5000}
-        width={Dimensions.get("window").width}
-        data={[...items]}
-        renderItem={({ item }) => <FeaturedItem item={item} />}
-        mode="parallax"
-        modeConfig={{
-          parallaxScrollingScale: 0.9,
-          parallaxScrollingOffset: 50,
-          parallaxAdjacentItemScale: 0.75,
-        }}
-        onSnapToItem={setCurrentIdx}
-        onScrollBegin={() =>
-          setCurrentIdx((v) => carouselRef.current?.getCurrentIndex() ?? v)
-        }
-        panGestureHandlerProps={{
-          activeOffsetX: [-10, 10],
-        }}
-      />
-
-      <View style={styles.cardBottom}>
-        <Text size="sm" numberOfLines={1} style={styles.cardTitle}>
-          {items[currentIdx]?.title}
-        </Text>
-
-        <IconButton
-          name="plus"
-          size={"sm"}
-          color={"foreground"}
-          style={styles.addButton}
-          activeOpacity={0.75}
+    <View onLayout={(e) => setLayout(e.nativeEvent.layout)}>
+      <View style={{ aspectRatio: 17 / 24 }}>
+        <Carousel
+          ref={carouselRef}
+          loop
+          autoPlay
+          autoPlayInterval={5000}
+          width={Dimensions.get("window").width}
+          data={[...items]}
+          renderItem={({ item }) => <FeaturedItem item={item} />}
+          mode="parallax"
+          modeConfig={{
+            parallaxScrollingScale: 1,
+            parallaxScrollingOffset: 50,
+            parallaxAdjacentItemScale: 0.75,
+          }}
+          onSnapToItem={setCurrentIdx}
+          onScrollBegin={() =>
+            setCurrentIdx((v) => carouselRef.current?.getCurrentIndex() ?? v)
+          }
+          panGestureHandlerProps={{
+            activeOffsetX: [-10, 10],
+          }}
         />
+      </View>
+
+      <View style={{ height: 23 }}>
+        <View style={styles.cardBottom}>
+          <Text size="smd" numberOfLines={1} style={styles.cardTitle}>
+            {items[currentIdx]?.title}
+          </Text>
+
+          <IconButton
+            name="plus"
+            size={"sm"}
+            color={"foreground"}
+            style={styles.addButton}
+            activeOpacity={0.75}
+          />
+        </View>
       </View>
     </View>
   );
@@ -114,12 +121,11 @@ function FeaturedItem({ item }: FeaturedItemProps) {
 
 const stylesheet = createStyleSheet((theme) => ({
   errorContainer: {
-    height: "100%",
+    aspectRatio: 17 / 24,
     alignItems: "center",
     justifyContent: "center",
   },
   errorCard: {
-    transform: [{ scale: 0.9 }],
     height: "100%",
     width: "100%",
     borderRadius: theme.radius.md,
@@ -139,8 +145,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   cardTitle: {
     flex: 1,
-    paddingLeft: theme.spacing.xs,
-    paddingVertical: theme.spacing.xs,
+    paddingLeft: theme.spacing.sm,
   },
   addButton: {
     elevation: 10,
@@ -150,7 +155,6 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   featuredItem: {
     height: "100%",
-    borderRadius: theme.radius.md,
     overflow: "hidden",
     shadowColor: theme.colors.shadow,
     shadowOffset: { width: 10, height: 10 },
