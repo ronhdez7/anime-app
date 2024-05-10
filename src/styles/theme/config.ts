@@ -15,6 +15,7 @@ export interface ThemeColorsConfig {
   foreground: ThemeColor;
   overlay: ThemeColor;
   shadow: ThemeColor;
+  skeleton: ThemeColor[];
 }
 
 const sizes = {

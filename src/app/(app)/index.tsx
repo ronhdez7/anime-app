@@ -8,7 +8,7 @@ export default function HomePage() {
   const { styles } = useStyles(stylesheet);
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={{ rowGap: 20 }}>
       <Featured />
       <View style={styles.main}>
         <TopAnimeList />
@@ -20,5 +20,4 @@ export default function HomePage() {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: { padding: theme.spacing.sm, rowGap: theme.spacing.lg },
-  // featuredContainer: { aspectRatio: theme.config.imageAspectRatio },
 }));

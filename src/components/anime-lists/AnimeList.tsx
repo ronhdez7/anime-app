@@ -38,7 +38,7 @@ export function AnimeListView({ title, query }: AnimeListViewProps) {
       </Text>
 
       <View style={styles.listWrapper}>
-        {query.data ? (
+        {query.data || query.isLoading ? (
           <AnimeList
             data={getInfiniteData(query.data)}
             onEndReached={() => {
@@ -56,14 +56,12 @@ export function AnimeListView({ title, query }: AnimeListViewProps) {
               )
             }
           />
-        ) : query.error ? (
+        ) : (
           <AnimeFetchError
-            message={query.error.message}
+            message={query.error?.message}
             onReload={query.refetch}
             foreground
           />
-        ) : (
-          <LoadingView color="foreground" />
         )}
       </View>
     </View>
@@ -74,13 +72,14 @@ export function getInfiniteData(
   data?: AnimeData[] | { pages: AnimeData[][] }
 ): AnimeData[] {
   return (
-    (Array.isArray(data) ? data : data?.pages.flatMap((page) => page)) ?? []
+    (Array.isArray(data) ? data : data?.pages.flatMap((page) => page)) ??
+    Array(5)
   );
 }
 
 export function NoAnimeFound() {
   return (
-    <View style={{ alignItems: "center" }}>
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text>No anime found</Text>
     </View>
   );

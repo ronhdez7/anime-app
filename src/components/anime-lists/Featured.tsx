@@ -1,85 +1,70 @@
-import {
-  View,
-  ImageBackground,
-  Dimensions,
-  Pressable,
-  LayoutRectangle,
-} from "react-native";
+import { View, ImageBackground, Dimensions, Pressable } from "react-native";
 import { AnimeData } from "@/types";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "../ui/Text";
 import { useRef, useState } from "react";
-import LoadingView from "../ui/LoadingView";
 import useFeaturedAnime from "@/queries/use-featured-anime";
 import IconButton from "../ui/IconButton";
 import AnimeFetchError from "../AnimeFetchError";
 import { Link } from "expo-router";
+import SkeletonLoader from "../ui/SkeletonLoader";
 
 export default function Featured() {
   const { styles } = useStyles(stylesheet);
-  const { data, error, refetch } = useFeaturedAnime();
+  const { data, error, refetch, isLoading } = useFeaturedAnime();
 
-  if (data) {
-    return <FeaturedSlider items={data} />;
-  }
-
-  if (error) {
-    return (
-      <View style={styles.errorContainer}>
-        <View style={styles.errorCard}>
-          <AnimeFetchError
-            message={error.message}
-            onReload={refetch}
-            foreground
-          />
-        </View>
-      </View>
-    );
-  }
-
-  return <LoadingView />;
+  return (
+    <View style={styles.featuredContainer}>
+      {data || isLoading ? (
+        <FeaturedSlider items={data} />
+      ) : (
+        <AnimeFetchError message={(error as any)?.message} onReload={refetch} />
+      )}
+    </View>
+  );
 }
 
 interface FeaturedSliderProps {
-  items: AnimeData[];
+  items?: AnimeData[];
 }
 function FeaturedSlider({ items }: FeaturedSliderProps) {
   const { styles } = useStyles(stylesheet);
   const [currentIdx, setCurrentIdx] = useState(0);
-  const carouselRef = useRef<ICarouselInstance>(null);
-  const [layout, setLayout] = useState<LayoutRectangle>();
+  const [width, setWidth] = useState(Dimensions.get("window").width);
 
-  console.log(layout);
+  const carouselRef = useRef<ICarouselInstance>(null);
+  const loading = !items;
 
   return (
-    <View onLayout={(e) => setLayout(e.nativeEvent.layout)}>
-      <View style={{ aspectRatio: 17 / 24 }}>
-        <Carousel
-          ref={carouselRef}
-          loop
-          autoPlay
-          autoPlayInterval={5000}
-          width={Dimensions.get("window").width}
-          data={[...items]}
-          renderItem={({ item }) => <FeaturedItem item={item} />}
-          mode="parallax"
-          modeConfig={{
-            parallaxScrollingScale: 1,
-            parallaxScrollingOffset: 50,
-            parallaxAdjacentItemScale: 0.75,
-          }}
-          onSnapToItem={setCurrentIdx}
-          onScrollBegin={() =>
-            setCurrentIdx((v) => carouselRef.current?.getCurrentIndex() ?? v)
-          }
-          panGestureHandlerProps={{
-            activeOffsetX: [-10, 10],
-          }}
-        />
+    <View onLayout={(e) => setWidth(e.nativeEvent.layout.width)}>
+      <View style={styles.carouselContainer}>
+        <SkeletonLoader show={loading}>
+          <Carousel
+            ref={carouselRef}
+            autoPlay
+            autoPlayInterval={5000}
+            width={width}
+            data={!loading ? [...items] : []}
+            renderItem={({ item }) => <FeaturedItem item={item} />}
+            mode="parallax"
+            modeConfig={{
+              parallaxScrollingScale: 1,
+              parallaxScrollingOffset: 50,
+              parallaxAdjacentItemScale: 0.75,
+            }}
+            onSnapToItem={setCurrentIdx}
+            onProgressChange={() =>
+              setCurrentIdx((v) => carouselRef.current?.getCurrentIndex() ?? v)
+            }
+            panGestureHandlerProps={{
+              activeOffsetX: [-10, 10],
+            }}
+          />
+        </SkeletonLoader>
       </View>
 
-      <View style={{ height: 23 }}>
+      {!loading ? (
         <View style={styles.cardBottom}>
           <Text size="smd" numberOfLines={1} style={styles.cardTitle}>
             {items[currentIdx]?.title}
@@ -93,7 +78,7 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
             activeOpacity={0.75}
           />
         </View>
-      </View>
+      ) : null}
     </View>
   );
 }
@@ -108,9 +93,7 @@ function FeaturedItem({ item }: FeaturedItemProps) {
     <Link href={`/anime/${item.id}`} asChild>
       <Pressable style={styles.featuredItem}>
         <ImageBackground
-          source={{
-            uri: item?.images.large,
-          }}
+          source={{ uri: item?.images.large }}
           resizeMode="cover"
           style={{ height: "100%" }}
         />
@@ -120,23 +103,16 @@ function FeaturedItem({ item }: FeaturedItemProps) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  errorContainer: {
-    aspectRatio: 17 / 24,
-    alignItems: "center",
-    justifyContent: "center",
+  featuredContainer: {
+    aspectRatio: theme.config.imageAspectRatio,
   },
-  errorCard: {
-    height: "100%",
-    width: "100%",
-    borderRadius: theme.radius.md,
-    backgroundColor: theme.colors.secondary,
-    alignItems: "center",
-    justifyContent: "center",
+  carouselContainer: {
+    overflow: "hidden",
   },
   cardBottom: {
     width: "100%",
     position: "absolute",
-    bottom: 0,
+    bottom: -23,
     paddingHorizontal: theme.spacing.sm,
     flexDirection: "row",
     justifyContent: "space-between",

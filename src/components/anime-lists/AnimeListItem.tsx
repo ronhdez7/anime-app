@@ -3,36 +3,44 @@ import { ImageBackground, TouchableOpacity, View } from "react-native";
 import Text from "../ui/Text";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { Link } from "expo-router";
+import SkeletonLoader from "../ui/SkeletonLoader";
 
 interface AnimeListItemProps {
-  anime: AnimeData;
+  anime?: AnimeData;
   disabled?: boolean;
 }
 
 export function AnimeListItem({ anime, disabled = false }: AnimeListItemProps) {
-  const { styles } = useStyles(stylesheet);
+  const { styles, theme } = useStyles(stylesheet);
+  const loading = !anime;
 
   return (
-    <Link href={`/anime/${anime.id}`} disabled={disabled} asChild>
-      <TouchableOpacity style={styles.main} activeOpacity={0.75}>
-        <ImageBackground
-          style={styles.image}
-          source={{ uri: anime.images.regular }}
-          resizeMode="cover"
-        >
-          <View style={styles.titleContainer}>
-            <Text
-              size="smd"
-              color="foreground"
-              numberOfLines={3}
-              style={styles.title}
-            >
-              {anime.title}
-            </Text>
-          </View>
-        </ImageBackground>
-      </TouchableOpacity>
-    </Link>
+    <View style={styles.main}>
+      <SkeletonLoader show={loading}>
+        {!loading ? (
+          <Link href={`/anime/${anime?.id}`} disabled={disabled} asChild>
+            <TouchableOpacity activeOpacity={0.75} disabled={disabled}>
+              <ImageBackground
+                style={styles.image}
+                source={{ uri: anime?.images.regular }}
+                resizeMode="cover"
+              >
+                <View style={styles.titleContainer}>
+                  <Text
+                    size="smd"
+                    color="foreground"
+                    numberOfLines={3}
+                    style={styles.title}
+                  >
+                    {anime?.title}
+                  </Text>
+                </View>
+              </ImageBackground>
+            </TouchableOpacity>
+          </Link>
+        ) : null}
+      </SkeletonLoader>
+    </View>
   );
 }
 

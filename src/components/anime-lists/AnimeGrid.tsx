@@ -49,7 +49,7 @@ export default function AnimeGrid({
             flexDirection: "row",
           }}
         >
-          {item && <AnimeListItem anime={item} />}
+          <AnimeListItem anime={item} />
         </View>
       )}
       refreshControl={
@@ -78,7 +78,7 @@ export function AnimeGridView({ query, onRefresh }: AnimeGridViewProps) {
 
   return (
     <View style={styles.main}>
-      {query.data ? (
+      {query.data || query.isLoading ? (
         <AnimeGrid
           data={getInfiniteData(query.data)}
           onEndReached={handleEndReached}
@@ -89,13 +89,11 @@ export function AnimeGridView({ query, onRefresh }: AnimeGridViewProps) {
           }
           onRefresh={onRefresh}
         />
-      ) : query.error ? (
+      ) : (
         <AnimeFetchError
-          message={query.error.message}
+          message={query.error?.message}
           onReload={query.refetch}
         />
-      ) : (
-        <LoadingView />
       )}
     </View>
   );
