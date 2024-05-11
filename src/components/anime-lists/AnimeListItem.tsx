@@ -16,7 +16,7 @@ export function AnimeListItem({ anime, disabled = false }: AnimeListItemProps) {
 
   return (
     <View style={styles.main}>
-      <SkeletonLoader show={loading}>
+      <SkeletonLoader show={loading} height={"100%"}>
         {!loading ? (
           <Link href={`/anime/${anime?.id}`} disabled={disabled} asChild>
             <TouchableOpacity activeOpacity={0.75} disabled={disabled}>

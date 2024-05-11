@@ -6,47 +6,50 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "./ui/Text";
 import List from "./ui/List";
 import AnimeFetchError from "./AnimeFetchError";
-import LoadingView from "./ui/LoadingView";
 import AnimeEpisode from "./AnimeEpisode";
 import { useFindAnime } from "@/queries/use-find-anime";
+import { getInfiniteData } from "./anime-lists/AnimeList";
 
 interface Props {
-  anime: AnimeData;
+  anime?: AnimeData;
 }
 
 export default function AnimeEpisodes({ anime }: Props) {
   const { styles } = useStyles(stylesheet);
 
-  const episodes = useAnimeEpisodes(anime.id);
+  const episodes = useAnimeEpisodes(anime?.id);
 
-  const animeStream = useFindAnime({
-    title: anime.titles.jp,
-    title_en: anime.titles.en,
-  });
+  const animeStream = useFindAnime(
+    {
+      title: anime?.titles.jp,
+      title_en: anime?.titles.en,
+    },
+    !!anime
+  );
   useAnimeEpisodes(animeStream.data?.url);
+
+  const animeLoading = !anime;
 
   return (
     <View style={styles.main}>
       <Text size="lg" weight="bold">
-        Episodes ({anime.episodeCount})
+        Episodes
       </Text>
-      {episodes.data ? (
+      {episodes.data || episodes.isLoading || animeLoading ? (
         <List
           scrollEnabled={false}
-          data={episodes.data.pages.flatMap((i) => i) as EpisodeData[]}
+          data={getInfiniteData(episodes.data) as EpisodeData[]}
           renderItem={({ item }) => (
-            <AnimeEpisode episode={item} animeId={anime.id} />
+            <AnimeEpisode episode={item} animeId={anime?.id ?? ""} />
           )}
           contentContainerStyle={styles.episodes}
         />
-      ) : episodes.error ? (
+      ) : (
         <AnimeFetchError
-          message={episodes.error.message}
+          message={episodes.error?.message}
           error="Could not get episodes"
           onReload={episodes.refetch}
         />
-      ) : (
-        <LoadingView />
       )}
     </View>
   );
@@ -59,6 +62,6 @@ const stylesheet = createStyleSheet((theme) => ({
     rowGap: theme.spacing.xs,
   },
   episodes: {
-    rowGap: theme.spacing.sm,
+    rowGap: theme.spacing.xs,
   },
 }));

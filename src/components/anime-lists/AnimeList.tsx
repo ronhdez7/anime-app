@@ -68,9 +68,7 @@ export function AnimeListView({ title, query }: AnimeListViewProps) {
   );
 }
 
-export function getInfiniteData(
-  data?: AnimeData[] | { pages: AnimeData[][] }
-): AnimeData[] {
+export function getInfiniteData<T>(data?: T[] | { pages: T[][] }): T[] {
   return (
     (Array.isArray(data) ? data : data?.pages.flatMap((page) => page)) ??
     Array(5)
