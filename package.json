@@ -32,7 +32,8 @@
     "react-native-svg": "14.1.0",
     "react-native-unistyles": "^2.7.1",
     "use-debounce": "^10.0.0",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.2",
+    "expo-screen-orientation": "~6.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

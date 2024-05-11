@@ -1,14 +1,12 @@
-import { View, RefreshControl } from "react-native";
+import { View, RefreshControl, useWindowDimensions } from "react-native";
 import { NoAnimeFound, getInfiniteData } from "./AnimeList";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import LoadingView from "../ui/LoadingView";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimeListItem } from "./AnimeListItem";
 import { AnimeData, AnimeDataQueryResult } from "@/types";
 import List, { ListProps } from "@/components/ui/List";
 import AnimeFetchError from "../AnimeFetchError";
-
-const COLS = 2;
 
 export interface AnimeGridProps extends Partial<ListProps<AnimeData>> {
   data: AnimeData[];
@@ -20,12 +18,15 @@ export default function AnimeGrid({
   ...props
 }: AnimeGridProps) {
   const { styles } = useStyles(gridStylesheet);
+  const [cols, setCols] = useState(2);
+  const { width } = useWindowDimensions();
 
   const [refreshing, setRefreshing] = useState(false);
   const items: AnimeData[] = {
     ...data,
-    length: Math.ceil(data.length / COLS) * COLS,
+    length: Math.ceil(data.length / cols) * cols,
   };
+  const ITEM_MAX_WIDTH = 200;
 
   function refresh() {
     setRefreshing(true);
@@ -35,17 +36,22 @@ export default function AnimeGrid({
     }, 500);
   }
 
+  useEffect(() => {
+    setCols(Math.round(width / ITEM_MAX_WIDTH));
+  }, [width]);
+
   return (
     <List
       data={items}
-      numColumns={COLS}
+      numColumns={cols}
+      key={cols}
       columnWrapperStyle={styles.listColumn}
       contentContainerStyle={styles.listContainer}
       onEndReachedThreshold={1}
       renderItem={({ item }) => (
         <View
           style={{
-            flex: 1 / COLS,
+            flex: 1 / cols,
             flexDirection: "row",
           }}
         >

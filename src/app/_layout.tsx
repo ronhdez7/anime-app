@@ -9,12 +9,17 @@ import { useFonts } from "expo-font";
 import { Keyboard } from "react-native";
 import { useStyles } from "react-native-unistyles";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import * as ScreenOrientation from "expo-screen-orientation";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const { theme } = useStyles();
   const [assetsLoaded, assetsError] = useLoadAssets();
+
+  useEffect(() => {
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+  }, []);
 
   useEffect(() => {
     if (assetsLoaded || assetsError) {

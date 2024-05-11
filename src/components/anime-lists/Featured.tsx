@@ -1,9 +1,14 @@
-import { View, ImageBackground, Dimensions, Pressable } from "react-native";
+import {
+  View,
+  ImageBackground,
+  Pressable,
+  useWindowDimensions,
+} from "react-native";
 import { AnimeData } from "@/types";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "../ui/Text";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import useFeaturedAnime from "@/queries/use-featured-anime";
 import IconButton from "../ui/IconButton";
 import AnimeFetchError from "../AnimeFetchError";
@@ -31,13 +36,21 @@ interface FeaturedSliderProps {
 function FeaturedSlider({ items }: FeaturedSliderProps) {
   const { styles } = useStyles(stylesheet);
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [width, setWidth] = useState(Dimensions.get("window").width);
+  const { width } = useWindowDimensions();
 
   const carouselRef = useRef<ICarouselInstance>(null);
   const loading = !items;
 
+  /* for orientation changes */
+  // useEffect(() => {
+  //   carouselRef.current?.scrollTo({
+  //     index: 0,
+  //     animated: false,
+  //   });
+  // }, [width]);
+
   return (
-    <View onLayout={(e) => setWidth(e.nativeEvent.layout.width)}>
+    <View>
       <View style={styles.carouselContainer}>
         <SkeletonLoader show={loading}>
           <Carousel
@@ -90,15 +103,17 @@ function FeaturedItem({ item }: FeaturedItemProps) {
   const { styles } = useStyles(stylesheet);
 
   return (
-    <Link href={`/anime/${item.id}`} asChild>
-      <Pressable style={styles.featuredItem}>
-        <ImageBackground
-          source={{ uri: item?.images.large }}
-          resizeMode="cover"
-          style={{ height: "100%" }}
-        />
-      </Pressable>
-    </Link>
+    <View style={{ width: "100%", height: "100%" }}>
+      <Link href={`/anime/${item.id}`} asChild>
+        <Pressable style={styles.featuredItem}>
+          <ImageBackground
+            source={{ uri: item?.images.large }}
+            resizeMode="cover"
+            style={{ height: "100%" }}
+          />
+        </Pressable>
+      </Link>
+    </View>
   );
 }
 
