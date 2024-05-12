@@ -27,7 +27,7 @@ export default function AnimeDetails({ anime }: AnimeDetailsProps) {
   const title = anime?.title;
   const year = anime?.dates.from.year;
   const rating = anime?.rating;
-  const episodeCount = anime?.episodeCount;
+  const type = anime?.type;
   const description = anime?.description;
 
   return (
@@ -71,9 +71,7 @@ export default function AnimeDetails({ anime }: AnimeDetailsProps) {
               <View style={styles.quickInfo}>
                 {year && <Text size="sm">{year}</Text>}
                 {rating && <Text size="sm">{rating}</Text>}
-                {episodeCount !== undefined && (
-                  <Text size="sm">{episodeCount} episodes</Text>
-                )}
+                {type && <Text size="sm">{type}</Text>}
               </View>
             ) : (
               <View style={{ height: 20 }} />

@@ -9,38 +9,39 @@ import AnimeFetchError from "./AnimeFetchError";
 import AnimeEpisode from "./AnimeEpisode";
 import { useFindAnime } from "@/queries/use-find-anime";
 import { getInfiniteData } from "./anime-lists/AnimeList";
+import { useStreamEpisodes } from "@/queries/use-stream-episodes";
 
 interface Props {
-  anime?: AnimeData;
+  anime: AnimeData;
 }
 
 export default function AnimeEpisodes({ anime }: Props) {
   const { styles } = useStyles(stylesheet);
 
-  const episodes = useAnimeEpisodes(anime?.id);
+  const episodes = useAnimeEpisodes(anime.id);
 
   const animeStream = useFindAnime(
     {
-      title: anime?.titles.jp,
-      title_en: anime?.titles.en,
+      title: anime.titles.jp,
+      title_en: anime.titles.en,
     },
     !!anime
   );
-  useAnimeEpisodes(animeStream.data?.url);
+  useStreamEpisodes(animeStream.data?.url);
 
-  const animeLoading = !anime;
+  const episodeCount = getInfiniteData(episodes.data).filter(Boolean).length;
 
   return (
     <View style={styles.main}>
       <Text size="lg" weight="bold">
-        Episodes
+        Episodes {episodes.data ? `(${episodeCount || "none"})` : null}
       </Text>
-      {episodes.data || episodes.isLoading || animeLoading ? (
+      {episodes.data || episodes.isLoading ? (
         <List
           scrollEnabled={false}
           data={getInfiniteData(episodes.data) as EpisodeData[]}
           renderItem={({ item }) => (
-            <AnimeEpisode episode={item} animeId={anime?.id ?? ""} />
+            <AnimeEpisode episode={item} animeId={anime.id} />
           )}
           contentContainerStyle={styles.episodes}
         />

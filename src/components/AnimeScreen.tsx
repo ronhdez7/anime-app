@@ -17,7 +17,7 @@ export default function AnimeScreen({ id }: AnimeScreenProps) {
   return anime.data || anime.isLoading ? (
     <ScrollView>
       <AnimeDetails anime={anime.data} />
-      <AnimeEpisodes anime={anime.data} />
+      {anime.data && <AnimeEpisodes anime={anime.data} />}
     </ScrollView>
   ) : (
     <AnimeFetchError message={anime.error?.message} onReload={anime.refetch} />

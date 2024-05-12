@@ -1,13 +1,12 @@
 import React from "react";
 import { Link, useLocalSearchParams } from "expo-router";
 import AnimeScreen from "@/components/AnimeScreen";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "@/components/ui/Text";
 import AnimePageHeader from "@/components/AnimePageHeader";
 import Button from "@/components/ui/Button";
 import IconButton from "@/components/ui/IconButton";
-import AnimeDetails from "@/components/AnimeDetails";
 
 type Params = {
   id: string;
@@ -31,7 +30,7 @@ export default function AnimePage() {
       <AnimePageHeader id={id} />
       <AnimeScreen id={id} />
       <View style={styles.bottomNav}>
-        <Link href={`/watch/${id}/1`} asChild>
+        <Link href={`/watch/${id}`} asChild>
           <Button style={styles.playButton}>
             <Text color="foreground" style={styles.watchText}>
               Watch
