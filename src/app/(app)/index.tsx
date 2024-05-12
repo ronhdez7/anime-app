@@ -8,7 +8,10 @@ export default function HomePage() {
   const { styles } = useStyles(stylesheet);
 
   return (
-    <ScrollView contentContainerStyle={{ rowGap: 20 }}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ rowGap: 20 }}
+    >
       <Featured />
       <View style={styles.main}>
         <TopAnimeList />

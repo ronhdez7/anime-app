@@ -1,5 +1,11 @@
-import { Image, ImageBackground, ScrollView, View } from "react-native";
-import React from "react";
+import {
+  Image,
+  ImageBackground,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { useReducer } from "react";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "./ui/Text";
 import { AnimeData } from "@/types";
@@ -81,9 +87,7 @@ export default function AnimeDetails({ anime }: AnimeDetailsProps) {
           {/* Description */}
           <SkeletonLoader>
             {!loading ? (
-              <Text size="smd" numberOfLines={4} style={styles.description}>
-                {description}
-              </Text>
+              <DetailsDescription description={description} />
             ) : (
               <View style={{ height: 96 }} />
             )}
@@ -91,6 +95,24 @@ export default function AnimeDetails({ anime }: AnimeDetailsProps) {
         </View>
       </Skeleton.Group>
     </View>
+  );
+}
+
+interface DescriptionProps {
+  description?: string;
+}
+function DetailsDescription({ description }: DescriptionProps) {
+  const { styles } = useStyles(stylesheet);
+  const [expanded, toggleExpanded] = useReducer((v) => !v, false);
+
+  const lines = expanded ? undefined : 4;
+
+  return (
+    <TouchableOpacity activeOpacity={0.5} onPress={toggleExpanded}>
+      <Text size="smd" numberOfLines={lines} style={styles.description}>
+        {description}
+      </Text>
+    </TouchableOpacity>
   );
 }
 

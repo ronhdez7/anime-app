@@ -29,6 +29,8 @@ export default function AnimePage() {
     <View style={styles.page}>
       <AnimePageHeader id={id} />
       <AnimeScreen id={id} />
+
+      {/* Bottom Nav */}
       <View style={styles.bottomNav}>
         <Link href={`/watch/${id}`} asChild>
           <Button style={styles.playButton}>
@@ -53,19 +55,22 @@ const stylesheet = createStyleSheet((theme) => ({
   bottomNav: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: theme.spacing.xs,
+    paddingTop: theme.spacing.xs,
     paddingHorizontal: theme.spacing.sm,
     columnGap: theme.spacing.sm,
   },
   playButton: {
     flex: 1,
     height: "100%",
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
   },
   watchText: {
     textAlign: "center",
   },
   saveButton: {
     backgroundColor: theme.colors.neutral,
-    borderRadius: theme.radius.md,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
   },
 }));
