@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "requireFullScreen": true
@@ -44,7 +46,8 @@
         {
           "initialOrientation": "PORTRAIT"
         }
-      ]
+      ],
+      "expo-video"
     ]
   }
 }
