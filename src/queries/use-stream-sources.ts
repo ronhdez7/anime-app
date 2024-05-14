@@ -2,11 +2,11 @@ import { streamingApi } from "@/lib/streaming-api";
 import { useApiQuery } from "./use-api-query";
 import { streamKeys } from "./keys";
 
-export function useStreamEpisodes(animeUrl?: string) {
+export function useStreamSources(playerUrl?: string) {
   return useApiQuery({
-    queryKey: streamKeys.episodes(animeUrl ?? ""),
+    queryKey: streamKeys.sources(playerUrl ?? ""),
     queryFn: ({ signal }) =>
-      streamingApi.getEpisodes(String(animeUrl), { signal }),
-    enabled: !!animeUrl,
+      streamingApi.getSources(String(playerUrl), { signal }),
+    enabled: !!playerUrl,
   });
 }

@@ -4,6 +4,8 @@ import {
   AnimeResult,
   StreamFindAnimeParams,
   EpisodeResult,
+  ServerResult,
+  SourceResult,
 } from "@/types/stream";
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
@@ -35,6 +37,27 @@ export class StreamProvider {
     animeUrl: string,
     config?: AxiosRequestConfig
   ): Res<EpisodeResult[]> {
-    return this.axios.get(`${this.BASE_PATH}/episodes?url=${animeUrl}`, config);
+    const url = `${this.BASE_PATH}/episodes?url=${encodeURIComponent(
+      animeUrl
+    )}`;
+    return this.axios.get(url, config);
+  }
+
+  getServers(
+    episodeUrl: string,
+    config?: AxiosRequestConfig
+  ): Res<ServerResult[]> {
+    const url = `${this.BASE_PATH}/servers?url=${encodeURIComponent(
+      episodeUrl
+    )}`;
+    return this.axios.get(url, config);
+  }
+
+  getSources(
+    playerUrl: string,
+    config?: AxiosRequestConfig
+  ): Res<SourceResult> {
+    const url = `/sources?url=${encodeURIComponent(playerUrl)}`;
+    return this.axios.get(url, config);
   }
 }

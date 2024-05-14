@@ -1,6 +1,7 @@
 import animeApi from "@/lib/anime-api";
 import { useQueryClient } from "@tanstack/react-query";
-import { apiKeys, useApiQuery } from "./use-api-query";
+import { useApiQuery } from "./use-api-query";
+import { apiKeys } from "./keys";
 
 export default function useFeaturedAnime() {
   const queryClient = useQueryClient();

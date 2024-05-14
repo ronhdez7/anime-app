@@ -1,9 +1,10 @@
 import animeApi from "@/lib/anime-api";
 import { AnimeSearchParams } from "@/types";
 import { keepPreviousData, useQueryClient } from "@tanstack/react-query";
-import { apiKeys, useApiInfiniteQuery } from "./use-api-query";
+import { useApiInfiniteQuery } from "./use-api-query";
+import { apiKeys } from "./keys";
 
-export default function useAnimeSearch(params?: AnimeSearchParams) {
+export default function useAnimeSearch(params: AnimeSearchParams = {}) {
   const queryClient = useQueryClient();
   const query = useApiInfiniteQuery({
     queryKey: apiKeys.search(params),

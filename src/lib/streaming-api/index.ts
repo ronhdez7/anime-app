@@ -4,6 +4,8 @@ import ogAxios, { AxiosError, AxiosRequestConfig } from "axios";
 import {
   AnimeResult,
   EpisodeResult,
+  ServerResult,
+  SourceResult,
   StreamApiResponse,
   StreamFindAnimeParams,
 } from "@/types/stream";
@@ -60,10 +62,34 @@ class StreamingApi {
 
   async getEpisodes(
     animeUrl: string,
-    config: AxiosRequestConfig
+    config?: AxiosRequestConfig
   ): Res<EpisodeResult[]> {
     try {
       const { data } = await this.provider.getEpisodes(animeUrl, config);
+      return convertResponse(data);
+    } catch (e) {
+      throw handleError(e);
+    }
+  }
+
+  async getServers(
+    episodeUrl: string,
+    config?: AxiosRequestConfig
+  ): Res<ServerResult[]> {
+    try {
+      const { data } = await this.provider.getServers(episodeUrl, config);
+      return convertResponse(data);
+    } catch (e) {
+      throw handleError(e);
+    }
+  }
+
+  async getSources(
+    playerUrl: string,
+    config?: AxiosRequestConfig
+  ): Res<SourceResult> {
+    try {
+      const { data } = await this.provider.getSources(playerUrl, config);
       return convertResponse(data);
     } catch (e) {
       throw handleError(e);

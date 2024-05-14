@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import animeApi from "@/lib/anime-api";
-import { apiKeys, useApiInfiniteQuery } from "./use-api-query";
+import { useApiInfiniteQuery } from "./use-api-query";
+import { apiKeys } from "./keys";
 
 export default function useTopAnime() {
   const queryClient = useQueryClient();

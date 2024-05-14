@@ -1,6 +1,7 @@
 import { MALID } from "@/types/jikan";
 import animeApi from "@/lib/anime-api";
-import { apiKeys, useApiInfiniteQuery } from "./use-api-query";
+import { useApiInfiniteQuery } from "./use-api-query";
+import { apiKeys } from "./keys";
 
 export function useAnimeEpisodes(id?: MALID, params?: { page?: number }) {
   return useApiInfiniteQuery({

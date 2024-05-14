@@ -7,7 +7,6 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import {
-  AnimeSearchParams,
   ApiError,
   ApiPaginatedResponse,
   ApiResponse,
@@ -52,18 +51,3 @@ export function useApiInfiniteQuery<T, Q extends QueryKey = QueryKey>({
 
   return query;
 }
-
-export const apiKeys = {
-  all: ["api"] as const,
-  normal: () => ["normal", ...apiKeys.all] as const,
-  infinite: () => ["infinite", ...apiKeys.all] as const,
-
-  featured: () => [...apiKeys.normal(), "featured"] as const,
-  top: () => [...apiKeys.infinite(), "top"] as const,
-  search: (params: AnimeSearchParams = {}) =>
-    [...apiKeys.infinite(), "search", params] as const,
-  genres: () => [...apiKeys.normal(), "genres"] as const,
-  anime: (id: number) => [...apiKeys.normal(), "anime", id] as const,
-
-  episodes: (id: number) => [...apiKeys.anime(id), "episodes"] as const,
-};
