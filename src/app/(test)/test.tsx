@@ -22,5 +22,5 @@ export default function TestingPage() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  button: { padding: theme.spacing["2xl"], backgroundColor: "skyblue" },
+  button: { padding: theme.spacing["xl"], backgroundColor: "skyblue" },
 }));

@@ -8,7 +8,7 @@ export interface IconButtonProps
   extends TouchableOpacityProps,
     Pick<IconControllerProps, "name"> {
   size?: keyof ThemeConfig["sizes"]["icon"];
-  color?: keyof ThemeConfig["colors"];
+  color?: Exclude<keyof ThemeConfig["colors"], "skeleton">;
 }
 
 export default function IconButton({

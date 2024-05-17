@@ -52,7 +52,7 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
   return (
     <View>
       <View style={styles.carouselContainer}>
-        <SkeletonLoader show={loading}>
+        <SkeletonLoader show={loading} height={"100%"}>
           <Carousel
             ref={carouselRef}
             autoPlay

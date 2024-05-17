@@ -16,7 +16,7 @@ export default forwardRef<TouchableOpacity, Props>(function Button(
 const stylesheet = createStyleSheet((theme) => ({
   main: {
     backgroundColor: theme.colors.primary,
-    paddingHorizontal: theme.spacing["2xl"],
+    paddingHorizontal: theme.spacing["xl"],
     paddingVertical: theme.spacing.sm,
     borderRadius: theme.radius.md,
   },

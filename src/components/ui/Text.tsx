@@ -5,7 +5,7 @@ import { ThemeConfig } from "@/styles/theme";
 
 interface Props extends TextProps {
   size?: keyof ThemeConfig["sizes"]["text"];
-  color?: keyof ThemeConfig["colors"];
+  color?: Exclude<keyof ThemeConfig["colors"], "skeleton">;
   weight?: keyof ThemeConfig["fonts"]["inter"];
 }
 

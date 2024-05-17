@@ -6,7 +6,7 @@ import { ThemeConfig } from "@/styles/theme";
 interface Props extends TouchableOpacityProps {
   onReload: () => void;
   size?: keyof ThemeConfig["sizes"]["icon"];
-  color?: keyof ThemeConfig["colors"];
+  color?: Exclude<keyof ThemeConfig["colors"], "skeleton">;
 }
 
 export default function ReloadButton({

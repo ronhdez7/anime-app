@@ -5,8 +5,9 @@ import { useFindAnime } from "@/queries/use-find-anime";
 import { useStreamEpisodes } from "@/queries/use-stream-episodes";
 import { useStreamServers } from "@/queries/use-stream-servers";
 import { useStreamSources } from "@/queries/use-stream-sources";
-import { useVideoPlayer } from "expo-video";
-import PlayerWithControls from "./PlayerWithControls";
+// import { useVideoPlayer } from "expo-video";
+// import PlayerWithControls from "./PlayerWithControls";
+import Text from "../ui/Text";
 
 interface WatchPlayerProps {
   animeId: MALID;
@@ -28,9 +29,10 @@ export default function WatchPlayer({
   );
   const sources = useStreamSources(servers.data?.at(0)?.playerUrl);
 
-  const player = useVideoPlayer({
-    uri: sources.data?.sources.at(0)?.url ?? "",
-  });
+  // const player = useVideoPlayer({
+  //   uri: sources.data?.sources.at(0)?.url ?? "",
+  // });
 
-  return <PlayerWithControls player={player} />;
+  // return <PlayerWithControls player={player} />;
+  return <Text>Player</Text>
 }
