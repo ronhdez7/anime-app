@@ -27,7 +27,7 @@ function handleError(e: unknown) {
 
 class StreamingApi {
   private axios = ogAxios.create({
-    baseURL: "https://192.168.1.25:4000",
+    baseURL: "http://192.168.1.25:4000",
   });
 
   private providers = {

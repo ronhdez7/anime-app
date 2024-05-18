@@ -4,6 +4,7 @@ import Text from "@/components/ui/Text";
 import { View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import WatchScreen from "@/components/watch/WatchScreen";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type Params = {
   animeId: string;
@@ -22,7 +23,11 @@ export default function WatchPage() {
       </View>
     );
   }
-  return <WatchScreen animeId={animeId} episodeNumber={Number(episode)} />;
+  return (
+    <SafeAreaView>
+      <WatchScreen animeId={animeId} episodeNumber={Number(episode)} />
+    </SafeAreaView>
+  );
 }
 
 const stylesheet = createStyleSheet((theme) => ({

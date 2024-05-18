@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import React from "react";
 import { MALID } from "@/types/jikan";
-import WatchPlayer from "../player/WatchPlayer";
+import WatchPlayer from "./WatchPlayer";
 
 interface WatchScreenProps {
   animeId: MALID;

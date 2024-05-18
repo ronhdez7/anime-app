@@ -1,11 +1,11 @@
-// import React, { forwardRef } from "react";
-// import { VideoView, VideoViewProps } from "expo-video";
+import { Video } from "expo-av";
+import React, { ComponentProps, forwardRef } from "react";
 
-// interface PlayerProps extends VideoViewProps {}
+interface PlayerProps extends ComponentProps<typeof Video> {}
 
-// export default forwardRef<VideoView, PlayerProps>(function Player(
-//   { ...props },
-//   ref
-// ) {
-//   return <VideoView ref={ref} {...props} />;
-// });
+export default forwardRef<Video, PlayerProps>(function Player(
+  { ...props },
+  ref
+) {
+  return <Video ref={ref} {...props} />;
+});

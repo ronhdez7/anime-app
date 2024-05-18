@@ -1,27 +1,32 @@
-// import { View } from "react-native";
-// import Player from "./Player";
-// import { VideoPlayer } from "expo-video";
-// import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { View } from "react-native";
+import Player from "./Player";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { AVPlaybackSource, ResizeMode } from "expo-av";
 
-// interface PlayerWithControlsProps {
-//   player: VideoPlayer;
-// }
+interface PlayerWithControlsProps {
+  source: AVPlaybackSource;
+}
 
-// export default function PlayerWithControls({
-//   player,
-// }: PlayerWithControlsProps) {
-//   const { styles } = useStyles(stylesheet);
+export default function PlayerWithControls({
+  source,
+}: PlayerWithControlsProps) {
+  const { styles } = useStyles(stylesheet);
 
-//   return (
-//     <View style={styles.container}>
-//       <Player player={player} />
-//     </View>
-//   );
-// }
+  return (
+    <View style={styles.container}>
+      <Player
+        source={source}
+        style={{ width: "100%", height: "100%" }}
+        useNativeControls
+        resizeMode={ResizeMode.CONTAIN}
+      />
+    </View>
+  );
+}
 
-// const stylesheet = createStyleSheet((theme) => ({
-//   container: {
-//     flex: 1,
-//     aspectRatio: 16 / 9,
-//   },
-// }));
+const stylesheet = createStyleSheet((theme) => ({
+  container: {
+    width: "100%",
+    aspectRatio: 16 / 9,
+  },
+}));

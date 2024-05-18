@@ -23,7 +23,7 @@ export function parseJikanAnime(anime: JikanAnimeData): AnimeData {
     title: anime.title ?? anime.title_english ?? anime.title_japanese,
     titles: {
       en: anime.title_english,
-      jp: anime.title_japanese,
+      jp: anime.title,
     },
     images: {
       small: anime.images.webp.small_image_url,
