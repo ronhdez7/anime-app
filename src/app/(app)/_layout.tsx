@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import { Slot, Tabs } from "expo-router";
 import { Icon } from "@/styles/icons";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "@/components/ui/Text";
@@ -7,13 +7,13 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
+import SafeArea from "@/components/ui/SafeArea";
 
 export default function AppLayout() {
   const { theme } = useStyles();
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeArea>
       <Tabs
         screenOptions={{
           headerShown: false,
@@ -62,7 +62,7 @@ export default function AppLayout() {
           }}
         />
       </Tabs>
-    </SafeAreaView>
+    </SafeArea>
   );
 }
 
@@ -72,7 +72,7 @@ function TabBarLabel(props: {
   children: string;
 }) {
   const { styles } = useStyles(stylesheet);
-  const height = useSharedValue(0);
+  const height = useSharedValue(props.focused ? 14 : 0);
 
   if (props.focused) {
     height.value = withTiming(14);
@@ -95,9 +95,10 @@ function TabBarLabel(props: {
 
 const stylesheet = createStyleSheet((theme) => ({
   tabLabel: {
-    fontSize: {
-      xs: theme.sizes.text.xs,
-      sm: theme.sizes.text.sm,
-    },
+    // fontSize: {
+    //   xs: theme.sizes.text.xs,
+    //   sm: theme.sizes.text.sm,
+    // },
+    fontSize: theme.sizes.text.xs,
   },
 }));

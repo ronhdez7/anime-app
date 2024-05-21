@@ -34,14 +34,11 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <SafeAreaProvider
-          style={{ flex: 1, backgroundColor: theme.colors.background }}
-          onTouchStart={Keyboard.dismiss}
-        >
+        <SafeAreaProvider style={{ flex: 1 }} onTouchStart={Keyboard.dismiss}>
           <Stack
             screenOptions={{
               headerShown: false,
-              contentStyle: { backgroundColor: "transparent" },
+              contentStyle: { backgroundColor: theme.colors.background },
 
               // Status Bar
               statusBarTranslucent: true,
