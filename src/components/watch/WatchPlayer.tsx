@@ -6,6 +6,7 @@ import { useStreamEpisodes } from "@/queries/use-stream-episodes";
 import { useStreamServers } from "@/queries/use-stream-servers";
 import { useStreamSources } from "@/queries/use-stream-sources";
 import PlayerWithControls from "../player/PlayerWithControls";
+import PlayerStoreProvider from "@/stores/PlayerStore";
 
 interface WatchPlayerProps {
   animeId: MALID;
@@ -28,10 +29,12 @@ export default function WatchPlayer({
   const sources = useStreamSources(servers.data?.at(0)?.playerUrl);
 
   return (
-    <PlayerWithControls
-      source={{
-        uri: sources.data?.sources.at(0)?.url ?? "",
-      }}
-    />
+    <PlayerStoreProvider>
+      <PlayerWithControls
+        source={{
+          uri: sources.data?.sources.at(0)?.url ?? "",
+        }}
+      />
+    </PlayerStoreProvider>
   );
 }

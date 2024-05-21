@@ -3,6 +3,8 @@ import {
   UserIcon as FilledUserIcon,
   PlusIcon,
   EllipsisVerticalIcon,
+  PlayIcon,
+  PauseIcon,
 } from "react-native-heroicons/solid";
 import {
   HomeIcon as OutlineHomeIcon,
@@ -36,6 +38,8 @@ const icons = {
   "arrow-down": ArrowDownIcon,
   "arrow-left": ArrowLeftIcon,
   "vertical-dots": EllipsisVerticalIcon,
+  play: PlayIcon,
+  pause: PauseIcon,
 } satisfies IconRegister;
 
 export interface IconControllerProps extends IconProps {
