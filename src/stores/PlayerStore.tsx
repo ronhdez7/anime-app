@@ -1,12 +1,20 @@
 import { PropsWithChildren, createContext, useContext, useState } from "react";
 import { StoreApi, createStore, useStore } from "zustand";
+import { useShallow } from "zustand/react/shallow";
+
+export enum VideoState {
+  LOADING,
+  BUFFERING,
+  PLAYING,
+}
 
 type PlayerState = {
   play: boolean;
   speed: number;
   progress: number;
   duration: number;
-  status: "LOADING" | "BUFFERING" | "PLAYING";
+  status: VideoState;
+  seeking: boolean;
 };
 
 const initialState: PlayerState = {
@@ -14,15 +22,18 @@ const initialState: PlayerState = {
   speed: 1,
   progress: 0,
   duration: 0,
-  status: "LOADING",
+  status: VideoState.LOADING,
+  seeking: false,
 };
 
 interface Actions {
+  reset: () => void;
   setPlay: (play: PlayerState["play"]) => void;
   setSpeed: (speed: PlayerState["speed"]) => void;
   setProgress: (progress: PlayerState["progress"]) => void;
   setDuration: (duration: PlayerState["duration"]) => void;
   setStatus: (status: PlayerState["status"]) => void;
+  setSeeking: (seeking: PlayerState["seeking"]) => void;
 }
 
 type PlayerContext = PlayerState & { actions: Actions };
@@ -34,11 +45,13 @@ export default function PlayerStoreProvider({ children }: PropsWithChildren) {
     createStore<PlayerContext>((set) => ({
       ...initialState,
       actions: {
+        reset: () => set(() => initialState, true),
         setPlay: (play) => set(() => ({ play })),
         setSpeed: (speed) => set(() => ({ speed })),
         setProgress: (progress) => set(() => ({ progress })),
         setDuration: (duration) => set(() => ({ duration })),
         setStatus: (status) => set(() => ({ status })),
+        setSeeking: (seeking) => set(() => ({ seeking })),
       },
     }))
   );
@@ -60,11 +73,13 @@ function usePlayerStore<U>(
 }
 
 export const usePlayerAll = () => usePlayerStore((state) => state);
-export const usePlayerActions = () => usePlayerStore((state) => state.actions);
+export const usePlayerActions = () =>
+  usePlayerStore(useShallow((state) => state.actions));
 
 export const usePlayerPlay = () => usePlayerStore((state) => state.play);
 export const usePlayerSpeed = () => usePlayerStore((state) => state.speed);
 export const usePlayerStatus = () => usePlayerStore((state) => state.status);
+export const usePlayerSeeking = () => usePlayerStore((state) => state.seeking);
 
 // progress
 export const usePlayerProgress = () =>

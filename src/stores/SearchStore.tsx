@@ -1,6 +1,7 @@
 import { AnimeSearchParams } from "@/types";
 import { PropsWithChildren, createContext, useContext, useState } from "react";
 import { StoreApi, createStore, useStore } from "zustand";
+import { useShallow } from "zustand/react/shallow";
 
 type SearchState = AnimeSearchParams & {
   genres: number[];
@@ -88,4 +89,5 @@ export const useSearchStartDate = () =>
   useSearchStore((state) => state.start_date);
 export const useSearchEndDate = () => useSearchStore((state) => state.end_date);
 
-export const useSearchActions = () => useSearchStore((state) => state.actions);
+export const useSearchActions = () =>
+  useSearchStore(useShallow((state) => state.actions));

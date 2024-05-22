@@ -1,6 +1,7 @@
 import React from "react";
 import IconButton from "@/components/ui/IconButton";
 import {
+  VideoState,
   usePlayerActions,
   usePlayerPlay,
   usePlayerStatus,
@@ -12,11 +13,12 @@ export default function PlayButton() {
   const play = usePlayerPlay();
   const { setPlay } = usePlayerActions();
 
-  return status === "PLAYING" ? (
+  return status === VideoState.PLAYING ? (
     <IconButton
       name={play ? "pause" : "play"}
       color="foreground"
       onPress={() => setPlay(!play)}
+      style={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
     />
   ) : (
     <LoadingView color="foreground" />

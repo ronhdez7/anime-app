@@ -14,6 +14,8 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 
+const HORIZONTAL_PADDING = 16;
+
 function calculateProgress(
   trackWidth: number,
   seekbarWidth: number,
@@ -28,34 +30,47 @@ export default function ProgressBar() {
   const duration = usePlayerDurationInSecs();
 
   const [seekbarWidth, setSeekbarWidth] = useState(0);
-  const { setProgress, setPlay } = usePlayerActions();
+  const { setProgress, setSeeking } = usePlayerActions();
 
   const handleSize = useSharedValue(10);
 
   const handleAnimatedStyle = useAnimatedStyle(() => ({
     width: handleSize.value,
     height: handleSize.value,
+    right: (handleSize.value / 2) * -1,
   }));
 
   function startSeeking(e: GestureResponderEvent) {
-    setPlay(false);
+    setSeeking(true);
     setProgress(
-      calculateProgress(e.nativeEvent.pageX - 8, seekbarWidth, duration)
+      calculateProgress(
+        e.nativeEvent.pageX - HORIZONTAL_PADDING,
+        seekbarWidth,
+        duration
+      )
     );
     handleSize.value = withSpring(20);
   }
 
   function updateSeeking(e: GestureResponderEvent) {
     setProgress(
-      calculateProgress(e.nativeEvent.pageX - 8, seekbarWidth, duration)
+      calculateProgress(
+        e.nativeEvent.pageX - HORIZONTAL_PADDING,
+        seekbarWidth,
+        duration
+      )
     );
   }
 
   function endSeeking(e: GestureResponderEvent) {
     setProgress(
-      calculateProgress(e.nativeEvent.pageX - 8, seekbarWidth, duration)
+      calculateProgress(
+        e.nativeEvent.pageX - HORIZONTAL_PADDING,
+        seekbarWidth,
+        duration
+      )
     );
-    setPlay(true);
+    setSeeking(false);
     handleSize.value = withSpring(10);
   }
 
@@ -63,23 +78,23 @@ export default function ProgressBar() {
     <View style={styles.container}>
       <View style={styles.main}>
         {/* Seekbar */}
-        <View style={styles.seekbarContainer}>
-          <View
-            style={styles.seekbar}
-            onLayout={(e) => setSeekbarWidth(e.nativeEvent.layout.width)}
-            onTouchStart={startSeeking}
-            onTouchMove={updateSeeking}
-            onTouchEnd={endSeeking}
-          >
+        <View
+          style={styles.seekbarContainer}
+          onLayout={(e) => setSeekbarWidth(e.nativeEvent.layout.width)}
+          onTouchStart={startSeeking}
+          onTouchMove={updateSeeking}
+          onTouchEnd={endSeeking}
+        >
+          <View style={styles.seekbar}>
             <View style={styles.covered(progress, duration)}>
-              <Animated.View
-                style={[styles.handle, handleAnimatedStyle]}
-              ></Animated.View>
+              <Animated.View style={[styles.handle, handleAnimatedStyle]} />
             </View>
           </View>
         </View>
 
-        <Text color="foreground">{progress}</Text>
+        <Text color="foreground" style={styles.text}>
+          {progress}
+        </Text>
       </View>
     </View>
   );
@@ -88,13 +103,15 @@ export default function ProgressBar() {
 const stylesheet = createStyleSheet((theme) => ({
   container: { flex: 1 },
   main: {
-    padding: theme.spacing.sm,
+    paddingVertical: theme.spacing.sm,
+    paddingHorizontal: HORIZONTAL_PADDING,
     flexDirection: "row",
     alignItems: "center",
     columnGap: theme.spacing.sm,
   },
   seekbarContainer: {
     flex: 1,
+    paddingVertical: theme.spacing.sm,
   },
   seekbar: {
     backgroundColor: theme.colors.foreground,
@@ -111,11 +128,17 @@ const stylesheet = createStyleSheet((theme) => ({
     position: "relative",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-end",
   }),
   handle: {
     position: "absolute",
     borderRadius: 10000,
     backgroundColor: theme.colors.primary,
+    right: -5,
+    height: 10,
+    width: 10,
+  },
+  text: {
+    width: 40,
+    textAlign: "center",
   },
 }));

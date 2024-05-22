@@ -1,10 +1,20 @@
 import { Pressable, View } from "react-native";
-import React, { memo, useReducer } from "react";
+import React, { PropsWithChildren, memo, useReducer } from "react";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import SettingsButton from "./SettingsButton";
 import BackButton from "./BackButton";
 import PlayButton from "./PlayButton";
 import ProgressBar from "./ProgressBar";
+
+function StopPressPropagation({ children }: PropsWithChildren) {
+  return (
+    <Pressable
+      style={{ flexDirection: "row" }}
+      onPress={(e) => e.stopPropagation()}
+      children={children}
+    />
+  );
+}
 
 export default memo(function Controls() {
   const { styles } = useStyles(stylesheet);
@@ -18,18 +28,26 @@ export default memo(function Controls() {
         style={styles.controls(showControls)}
       >
         <View style={styles.bar}>
-          <BackButton />
-          <SettingsButton />
+          <StopPressPropagation>
+            <BackButton />
+          </StopPressPropagation>
+          <StopPressPropagation>
+            <SettingsButton />
+          </StopPressPropagation>
         </View>
 
         <View style={[styles.bar, styles.fill]}>
           <View style={styles.fill}></View>
-          <PlayButton />
+          <StopPressPropagation>
+            <PlayButton />
+          </StopPressPropagation>
           <View style={styles.fill}></View>
         </View>
 
         <View style={styles.bar}>
-          <ProgressBar />
+          <StopPressPropagation>
+            <ProgressBar />
+          </StopPressPropagation>
         </View>
       </View>
     </Pressable>

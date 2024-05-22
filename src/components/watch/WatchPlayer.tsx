@@ -5,7 +5,7 @@ import { useFindAnime } from "@/queries/use-find-anime";
 import { useStreamEpisodes } from "@/queries/use-stream-episodes";
 import { useStreamServers } from "@/queries/use-stream-servers";
 import { useStreamSources } from "@/queries/use-stream-sources";
-import PlayerWithControls from "../player/PlayerWithControls";
+import Player from "../player/Player";
 import PlayerStoreProvider from "@/stores/PlayerStore";
 
 interface WatchPlayerProps {
@@ -30,7 +30,7 @@ export default function WatchPlayer({
 
   return (
     <PlayerStoreProvider>
-      <PlayerWithControls
+      <Player
         source={{
           uri: sources.data?.sources.at(0)?.url ?? "",
         }}
