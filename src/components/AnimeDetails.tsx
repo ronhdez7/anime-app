@@ -1,10 +1,4 @@
-import {
-  Image,
-  ImageBackground,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import React, { useReducer } from "react";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "./ui/Text";
@@ -12,6 +6,7 @@ import { AnimeData } from "@/types";
 import { useFindAnime } from "@/queries/use-find-anime";
 import SkeletonLoader from "./ui/SkeletonLoader";
 import { Skeleton } from "moti/skeleton";
+import { Image } from "expo-image";
 
 interface AnimeDetailsProps {
   anime?: AnimeData;
@@ -35,6 +30,7 @@ export default function AnimeDetails({ anime }: AnimeDetailsProps) {
   const rating = anime?.rating;
   const type = anime?.type;
   const description = anime?.description;
+  const trailerImage = anime?.trailer.images.large_image_url;
 
   return (
     <View>
@@ -44,18 +40,11 @@ export default function AnimeDetails({ anime }: AnimeDetailsProps) {
           <View style={{ flex: 1 }}>
             <SkeletonLoader height={"100%"}>
               {!loading ? (
-                anime.trailer.images.large_image_url ? (
-                  <Image
-                    style={styles.image}
-                    source={{ uri: anime.trailer.images.large_image_url }}
-                  />
-                ) : (
-                  <ImageBackground
-                    source={{ uri: anime.images.large }}
-                    style={styles.image}
-                    resizeMode="cover"
-                  />
-                )
+                <Image
+                  style={styles.image}
+                  source={{ uri: trailerImage ?? anime.images.large }}
+                  contentFit="cover"
+                />
               ) : null}
             </SkeletonLoader>
           </View>

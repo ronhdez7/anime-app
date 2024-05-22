@@ -1,19 +1,15 @@
-import {
-  View,
-  ImageBackground,
-  Pressable,
-  useWindowDimensions,
-} from "react-native";
+import { View, Pressable, useWindowDimensions } from "react-native";
 import { AnimeData } from "@/types";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "../ui/Text";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import useFeaturedAnime from "@/queries/use-featured-anime";
 import IconButton from "../ui/IconButton";
 import AnimeFetchError from "../AnimeFetchError";
 import { Link } from "expo-router";
 import SkeletonLoader from "../ui/SkeletonLoader";
+import { ImageBackground } from "expo-image";
 
 export default function Featured() {
   const { styles } = useStyles(stylesheet);
@@ -108,7 +104,7 @@ function FeaturedItem({ item }: FeaturedItemProps) {
         <Pressable style={styles.featuredItem}>
           <ImageBackground
             source={{ uri: item?.images.large }}
-            resizeMode="cover"
+            contentFit="cover"
             style={{ height: "100%" }}
           />
         </Pressable>

@@ -1,9 +1,10 @@
 import { AnimeData } from "@/types";
-import { ImageBackground, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import Text from "../ui/Text";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { Link } from "expo-router";
 import SkeletonLoader from "../ui/SkeletonLoader";
+import { ImageBackground } from "expo-image";
 
 interface AnimeListItemProps {
   anime?: AnimeData;
@@ -11,7 +12,7 @@ interface AnimeListItemProps {
 }
 
 export function AnimeListItem({ anime, disabled = false }: AnimeListItemProps) {
-  const { styles, theme } = useStyles(stylesheet);
+  const { styles } = useStyles(stylesheet);
   const loading = !anime;
 
   return (
@@ -23,7 +24,7 @@ export function AnimeListItem({ anime, disabled = false }: AnimeListItemProps) {
               <ImageBackground
                 style={styles.image}
                 source={{ uri: anime?.images.regular }}
-                resizeMode="cover"
+                contentFit="cover"
               >
                 <View style={styles.titleContainer}>
                   <Text
@@ -56,6 +57,7 @@ const stylesheet = createStyleSheet((theme) => ({
     height: "100%",
     borderRadius: theme.radius.md,
     overflow: "hidden",
+    width: "100%",
   },
   titleContainer: {
     backgroundColor: theme.colors.overlay,
