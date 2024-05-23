@@ -1,5 +1,10 @@
+import { VerticalDotsIcon } from "@/components/icons";
 import IconButton from "@/components/ui/IconButton";
 
 export default function SettingsButton() {
-  return <IconButton name="vertical-dots" color="foreground" />;
+  return (
+    <IconButton>
+      <VerticalDotsIcon color="foreground" />
+    </IconButton>
+  );
 }

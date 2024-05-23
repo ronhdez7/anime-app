@@ -10,6 +10,7 @@ import Text from "../ui/Text";
 import { AnimeSearchOrder } from "@/types";
 import IconButton from "../ui/IconButton";
 import FiltersList from "./FiltersList";
+import { ArrowDownIcon, ArrowUpIcon } from "../icons";
 
 const orders: { name: string; value?: AnimeSearchOrder }[] = [
   { name: "N/A" },
@@ -28,17 +29,21 @@ export default function OrderSelection() {
   const searchSort = useSearchSort();
   const { selectOrder, selectSort } = useSearchActions();
 
+  const SortIcon = searchSort === "desc" ? ArrowDownIcon : ArrowUpIcon;
+
+  function toggleSort() {
+    selectSort(searchSort === "desc" ? "asc" : "desc");
+  }
+
   return (
     <View style={styles.main}>
       <View style={styles.filterHeader}>
         <View style={styles.headerLeft}>
           <Text weight="bold">Sort</Text>
-          <IconButton
-            onPress={() => selectSort(searchSort === "desc" ? "asc" : "desc")}
-            name={searchSort === "desc" ? "arrow-down" : "arrow-up"}
-            size={"xs"}
-            style={{ padding: 0 }}
-          />
+
+          <IconButton onPress={toggleSort} style={styles.sortButton}>
+            <SortIcon size="xs" />
+          </IconButton>
         </View>
       </View>
 
@@ -64,4 +69,7 @@ const stylesheet = createStyleSheet((theme) => ({
     alignItems: "center",
     columnGap: theme.spacing.sm,
   },
+  sortButton: {
+    padding: 0
+  }
 }));

@@ -1,5 +1,4 @@
-import { Slot, Tabs } from "expo-router";
-import { Icon } from "@/styles/icons";
+import { Tabs } from "expo-router";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "@/components/ui/Text";
 import Animated, {
@@ -8,9 +7,19 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import SafeArea from "@/components/ui/SafeArea";
+import {
+  HomeFilledIcon,
+  HomeOutlineIcon,
+  SearchIcon,
+  UserFilledIcon,
+  UserOutlineIcon,
+} from "@/components/icons";
 
 export default function AppLayout() {
   const { theme } = useStyles();
+
+  const activeColor = "primary";
+  const inactiveColor = "inactive";
 
   return (
     <SafeArea>
@@ -18,8 +27,6 @@ export default function AppLayout() {
         screenOptions={{
           headerShown: false,
           tabBarStyle: { backgroundColor: theme.colors.neutral },
-          tabBarInactiveTintColor: theme.colors.inactive,
-          tabBarActiveTintColor: theme.colors.primary,
           tabBarLabel: TabBarLabel,
           tabBarItemStyle: { columnGap: theme.spacing.lg },
         }}
@@ -32,12 +39,14 @@ export default function AppLayout() {
           name="index"
           options={{
             title: "Home",
-            tabBarIcon: ({ color, focused }) => (
-              <Icon
-                name={focused ? "home-filled" : "home-outline"}
-                color={color}
-              />
-            ),
+            tabBarIcon: ({ focused }) =>
+              focused ? (
+                <HomeFilledIcon color={focused ? activeColor : inactiveColor} />
+              ) : (
+                <HomeOutlineIcon
+                  color={focused ? activeColor : inactiveColor}
+                />
+              ),
           }}
         />
 
@@ -45,7 +54,9 @@ export default function AppLayout() {
           name="search"
           options={{
             title: "Search",
-            tabBarIcon: ({ color }) => <Icon name="search" color={color} />,
+            tabBarIcon: ({ focused }) => (
+              <SearchIcon color={focused ? activeColor : inactiveColor} />
+            ),
           }}
         />
 
@@ -53,12 +64,14 @@ export default function AppLayout() {
           name="profile"
           options={{
             title: "Profile",
-            tabBarIcon: ({ color, focused }) => (
-              <Icon
-                name={focused ? "user-filled" : "user-outline"}
-                color={color}
-              />
-            ),
+            tabBarIcon: ({ focused }) =>
+              focused ? (
+                <UserFilledIcon color={focused ? activeColor : inactiveColor} />
+              ) : (
+                <UserOutlineIcon
+                  color={focused ? activeColor : inactiveColor}
+                />
+              ),
           }}
         />
       </Tabs>
@@ -95,10 +108,6 @@ function TabBarLabel(props: {
 
 const stylesheet = createStyleSheet((theme) => ({
   tabLabel: {
-    // fontSize: {
-    //   xs: theme.sizes.text.xs,
-    //   sm: theme.sizes.text.sm,
-    // },
     fontSize: theme.sizes.text.xs,
   },
 }));

@@ -7,19 +7,19 @@ import {
   usePlayerStatus,
 } from "@/stores/PlayerStore";
 import LoadingView from "@/components/ui/LoadingView";
+import { PauseIcon, PlayIcon } from "@/components/icons";
 
 export default function PlayButton() {
   const status = usePlayerStatus();
   const play = usePlayerPlay();
   const { setPlay } = usePlayerActions();
 
+  const PlayingIcon = play ? PauseIcon : PlayIcon;
+
   return status === VideoState.PLAYING ? (
-    <IconButton
-      name={play ? "pause" : "play"}
-      color="foreground"
-      onPress={() => setPlay(!play)}
-      style={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
-    />
+    <IconButton onPress={() => setPlay(!play)}>
+      <PlayingIcon color="foreground" />
+    </IconButton>
   ) : (
     <LoadingView color="foreground" />
   );

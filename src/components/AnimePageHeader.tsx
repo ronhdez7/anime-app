@@ -7,6 +7,7 @@ import { MALID } from "@/types/jikan";
 import { useAnime } from "@/queries/use-anime";
 import IconButton from "./ui/IconButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { VerticalDotsIcon } from "./icons";
 
 interface AnimeHeaderProps {
   id?: MALID;
@@ -38,7 +39,9 @@ export default function AnimePageHeader({ id }: AnimeHeaderProps) {
           )}
         </View>
         <View>
-          <IconButton name="vertical-dots" />
+          <IconButton>
+            <VerticalDotsIcon />
+          </IconButton>
         </View>
       </View>
     </View>

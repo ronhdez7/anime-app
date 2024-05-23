@@ -1,35 +1,26 @@
-import { TouchableOpacity, TouchableOpacityProps } from "react-native";
-import React from "react";
-import { Icon, IconControllerProps } from "@/styles/icons";
+import { ComponentProps } from "react";
+import { TouchableOpacity } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
-import { ThemeConfig } from "@/styles/theme";
 
-export interface IconButtonProps
-  extends TouchableOpacityProps,
-    Pick<IconControllerProps, "name"> {
-  size?: keyof ThemeConfig["sizes"]["icon"];
-  color?: Exclude<keyof ThemeConfig["colors"], "skeleton">;
-}
+interface IconButtonProps extends ComponentProps<typeof TouchableOpacity> {}
+export default function IconButton({ style, ...props }: IconButtonProps) {
+  const { styles } = useStyles(stylesheet);
 
-export default function IconButton({
-  name,
-  size = "md",
-  color = "text",
-  style,
-  ...props
-}: IconButtonProps) {
-  const { styles, theme } = useStyles(stylesheet);
   return (
-    <TouchableOpacity style={[styles.main, style]} {...props}>
-      <Icon
-        name={name}
-        color={theme.colors[color]}
-        size={theme.sizes.icon[size]}
-      />
-    </TouchableOpacity>
+    <TouchableOpacity
+      activeOpacity={0.75}
+      style={[styles.default, style]}
+      {...props}
+    />
   );
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: { padding: theme.spacing.sm, borderRadius: 10000 },
+  default: {
+    padding: theme.spacing.sm,
+    borderRadius: 10000,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
 }));

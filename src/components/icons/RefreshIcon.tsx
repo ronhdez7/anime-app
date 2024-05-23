@@ -1,9 +1,8 @@
-import React from "react";
 import { Svg, Path } from "react-native-svg";
-import { IconProps } from ".";
+import { IconSvgProps, createIcon } from "./IconFactory";
+import { ReactNode } from "react";
 
-// lucide rotate-ccw
-export default function RefreshIcon({ size = 24, ...props }: IconProps) {
+function Icon({ size, ...props }: IconSvgProps): ReactNode {
   return (
     <Svg
       width={size}
@@ -21,3 +20,6 @@ export default function RefreshIcon({ size = 24, ...props }: IconProps) {
     </Svg>
   );
 }
+
+// lucide rotate-ccw
+export const RefreshIcon = createIcon(Icon);

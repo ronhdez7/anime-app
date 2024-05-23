@@ -1,7 +1,7 @@
 import { createStyleSheet, useStyles } from "react-native-unistyles";
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import Text from "./ui/Text";
-import ReloadButton from "./ui/ReloadButton";
+import { RefreshIcon } from "@/components/icons/RefreshIcon";
 
 interface AnimeFetchErrorProps {
   message?: string;
@@ -28,7 +28,11 @@ export default function AnimeFetchError({
           </Text>
         )}
       </View>
-      {onReload && <ReloadButton onReload={onReload} color={color} />}
+      {onReload && (
+        <TouchableOpacity onPress={onReload} style={styles.reloadButton}>
+          <RefreshIcon color={color} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -44,4 +48,5 @@ const stylesheet = createStyleSheet((theme) => ({
     alignItems: "center",
     rowGap: theme.spacing.sm,
   },
+  reloadButton: { padding: theme.spacing.sm, borderRadius: 10000 },
 }));

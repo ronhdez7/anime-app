@@ -7,6 +7,7 @@ import Text from "@/components/ui/Text";
 import AnimePageHeader from "@/components/AnimePageHeader";
 import Button from "@/components/ui/Button";
 import IconButton from "@/components/ui/IconButton";
+import { PlusIcon } from "@/components/icons";
 
 type Params = {
   id: string;
@@ -39,7 +40,10 @@ export default function AnimePage() {
             </Text>
           </Button>
         </Link>
-        <IconButton name="plus" color="primary" style={styles.saveButton} />
+
+        <IconButton style={styles.saveButton}>
+          <PlusIcon color="primary" />
+        </IconButton>
       </View>
     </View>
   );

@@ -7,6 +7,7 @@ import FiltersBottomSheet from "@/components/search/FiltersBottomSheet";
 import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet";
 import { useRef } from "react";
 import IconButton from "@/components/ui/IconButton";
+import { FiltersIcon } from "@/components/icons";
 
 export default function SearchPage() {
   const { styles } = useStyles(stylesheet);
@@ -23,13 +24,9 @@ export default function SearchPage() {
         <View style={styles.searchHeader}>
           <SearchBar />
 
-          <IconButton
-            name="filters"
-            size="sm"
-            style={styles.filterIcon}
-            activeOpacity={0.75}
-            onPress={openBottomSheet}
-          />
+          <IconButton onPress={openBottomSheet} style={styles.filterIcon}>
+            <FiltersIcon size="sm" />
+          </IconButton>
         </View>
         <SearchResults />
 

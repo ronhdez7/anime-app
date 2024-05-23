@@ -1,10 +1,13 @@
 import React from "react";
-import IconButton, { IconButtonProps } from "./IconButton";
+import IconButton from "./IconButton";
 import { router } from "expo-router";
+import { ArrowLeftIcon } from "../icons";
+import { IconProps } from "../icons/IconFactory";
 
-export default function BackArrow({
-  ...props
-}: Omit<IconButtonProps, "name" | "onPress">) {
+interface BackArrowProps {
+  color?: IconProps["color"];
+}
+export default function BackArrow({ color }: BackArrowProps) {
   function goBack() {
     if (router.canGoBack()) {
       router.back();
@@ -13,5 +16,9 @@ export default function BackArrow({
     }
   }
 
-  return <IconButton name="arrow-left" onPress={goBack} size="sm" {...props} />;
+  return (
+    <IconButton onPress={goBack}>
+      <ArrowLeftIcon size="sm" color={color} />
+    </IconButton>
+  );
 }

@@ -10,6 +10,7 @@ import AnimeFetchError from "../AnimeFetchError";
 import { Link } from "expo-router";
 import SkeletonLoader from "../ui/SkeletonLoader";
 import { ImageBackground } from "expo-image";
+import { PlusIcon } from "../icons";
 
 export default function Featured() {
   const { styles } = useStyles(stylesheet);
@@ -79,13 +80,9 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
             {items[currentIdx]?.title}
           </Text>
 
-          <IconButton
-            name="plus"
-            size={"sm"}
-            color={"foreground"}
-            style={styles.addButton}
-            activeOpacity={0.75}
-          />
+          <IconButton style={styles.addButton}>
+            <PlusIcon size="sm" color="foreground" />
+          </IconButton>
         </View>
       ) : null}
     </View>

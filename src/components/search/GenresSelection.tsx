@@ -1,11 +1,11 @@
 import useAnimeGenres from "@/queries/use-anime-genres";
 import { useSearchGenres, useSearchActions } from "@/stores/SearchStore";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import Text from "../ui/Text";
 import LoadingView from "../ui/LoadingView";
-import ReloadButton from "../ui/ReloadButton";
 import FiltersList from "./FiltersList";
+import { RefreshIcon } from "@/components/icons/RefreshIcon";
 
 export default function GenresSelection() {
   const { styles } = useStyles(stylesheet);
@@ -46,12 +46,16 @@ interface GenresErrorProps {
   onReload?: () => void;
 }
 function GenresFetchingError({ onReload }: GenresErrorProps) {
-  const { styles } = useStyles(stylesheet);
+  const { styles, theme } = useStyles(stylesheet);
 
   return (
     <View style={styles.error}>
       <Text size="sm">Could not get genres</Text>
-      {onReload && <ReloadButton onReload={onReload} size="xs" color="text" />}
+      {onReload && (
+        <TouchableOpacity onPress={onReload} style={styles.reloadButton}>
+          <RefreshIcon color="text" size="md" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -59,4 +63,5 @@ function GenresFetchingError({ onReload }: GenresErrorProps) {
 const stylesheet = createStyleSheet((theme) => ({
   main: { rowGap: theme.spacing.sm },
   error: { flexDirection: "row", columnGap: 12, alignItems: "center" },
+  reloadButton: { padding: theme.spacing.sm, borderRadius: 10000 },
 }));

@@ -8,9 +8,9 @@ import GenresSelection from "./GenresSelection";
 import TypesSelection from "./TypesSelection";
 import StatusSelection from "./StatusSelection";
 import OrderSelection from "./OrderSelection";
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { useSearchActions } from "@/stores/SearchStore";
-import ReloadButton from "../ui/ReloadButton";
+import { RefreshIcon } from "@/components/icons/RefreshIcon";
 
 export default forwardRef<BottomSheet>(function FiltersBottomSheet(_, ref) {
   const { styles } = useStyles(stylesheet);
@@ -32,12 +32,10 @@ export default forwardRef<BottomSheet>(function FiltersBottomSheet(_, ref) {
             animatedIndex={animatedIndex}
             animatedPosition={animatedPosition}
           />
-          <ReloadButton
-            onReload={resetFilters}
-            color="text"
-            size="sm"
-            style={styles.resetButton}
-          />
+
+          <TouchableOpacity onPress={resetFilters} style={styles.resetButton}>
+            <RefreshIcon color="text" size="sm" />
+          </TouchableOpacity>
         </View>
       )}
     >
