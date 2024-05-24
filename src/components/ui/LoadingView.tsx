@@ -2,20 +2,14 @@ import { View, ActivityIndicator, ViewProps } from "react-native";
 import React from "react";
 import { useStyles } from "react-native-unistyles";
 import { ThemeConfig } from "@/styles/theme";
+import SpinningLoader from "./SpinningLoader";
 
 interface Props extends ViewProps {
   size?: keyof ThemeConfig["sizes"]["icon"];
   color?: Exclude<keyof ThemeConfig["colors"], "skeleton">;
 }
 
-export default function LoadingView({
-  size = "md",
-  color = "text",
-  style,
-  ...props
-}: Props) {
-  const { theme } = useStyles();
-
+export default function LoadingView({ size, color, style, ...props }: Props) {
   return (
     <View
       style={[
@@ -28,10 +22,7 @@ export default function LoadingView({
       ]}
       {...props}
     >
-      <ActivityIndicator
-        color={theme.colors[color]}
-        size={theme.sizes.icon[size]}
-      />
+      <SpinningLoader size={size} color={color} />
     </View>
   );
 }

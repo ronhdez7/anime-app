@@ -11,3 +11,4 @@ export * from "./ArrowLeftIcon";
 export * from "./VerticalDotsIcon";
 export * from "./PlayIcon";
 export * from "./PauseIcon";
+export * from "./ExpandIcon"

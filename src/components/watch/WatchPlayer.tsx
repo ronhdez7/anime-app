@@ -28,13 +28,11 @@ export default function WatchPlayer({
   );
   const sources = useStreamSources(servers.data?.at(0)?.playerUrl);
 
+  const sourceUrl = sources.data?.sources.at(0)?.url ?? "";
+
   return (
     <PlayerStoreProvider>
-      <Player
-        source={{
-          uri: sources.data?.sources.at(0)?.url ?? "",
-        }}
-      />
+      <Player source={{ uri: sourceUrl }} />
     </PlayerStoreProvider>
   );
 }

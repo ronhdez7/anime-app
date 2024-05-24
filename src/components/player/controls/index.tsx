@@ -1,25 +1,31 @@
 import { Pressable, View } from "react-native";
-import React, { PropsWithChildren, memo, useReducer } from "react";
+import React, { memo, useEffect } from "react";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import SettingsButton from "./SettingsButton";
 import BackButton from "./BackButton";
 import PlayButton from "./PlayButton";
 import ProgressBar from "./ProgressBar";
-
-function StopPressPropagation({ children }: PropsWithChildren) {
-  return (
-    <Pressable
-      style={{ flexDirection: "row" }}
-      onPress={(e) => e.stopPropagation()}
-      children={children}
-    />
-  );
-}
+import FullscreenButton from "./FullscreenButton";
+import { usePlayerActions, usePlayerShowControls } from "@/stores/PlayerStore";
 
 export default memo(function Controls() {
   const { styles } = useStyles(stylesheet);
 
-  const [showControls, toggleControls] = useReducer((v) => !v, true);
+  const showControls = usePlayerShowControls();
+  const { setShowControls } = usePlayerActions();
+
+  function toggleControls() {
+    setShowControls(!showControls);
+  }
+
+  // useEffect(() => {
+  //   let timer: NodeJS.Timeout;
+  //   if (showControls) {
+  //     timer = setTimeout(() => toggleControls(), 5000);
+  //   }
+
+  //   return () => clearTimeout(timer);
+  // }, [showControls]);
 
   return (
     <Pressable style={styles.container} onPress={toggleControls}>
@@ -28,26 +34,19 @@ export default memo(function Controls() {
         style={styles.controls(showControls)}
       >
         <View style={styles.bar}>
-          <StopPressPropagation>
-            <BackButton />
-          </StopPressPropagation>
-          <StopPressPropagation>
-            <SettingsButton />
-          </StopPressPropagation>
+          <BackButton />
+          <SettingsButton />
         </View>
 
         <View style={[styles.bar, styles.fill]}>
           <View style={styles.fill}></View>
-          <StopPressPropagation>
-            <PlayButton />
-          </StopPressPropagation>
+          <PlayButton />
           <View style={styles.fill}></View>
         </View>
 
-        <View style={styles.bar}>
-          <StopPressPropagation>
-            <ProgressBar />
-          </StopPressPropagation>
+        <View style={[styles.bar, styles.bottomBar]}>
+          <ProgressBar />
+          <FullscreenButton />
         </View>
       </View>
     </Pressable>
@@ -70,6 +69,9 @@ const stylesheet = createStyleSheet(() => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  bottomBar: {
+    alignItems: "flex-end",
   },
   fill: {
     flex: 1,

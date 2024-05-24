@@ -15,6 +15,7 @@ import {
   usePlayerProgress,
   usePlayerSeeking,
   usePlayerSpeed,
+  usePlayerStatus,
 } from "@/stores/PlayerStore";
 import { useCallback, useEffect, useRef } from "react";
 
@@ -32,6 +33,11 @@ export default function Player({ source }: PlayerWithControlsProps) {
   const play = usePlayerPlay();
   const speed = usePlayerSpeed();
   const seeking = usePlayerSeeking();
+  const status = usePlayerStatus();
+
+  const onLoad = useCallback(() => {
+    setStatus(VideoState.BUFFERING);
+  }, []);
 
   const onPlaybackUpdate = useCallback(
     (status: AVPlaybackStatus) => {
@@ -70,21 +76,25 @@ export default function Player({ source }: PlayerWithControlsProps) {
       <Video
         ref={videoRef}
         source={source}
-        style={{ width: "100%", height: "100%" }}
+        style={styles.video}
         resizeMode={ResizeMode.CONTAIN}
-        onPlaybackStatusUpdate={onPlaybackUpdate}
+        onPlaybackStatusUpdate={
+          status === VideoState.LOADING ? undefined : onPlaybackUpdate
+        }
         rate={speed}
         progressUpdateIntervalMillis={1000 / speed}
         shouldPlay={play}
+        onLoad={onLoad}
       />
       <Controls />
     </View>
   );
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet(() => ({
   container: {
     width: "100%",
     aspectRatio: 16 / 9,
   },
+  video: { width: "100%", height: "100%", backgroundColor: "black" },
 }));

@@ -1,4 +1,4 @@
-import { GestureResponderEvent, View } from "react-native";
+import { GestureResponderEvent, Pressable, View } from "react-native";
 import React, { useState } from "react";
 import {
   usePlayerActions,
@@ -7,7 +7,7 @@ import {
 } from "@/stores/PlayerStore";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "@/components/ui/Text";
-import { clamp } from "@/lib/utils";
+import { clamp, convertSeconds } from "@/lib/utils";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -31,6 +31,8 @@ export default function ProgressBar() {
 
   const [seekbarWidth, setSeekbarWidth] = useState(0);
   const { setProgress, setSeeking } = usePlayerActions();
+
+  const time = convertSeconds(progress);
 
   const handleSize = useSharedValue(10);
 
@@ -77,24 +79,26 @@ export default function ProgressBar() {
   return (
     <View style={styles.container}>
       <View style={styles.main}>
+        <Text color="foreground" size="smd">
+          {Number(time.hours) ? `${time.hours}:` : ""}
+          {time.minutes}:{time.seconds}
+        </Text>
+
         {/* Seekbar */}
-        <View
+        <Pressable
           style={styles.seekbarContainer}
           onLayout={(e) => setSeekbarWidth(e.nativeEvent.layout.width)}
           onTouchStart={startSeeking}
           onTouchMove={updateSeeking}
           onTouchEnd={endSeeking}
+          onPress={(e) => e.stopPropagation()}
         >
           <View style={styles.seekbar}>
             <View style={styles.covered(progress, duration)}>
               <Animated.View style={[styles.handle, handleAnimatedStyle]} />
             </View>
           </View>
-        </View>
-
-        <Text color="foreground" style={styles.text}>
-          {progress}
-        </Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -105,8 +109,7 @@ const stylesheet = createStyleSheet((theme) => ({
   main: {
     paddingVertical: theme.spacing.sm,
     paddingHorizontal: HORIZONTAL_PADDING,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: "column",
     columnGap: theme.spacing.sm,
   },
   seekbarContainer: {
@@ -136,9 +139,5 @@ const stylesheet = createStyleSheet((theme) => ({
     right: -5,
     height: 10,
     width: 10,
-  },
-  text: {
-    width: 40,
-    textAlign: "center",
   },
 }));

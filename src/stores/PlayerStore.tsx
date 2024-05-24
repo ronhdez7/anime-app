@@ -15,6 +15,8 @@ type PlayerState = {
   duration: number;
   status: VideoState;
   seeking: boolean;
+  fullscreen: boolean;
+  showControls: boolean;
 };
 
 const initialState: PlayerState = {
@@ -24,6 +26,8 @@ const initialState: PlayerState = {
   duration: 0,
   status: VideoState.LOADING,
   seeking: false,
+  fullscreen: false,
+  showControls: true,
 };
 
 interface Actions {
@@ -34,6 +38,8 @@ interface Actions {
   setDuration: (duration: PlayerState["duration"]) => void;
   setStatus: (status: PlayerState["status"]) => void;
   setSeeking: (seeking: PlayerState["seeking"]) => void;
+  setFullscreen: (fullscreen: PlayerState["fullscreen"]) => void;
+  setShowControls: (showControls: PlayerState["showControls"]) => void;
 }
 
 type PlayerContext = PlayerState & { actions: Actions };
@@ -52,6 +58,8 @@ export default function PlayerStoreProvider({ children }: PropsWithChildren) {
         setDuration: (duration) => set(() => ({ duration })),
         setStatus: (status) => set(() => ({ status })),
         setSeeking: (seeking) => set(() => ({ seeking })),
+        setFullscreen: (fullscreen) => set(() => ({ fullscreen })),
+        setShowControls: (showControls) => set(() => ({ showControls })),
       },
     }))
   );
@@ -80,6 +88,10 @@ export const usePlayerPlay = () => usePlayerStore((state) => state.play);
 export const usePlayerSpeed = () => usePlayerStore((state) => state.speed);
 export const usePlayerStatus = () => usePlayerStore((state) => state.status);
 export const usePlayerSeeking = () => usePlayerStore((state) => state.seeking);
+export const usePlayerFullscreen = () =>
+  usePlayerStore((state) => state.fullscreen);
+export const usePlayerShowControls = () =>
+  usePlayerStore((state) => state.showControls);
 
 // progress
 export const usePlayerProgress = () =>
