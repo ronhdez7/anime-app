@@ -1,5 +1,5 @@
 import { GestureResponderEvent, Pressable, View } from "react-native";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import {
   usePlayerActions,
   usePlayerDurationInSecs,
@@ -24,7 +24,7 @@ function calculateProgress(
   return clamp((trackWidth / seekbarWidth) * duration, duration, 0) * 1000;
 }
 
-export default function ProgressBar() {
+export default memo(function ProgressBar() {
   const { styles } = useStyles(stylesheet);
   const progress = usePlayerProgressInSecs();
   const duration = usePlayerDurationInSecs();
@@ -103,7 +103,7 @@ export default function ProgressBar() {
     </View>
   );
 }
-
+)
 const stylesheet = createStyleSheet((theme) => ({
   container: { flex: 1 },
   main: {

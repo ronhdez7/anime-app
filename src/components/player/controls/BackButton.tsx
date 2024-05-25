@@ -1,8 +1,9 @@
 import { ArrowLeftIcon } from "@/components/icons";
 import IconButton from "@/components/ui/IconButton";
 import { useRouter } from "expo-router";
+import { memo } from "react";
 
-export default function BackButton() {
+export default memo( function BackButton() {
   const router = useRouter();
 
   function goBack() {
@@ -19,3 +20,4 @@ export default function BackButton() {
     </IconButton>
   );
 }
+)
