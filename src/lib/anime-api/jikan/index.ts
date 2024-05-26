@@ -1,82 +1,90 @@
+import jikanApi from "./jikan-api";
+import { AxiosError, AxiosRequestConfig } from "axios";
+import { MALID } from "@/types/jikan";
 import {
-  JikanAnimeFullData,
-  JikanAnimeData,
-  JikanError,
-  JikanGenre,
-  JikanPaginatedResponse,
-  JikanResponse,
-  JikanAnimeSearchParams,
-  JikanTopAnimeParams,
-  MALID,
-  JikanEpisodeData,
-} from "@/types/jikan";
-import ogAxios, { AxiosRequestConfig, AxiosResponse } from "axios";
+  parseJikanAnime,
+  parseJikanAnimeArray,
+  parseJikanEpisodeArray,
+  parseJikanError,
+  parseJikanGenreArray,
+} from "./jikan-parser";
+import { AnimeApi } from "..";
+import { AnimeSearchParams, AnimeTopParams } from "@/types";
 
-type Res<T> = Promise<AxiosResponse<JikanResponse<T>, JikanError>>;
-type PaginatedRes<T> = Promise<
-  AxiosResponse<JikanPaginatedResponse<T>, JikanError>
->;
-
-class Jikan {
-  readonly BASE_URL = "https://api.jikan.moe/v4";
-  readonly axios = ogAxios.create({
-    baseURL: this.BASE_URL,
-  });
-
-  error(..._: any[]): any {
-    throw new Error("error thrown intentionally");
-    return;
+class Jikan implements AnimeApi {
+  error(...args: any[]) {
+    return jikanApi.error(...args);
   }
 
-  loading(..._: any[]): any {
-    return new Promise((_, reject) => setTimeout(reject, 10000));
+  loading(...args: any[]) {
+    return jikanApi.loading(...args);
   }
 
-  fakeResponse<T>(data: T): AxiosResponse<JikanResponse<T>> {
-    return { data: { data: data } } as any;
+  fakeResponse<T>(data: T) {
+    return jikanApi.fakeResponse(data).data;
+  }
+
+  private getError(e: unknown) {
+    if (e instanceof AxiosError && e.response?.data) return e.response.data;
+
+    throw e;
   }
 
   getFeaturedAnime(config?: AxiosRequestConfig) {
     return this.getTopAnime({ limit: 5, sfw: true }, config);
   }
 
-  getTopAnime(
-    options: JikanTopAnimeParams,
+  async getTopAnime(options: AnimeTopParams, config?: AxiosRequestConfig) {
+    try {
+      const { data } = await jikanApi.getTopAnime(options, config);
+      return { ...data, data: parseJikanAnimeArray(data.data) };
+    } catch (e) {
+      throw parseJikanError(this.getError(e));
+    }
+  }
+
+  async getAnimeFullById(id: MALID, config?: AxiosRequestConfig) {
+    try {
+      const { data } = await jikanApi.getAnimeFullById(id, config);
+      return { data: parseJikanAnime(data.data) };
+    } catch (e) {
+      throw parseJikanError(this.getError(e));
+    }
+  }
+
+  async getAnimeSearch(
+    options: AnimeSearchParams,
     config?: AxiosRequestConfig
-  ): PaginatedRes<JikanAnimeData[]> {
-    const params = new URLSearchParams(options as any).toString();
-    return this.axios.get(`/top/anime?${params}`, config);
+  ) {
+    try {
+      const { data } = await jikanApi.getAnimeSearch(options, config);
+      return { ...data, data: parseJikanAnimeArray(data.data) };
+    } catch (e) {
+      throw parseJikanError(this.getError(e));
+    }
   }
 
-  getAnimeFullById(
-    id: MALID,
-    config?: AxiosRequestConfig
-  ): Res<JikanAnimeFullData> {
-    return this.axios.get(`/anime/${id}/full`, config);
+  async getAnimeGenres(config?: AxiosRequestConfig) {
+    try {
+      const { data } = await jikanApi.getAnimeGenres(config);
+      return { data: parseJikanGenreArray(data.data) };
+    } catch (e) {
+      throw parseJikanError(this.getError(e));
+    }
   }
 
-  getAnimeSearch(
-    options: JikanAnimeSearchParams,
-    config?: AxiosRequestConfig
-  ): PaginatedRes<JikanAnimeData[]> {
-    const params = new URLSearchParams(options as any).toString();
-    return this.axios.get(`/anime?${params}`, config);
-  }
-
-  getAnimeGenres(config?: AxiosRequestConfig): Res<JikanGenre[]> {
-    return this.axios.get("/genres/anime", config);
-  }
-
-  getAnimeEpisodes(
-    id: MALID,
+  async getAnimeEpisodes(
+    id: number,
     options?: { page?: number },
     config?: AxiosRequestConfig
-  ): PaginatedRes<JikanEpisodeData[]> {
-    const params = new URLSearchParams(options as any).toString();
-    return this.axios.get(`/anime/${id}/episodes?${params}`, config);
+  ) {
+    try {
+      const { data } = await jikanApi.getAnimeEpisodes(id, options, config);
+      return { ...data, data: parseJikanEpisodeArray(data.data, id) };
+    } catch (e) {
+      throw parseJikanError(this.getError(e));
+    }
   }
 }
 
-const jikan = new Jikan();
-
-export default jikan;
+export const jikan = new Jikan();

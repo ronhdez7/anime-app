@@ -60,7 +60,6 @@ export function AnimeListView({ title, query }: AnimeListViewProps) {
           <AnimeFetchError
             message={query.error?.message}
             onReload={query.refetch}
-            foreground
           />
         )}
       </View>
@@ -85,7 +84,6 @@ export function NoAnimeFound() {
 
 const stylesheet = createStyleSheet((theme) => ({
   listContainer: {
-    padding: theme.spacing.sm,
     gap: theme.spacing.sm,
   },
   listView: { rowGap: theme.spacing.xs },
@@ -93,7 +91,6 @@ const stylesheet = createStyleSheet((theme) => ({
   listWrapper: {
     height: 250,
     borderRadius: theme.radius.md,
-    backgroundColor: theme.colors.secondary,
     overflow: "hidden",
   },
 }));
