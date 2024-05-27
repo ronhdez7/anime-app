@@ -17,7 +17,7 @@ type PaginatedRes<T> = Promise<
   AxiosResponse<JikanPaginatedResponse<T>, JikanError>
 >;
 
-class Jikan {
+class JikanApi {
   readonly BASE_URL = "https://api.jikan.moe/v4";
   readonly axios = ogAxios.create({
     baseURL: this.BASE_URL,
@@ -77,6 +77,6 @@ class Jikan {
   }
 }
 
-const jikan = new Jikan();
+const jikanApi = new JikanApi();
 
-export default jikan;
+export default jikanApi;

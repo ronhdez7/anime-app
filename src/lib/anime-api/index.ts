@@ -9,6 +9,7 @@ import {
 import { jikan } from "./jikan";
 import { AxiosRequestConfig } from "axios";
 import { MALID } from "@/types/jikan";
+import { anilist } from "./anilist";
 
 type Res<T> = Promise<ApiResponse<T>>;
 type PaginatedRes<T> = Promise<ApiPaginatedResponse<T>>;
@@ -43,6 +44,16 @@ export interface AnimeApi {
   ): PaginatedRes<EpisodeData[]>;
 }
 
-const animeApi: AnimeApi = jikan;
+const animeApi: AnimeApi = {
+  error: jikan.error,
+  loading: jikan.loading,
+  fakeResponse: jikan.fakeResponse,
+  getAnimeEpisodes: jikan.getAnimeEpisodes,
+  getAnimeFullById: anilist.getAnimeFullById,
+  getAnimeGenres: jikan.getAnimeGenres,
+  getAnimeSearch: jikan.getAnimeSearch,
+  getFeaturedAnime: jikan.getFeaturedAnime,
+  getTopAnime: jikan.getTopAnime,
+};
 
 export default animeApi;
