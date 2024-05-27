@@ -5,12 +5,13 @@ import {
   parseAnilistAnime,
   parseAnilistAnimeArray,
   parseAnilistPagination,
+  parseAnimeSearchParams,
   parseTopAnimeParams,
 } from "./anilist-parser";
-import { AnimeTopParams } from "@/types";
+import { AnimeSearchParams, AnimeTopParams } from "@/types";
 import { AnimeApi } from "..";
 
-class Anilist {
+class Anilist implements AnimeApi {
   error(...args: any[]): any {
     return anilistApi.error(...args);
   }
@@ -20,7 +21,7 @@ class Anilist {
   }
 
   fakeResponse<T>(data: T) {
-    return anilistApi.fakeResponse(data);
+    return anilistApi.fakeResponse(data).data;
   }
 
   getFeaturedAnime(config?: AxiosRequestConfig) {
@@ -46,6 +47,25 @@ class Anilist {
     }
   }
 
+  async getAnimeSearch(
+    options: AnimeSearchParams,
+    config?: AxiosRequestConfig
+  ): ReturnType<AnimeApi["getAnimeSearch"]> {
+    try {
+      const { data } = await anilistApi.getAnimeSearch(
+        parseAnimeSearchParams(options),
+        config
+      );
+      const animeList = data.data?.Page.media;
+      return {
+        data: animeList ? parseAnilistAnimeArray(animeList) : [],
+        pagination: parseAnilistPagination(data.data?.Page.pageInfo),
+      };
+    } catch (e) {
+      throw e;
+    }
+  }
+
   async getAnimeFullById(id: MALID, config?: AxiosRequestConfig) {
     try {
       const { data } = await anilistApi.getAnimeFullById(Number(id), config);
@@ -54,6 +74,20 @@ class Anilist {
     } catch (e) {
       throw e;
     }
+  }
+
+  async getAnimeGenres(config?: AxiosRequestConfig<any> | undefined) {
+    throw new Error("Not implemented");
+    return undefined as any
+  }
+
+  async getAnimeEpisodes(
+    id: number,
+    options?: { page?: number },
+    config?: AxiosRequestConfig
+  ) {
+    throw new Error("Not implemented");
+    return undefined as any
   }
 }
 

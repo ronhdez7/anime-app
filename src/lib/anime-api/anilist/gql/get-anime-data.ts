@@ -1,3 +1,4 @@
+import { convertToVariables } from "@/lib/utils";
 import { animeDataFragment } from "./fragments/anime-data";
 
 export function getAnimeDataQuery(variables: { animeId: number }) {
@@ -11,6 +12,6 @@ export function getAnimeDataQuery(variables: { animeId: number }) {
 
   return {
     query: query.replaceAll("\n", " "),
-    variables,
+    variables: convertToVariables(variables),
   };
 }

@@ -1,7 +1,7 @@
 import { GraphqlError } from "../helpers";
 
 export interface AnilistResponse<T> {
-  data?: T;
+  data: T;
   errors?: GraphqlError[];
 }
 

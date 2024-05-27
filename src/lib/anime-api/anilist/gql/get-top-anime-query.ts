@@ -1,5 +1,6 @@
 import { AnilistTopAnimeParams } from "@/types/anilist";
 import { animeDataFragment } from "./fragments/anime-data";
+import { convertToVariables } from "@/lib/utils";
 
 export function getTopAnimeQuery(variables: AnilistTopAnimeParams) {
   const query = `
@@ -13,6 +14,6 @@ export function getTopAnimeQuery(variables: AnilistTopAnimeParams) {
 
   return {
     query: query.replaceAll("\n", " "),
-    variables,
+    variables: convertToVariables(variables),
   };
 }

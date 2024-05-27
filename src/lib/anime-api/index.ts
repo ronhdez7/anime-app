@@ -49,15 +49,15 @@ export interface AnimeApi {
 }
 
 const animeApi: AnimeApi = {
-  error: jikan.error,
-  loading: jikan.loading,
-  fakeResponse: jikan.fakeResponse,
-  getAnimeEpisodes: jikan.getAnimeEpisodes,
-  getAnimeFullById: jikan.getAnimeFullById,
-  getAnimeGenres: jikan.getAnimeGenres,
-  getAnimeSearch: jikan.getAnimeSearch,
-  getFeaturedAnime: jikan.getFeaturedAnime,
-  getTopAnime: jikan.getTopAnime,
+  error: jikan.error.bind(jikan),
+  loading: jikan.loading.bind(jikan),
+  fakeResponse: jikan.fakeResponse.bind(jikan),
+  getAnimeEpisodes: jikan.getAnimeEpisodes.bind(jikan),
+  getAnimeFullById: jikan.getAnimeFullById.bind(jikan),
+  getAnimeGenres: jikan.getAnimeGenres.bind(jikan),
+  getAnimeSearch: jikan.getAnimeSearch.bind(jikan),
+  getFeaturedAnime: jikan.getFeaturedAnime.bind(jikan),
+  getTopAnime: jikan.getTopAnime.bind(jikan),
 };
 
 export default animeApi;

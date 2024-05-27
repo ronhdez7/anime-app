@@ -26,3 +26,18 @@ export function convertToSearchParams(params?: object): string {
 
   return new URLSearchParams(options).toString();
 }
+
+export function convertToVariables(params?: object): object {
+  if (!params) return {};
+
+  const vars = {};
+  const keys = Object.keys(params) as (keyof typeof params)[];
+  for (const key of keys) {
+    if (!(key in params)) continue;
+    if (params[key] === undefined || params[key] === null) continue;
+
+    vars[key] = params[key];
+  }
+
+  return vars;
+}

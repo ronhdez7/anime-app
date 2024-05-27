@@ -86,7 +86,7 @@ export interface AnilistAnimeSearchParams extends AnilistTopAnimeParams {
   genre_in?: string[];
   genre_not_in?: string[];
   // orderBy and sort combined
-  sort?: AnilistAnimeSort;
+  sort?: AnilistAnimeSort[];
   startDate?: AnilistFuzzyDate;
   endDate?: AnilistFuzzyDate;
 }

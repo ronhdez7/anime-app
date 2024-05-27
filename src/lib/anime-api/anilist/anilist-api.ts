@@ -5,10 +5,12 @@ import {
   AnilistResponse,
   AnilistId,
   AnilistTopAnimeParams,
+  AnilistAnimeSearchParams,
 } from "@/types/anilist";
 import ogAxios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { getAnimeDataQuery } from "./gql/get-anime-data";
 import { getTopAnimeQuery } from "./gql/get-top-anime-query";
+import { getAnimeSearchQuery } from "./gql/get-anime-search-query";
 
 type Res<T> = Promise<AxiosResponse<AnilistResponse<T>>>;
 type PaginatedRes<T> = Promise<AxiosResponse<AnilistPaginatedResponse<T>>>;
@@ -54,13 +56,12 @@ class Anilist {
     return this.axios.post("", getAnimeDataQuery({ animeId: id }), config);
   }
 
-  // getAnimeSearch(
-  //   options: AnilistAnimeSearchParams,
-  //   config?: AxiosRequestConfig
-  // ): PaginatedRes<AnilistAnimeData[]> {
-  //   const params = new URLSearchParams(options as any).toString();
-  //   return this.axios.get(`/anime?${params}`, config);
-  // }
+  getAnimeSearch(
+    options: AnilistAnimeSearchParams,
+    config?: AxiosRequestConfig
+  ): PaginatedRes<{ media: AnilistAnimeData[] }> {
+    return this.axios.post("", getAnimeSearchQuery(options), config);
+  }
 
   getAnimeGenres(config?: AxiosRequestConfig): Res<AnilistGenre[]> {
     return this.axios.get("/genres/anime", config);
