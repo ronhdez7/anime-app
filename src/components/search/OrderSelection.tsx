@@ -14,12 +14,12 @@ import { ArrowDownIcon, ArrowUpIcon } from "../icons";
 
 const orders: { name: string; value?: AnimeSearchOrder }[] = [
   { name: "N/A" },
-  { name: "Title", value: "title" },
-  { name: "Start Date", value: "start_date" },
-  { name: "End Date", value: "end_date" },
-  { name: "Score", value: "score" },
-  { name: "Rank", value: "rank" },
-  { name: "Popularity", value: "popularity" },
+  { name: "Title", value: AnimeSearchOrder.TITLE },
+  { name: "Start Date", value: AnimeSearchOrder.START_DATE },
+  { name: "End Date", value: AnimeSearchOrder.END_DATE },
+  { name: "Score", value: AnimeSearchOrder.SCORE },
+  { name: "Rank", value: AnimeSearchOrder.RANK },
+  { name: "Popularity", value: AnimeSearchOrder.POPULARITY },
 ] as const;
 
 export default function OrderSelection() {
@@ -70,6 +70,6 @@ const stylesheet = createStyleSheet((theme) => ({
     columnGap: theme.spacing.sm,
   },
   sortButton: {
-    padding: 0
-  }
+    padding: 0,
+  },
 }));

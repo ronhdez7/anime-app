@@ -2,14 +2,22 @@ import jikanApi from "./jikan-api";
 import { AxiosError, AxiosRequestConfig } from "axios";
 import { MALID } from "@/types/jikan";
 import {
+  parseAnimeSearchParams,
   parseJikanAnime,
   parseJikanAnimeArray,
   parseJikanEpisodeArray,
   parseJikanError,
   parseJikanGenreArray,
+  parseTopAnimeParams,
 } from "./jikan-parser";
 import { AnimeApi } from "..";
 import { AnimeSearchParams, AnimeTopParams } from "@/types";
+
+function getError(e: unknown) {
+  if (e instanceof AxiosError && e.response?.data) return e.response.data;
+
+  throw e;
+}
 
 class Jikan implements AnimeApi {
   error(...args: any[]) {
@@ -24,22 +32,19 @@ class Jikan implements AnimeApi {
     return jikanApi.fakeResponse(data).data;
   }
 
-  private getError(e: unknown) {
-    if (e instanceof AxiosError && e.response?.data) return e.response.data;
-
-    throw e;
-  }
-
   getFeaturedAnime(config?: AxiosRequestConfig) {
-    return this.getTopAnime({ limit: 5, sfw: true }, config);
+    return this.getTopAnime({ limit: 5, adult: false }, config);
   }
 
   async getTopAnime(options: AnimeTopParams, config?: AxiosRequestConfig) {
     try {
-      const { data } = await jikanApi.getTopAnime(options, config);
+      const { data } = await jikanApi.getTopAnime(
+        parseTopAnimeParams(options),
+        config
+      );
       return { ...data, data: parseJikanAnimeArray(data.data) };
     } catch (e) {
-      throw parseJikanError(this.getError(e));
+      throw parseJikanError(getError(e));
     }
   }
 
@@ -48,7 +53,7 @@ class Jikan implements AnimeApi {
       const { data } = await jikanApi.getAnimeFullById(id, config);
       return { data: parseJikanAnime(data.data) };
     } catch (e) {
-      throw parseJikanError(this.getError(e));
+      throw parseJikanError(getError(e));
     }
   }
 
@@ -57,10 +62,11 @@ class Jikan implements AnimeApi {
     config?: AxiosRequestConfig
   ) {
     try {
-      const { data } = await jikanApi.getAnimeSearch(options, config);
+      const params = parseAnimeSearchParams(options);
+      const { data } = await jikanApi.getAnimeSearch(params, config);
       return { ...data, data: parseJikanAnimeArray(data.data) };
     } catch (e) {
-      throw parseJikanError(this.getError(e));
+      throw parseJikanError(getError(e));
     }
   }
 
@@ -69,7 +75,7 @@ class Jikan implements AnimeApi {
       const { data } = await jikanApi.getAnimeGenres(config);
       return { data: parseJikanGenreArray(data.data) };
     } catch (e) {
-      throw parseJikanError(this.getError(e));
+      throw parseJikanError(getError(e));
     }
   }
 
@@ -82,7 +88,7 @@ class Jikan implements AnimeApi {
       const { data } = await jikanApi.getAnimeEpisodes(id, options, config);
       return { ...data, data: parseJikanEpisodeArray(data.data, id) };
     } catch (e) {
-      throw parseJikanError(this.getError(e));
+      throw parseJikanError(getError(e));
     }
   }
 }

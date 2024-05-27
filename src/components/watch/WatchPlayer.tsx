@@ -30,8 +30,6 @@ export default function WatchPlayer({
 
   const sourceUrl = sources.data?.sources.at(0)?.url ?? "";
 
-  console.log(streamAnime.data);
-
   return (
     <PlayerStoreProvider>
       <Player source={{ uri: sourceUrl }} />

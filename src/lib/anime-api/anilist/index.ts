@@ -1,7 +1,14 @@
 import { MALID } from "@/types/jikan";
 import { anilistApi } from "./anilist-api";
 import { AxiosRequestConfig } from "axios";
-import { parseAnilistAnime } from "./anilist-parser";
+import {
+  parseAnilistAnime,
+  parseAnilistAnimeArray,
+  parseAnilistPagination,
+  parseTopAnimeParams,
+} from "./anilist-parser";
+import { AnimeTopParams } from "@/types";
+import { AnimeApi } from "..";
 
 class Anilist {
   error(...args: any[]): any {
@@ -16,22 +23,34 @@ class Anilist {
     return anilistApi.fakeResponse(data);
   }
 
-  // getFeaturedAnime(config?: AxiosRequestConfig) {
-  //   return this.getTopAnime({ limit: 5, sfw: true }, config);
-  // }
+  getFeaturedAnime(config?: AxiosRequestConfig) {
+    return this.getTopAnime({ limit: 5, adult: false }, config);
+  }
 
-  // getTopAnime(
-  //   options: AnilistTopAnimeParams,
-  //   config?: AxiosRequestConfig
-  // ): PaginatedRes<AnilistAnimeData[]> {
-  //   const params = new URLSearchParams(options as any).toString();
-  //   return this.axios.get(`/top/anime?${params}`, config);
-  // }
+  async getTopAnime(
+    options: AnimeTopParams,
+    config?: AxiosRequestConfig
+  ): ReturnType<AnimeApi["getTopAnime"]> {
+    try {
+      const { data } = await anilistApi.getTopAnime(
+        parseTopAnimeParams(options),
+        config
+      );
+      const animeList = data.data?.Page.media;
+      return {
+        data: animeList ? parseAnilistAnimeArray(animeList) : [],
+        pagination: parseAnilistPagination(data.data?.Page.pageInfo),
+      };
+    } catch (e) {
+      throw e;
+    }
+  }
 
   async getAnimeFullById(id: MALID, config?: AxiosRequestConfig) {
     try {
       const { data } = await anilistApi.getAnimeFullById(Number(id), config);
-      return { data: parseAnilistAnime(data.data?.Media!) };
+      const media = data.data?.Media;
+      return { data: media ? parseAnilistAnime(media) : null };
     } catch (e) {
       throw e;
     }

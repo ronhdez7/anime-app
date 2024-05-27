@@ -4,9 +4,11 @@ import {
   AnilistPaginatedResponse,
   AnilistResponse,
   AnilistId,
+  AnilistTopAnimeParams,
 } from "@/types/anilist";
 import ogAxios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { getAnimeDataQuery } from "./gql/get-anime-data";
+import { getTopAnimeQuery } from "./gql/get-top-anime-query";
 
 type Res<T> = Promise<AxiosResponse<AnilistResponse<T>>>;
 type PaginatedRes<T> = Promise<AxiosResponse<AnilistPaginatedResponse<T>>>;
@@ -34,23 +36,21 @@ class Anilist {
     return { data: { data: data } } as any;
   }
 
-  // getFeaturedAnime(config?: AxiosRequestConfig) {
-  //   return this.getTopAnime({ limit: 5, sfw: true }, config);
-  // }
+  getFeaturedAnime(config?: AxiosRequestConfig) {
+    return this.getTopAnime({ perPage: 5, isAdult: true }, config);
+  }
 
-  // getTopAnime(
-  //   options: AnilistTopAnimeParams,
-  //   config?: AxiosRequestConfig
-  // ): PaginatedRes<AnilistAnimeData[]> {
-  //   const params = new URLSearchParams(options as any).toString();
-  //   return this.axios.get(`/top/anime?${params}`, config);
-  // }
+  getTopAnime(
+    options: AnilistTopAnimeParams,
+    config?: AxiosRequestConfig
+  ): PaginatedRes<{ media: AnilistAnimeData[] }> {
+    return this.axios.post("", getTopAnimeQuery(options), config);
+  }
 
   getAnimeFullById(
     id: AnilistId,
     config?: AxiosRequestConfig
   ): Res<{ Media: AnilistAnimeData }> {
-    console.log(getAnimeDataQuery({ animeId: id }));
     return this.axios.post("", getAnimeDataQuery({ animeId: id }), config);
   }
 

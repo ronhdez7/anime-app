@@ -4,16 +4,16 @@ import { StoreApi, createStore, useStore } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 
 type SearchState = AnimeSearchParams & {
-  genres: number[];
+  genres: string[];
 };
 
 interface Actions {
-  setQuery: (query: string) => void;
-  addGenre: (genre: number) => void;
-  removeGenre: (genre: number) => void;
+  setQuery: (query: SearchState["query"]) => void;
+  addGenre: (genre: SearchState["genres"][0]) => void;
+  removeGenre: (genre: SearchState["genres"][0]) => void;
   selectType: (type?: SearchState["type"]) => void;
   selectStatus: (status?: SearchState["status"]) => void;
-  selectOrder: (order?: SearchState["order_by"]) => void;
+  selectOrder: (orderBy?: SearchState["orderBy"]) => void;
   selectSort: (sort?: SearchState["sort"]) => void;
   resetFilters: () => void;
 }
@@ -30,20 +30,20 @@ export default function SearchStoreProvider({ children }: PropsWithChildren) {
     createStore<SearchContext>((set) => ({
       ...initialState,
       actions: {
-        setQuery: (query) => set(() => ({ q: query })),
+        setQuery: (query) => set(() => ({ query })),
         addGenre: (genre) =>
           set((state) => ({ genres: [...state.genres, genre] })),
         removeGenre: (genre) =>
           set((state) => ({ genres: state.genres.filter((e) => e !== genre) })),
         selectType: (type) => set(() => ({ type })),
         selectStatus: (status) => set(() => ({ status })),
-        selectOrder: (order) => set(() => ({ order_by: order })),
+        selectOrder: (orderBy) => set(() => ({ orderBy })),
         selectSort: (sort) => set(() => ({ sort })),
         resetFilters: () =>
           set(
             (state) => ({
               ...initialState,
-              q: state.q,
+              query: state.query,
               actions: state.actions,
             }),
             true
@@ -70,24 +70,24 @@ function useSearchStore<U>(
 
 export const useSearchAll = () => useSearchStore((state) => state);
 
-export const useSearchQuery = () => useSearchStore((state) => state.q);
+export const useSearchQuery = () => useSearchStore((state) => state.query);
 export const useSearchType = () => useSearchStore((state) => state.type);
 export const useSearchScore = () => useSearchStore((state) => state.score);
 export const useSearchMinScore = () =>
-  useSearchStore((state) => state.min_score);
+  useSearchStore((state) => state.minScore);
 export const useSearchMaxScore = () =>
-  useSearchStore((state) => state.max_score);
+  useSearchStore((state) => state.maxScore);
 export const useSearchStatus = () => useSearchStore((state) => state.status);
-export const useSearchRating = () => useSearchStore((state) => state.rating);
-export const useSearchSFW = () => useSearchStore((state) => state.sfw);
+export const useSearchRating = () => useSearchStore((state) => undefined);
+export const useSearchAdult = () => useSearchStore((state) => state.adult);
 export const useSearchGenres = () => useSearchStore((state) => state.genres);
 export const useSearchGenresExclude = () =>
-  useSearchStore((state) => state.genres_exclude);
-export const useSearchOrderBy = () => useSearchStore((state) => state.order_by);
+  useSearchStore((state) => state.genresExclude);
+export const useSearchOrderBy = () => useSearchStore((state) => state.orderBy);
 export const useSearchSort = () => useSearchStore((state) => state.sort);
 export const useSearchStartDate = () =>
-  useSearchStore((state) => state.start_date);
-export const useSearchEndDate = () => useSearchStore((state) => state.end_date);
+  useSearchStore((state) => state.startDate);
+export const useSearchEndDate = () => useSearchStore((state) => state.endDate);
 
 export const useSearchActions = () =>
   useSearchStore(useShallow((state) => state.actions));

@@ -13,7 +13,7 @@ export default function useAnimeSearch(params: AnimeSearchParams = {}) {
         {
           ...queryKey[3],
           page: pageParam,
-          sfw: true,
+          adult: false,
         },
         { signal }
       ),

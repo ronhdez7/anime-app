@@ -2,6 +2,7 @@ import {
   AnimeData,
   AnimeGenre,
   AnimeSearchParams,
+  AnimeTopParams,
   ApiPaginatedResponse,
   ApiResponse,
   EpisodeData,
@@ -24,11 +25,14 @@ export interface AnimeApi {
   getFeaturedAnime(config?: AxiosRequestConfig): PaginatedRes<AnimeData[]>;
 
   getTopAnime(
-    options: AnimeSearchParams,
+    options: AnimeTopParams,
     config?: AxiosRequestConfig
   ): PaginatedRes<AnimeData[]>;
 
-  getAnimeFullById(id: MALID, config?: AxiosRequestConfig): Res<AnimeData>;
+  getAnimeFullById(
+    id: MALID,
+    config?: AxiosRequestConfig
+  ): Res<AnimeData | null>;
 
   getAnimeSearch(
     options: AnimeSearchParams,
@@ -49,7 +53,7 @@ const animeApi: AnimeApi = {
   loading: jikan.loading,
   fakeResponse: jikan.fakeResponse,
   getAnimeEpisodes: jikan.getAnimeEpisodes,
-  getAnimeFullById: anilist.getAnimeFullById,
+  getAnimeFullById: jikan.getAnimeFullById,
   getAnimeGenres: jikan.getAnimeGenres,
   getAnimeSearch: jikan.getAnimeSearch,
   getFeaturedAnime: jikan.getFeaturedAnime,

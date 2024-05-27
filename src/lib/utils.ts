@@ -11,3 +11,18 @@ export function convertSeconds(secs: number) {
     hours: Math.floor(secs / 3600).toString(),
   };
 }
+
+export function convertToSearchParams(params?: object): string {
+  if (!params) return "";
+
+  const options = {};
+  const keys = Object.keys(params) as (keyof typeof params)[];
+  for (const key of keys) {
+    if (!(key in params)) continue;
+    if (params[key] === undefined) continue;
+
+    options[key] = params[key];
+  }
+
+  return new URLSearchParams(options).toString();
+}

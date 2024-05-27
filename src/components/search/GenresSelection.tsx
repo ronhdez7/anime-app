@@ -25,7 +25,7 @@ export default function GenresSelection() {
             .filter((i) => i.type === "GENRE")
             .map((i) => ({
               name: i.name,
-              value: i.id,
+              value: i.id.toString(),
               key: i.name,
             }))}
           isSelected={(item) => genres.includes(item.value)}

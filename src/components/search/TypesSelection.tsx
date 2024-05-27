@@ -1,22 +1,22 @@
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import { useSearchActions, useSearchType } from "@/stores/SearchStore";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "../ui/Text";
-import { AnimeSearchType } from "@/types";
+import { AnimeType } from "@/types";
 import FiltersList from "./FiltersList";
 
-const types: { name: string; value?: AnimeSearchType }[] = [
+const types: { name: string; value?: AnimeType }[] = [
   { name: "All" },
-  { name: "TV", value: "tv" },
-  { name: "Movie", value: "movie" },
-  { name: "OVA", value: "ova" },
-  { name: "Special", value: "special" },
-  { name: "ONA", value: "ona" },
-  { name: "Music", value: "music" },
-  { name: "CM", value: "cm" },
-  { name: "PV", value: "pv" },
-  { name: "TV Special", value: "tv_special" },
+  { name: "TV", value: AnimeType.TV },
+  { name: "Movie", value: AnimeType.MOVIE },
+  { name: "OVA", value: AnimeType.OVA },
+  { name: "Special", value: AnimeType.SPECIAL },
+  { name: "ONA", value: AnimeType.ONA },
+  { name: "Music", value: AnimeType.MUSIC },
+  // { name: "CM", value: "cm" },
+  // { name: "PV", value: "pv" },
+  // { name: "TV Special", value: "tv_special" },
 ] as const;
 
 export default function TypesSelection() {

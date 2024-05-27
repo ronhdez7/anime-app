@@ -9,11 +9,15 @@ export interface AnilistPaginatedResponse<T>
   extends AnilistResponse<AnilistPagination<T>> {}
 
 export type AnilistPagination<T> = {
-  pageInfo: {
-    total?: number;
-    perPage?: number;
-    currentPage?: number;
-    lastPage?: number;
-    hasNextPage?: boolean;
-  };
-} & T;
+  Page: {
+    pageInfo: AnilistPageInfo;
+  } & T;
+};
+
+export interface AnilistPageInfo {
+  total?: number;
+  perPage?: number;
+  currentPage?: number;
+  lastPage?: number;
+  hasNextPage?: boolean;
+}

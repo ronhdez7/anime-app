@@ -1,3 +1,4 @@
+import { convertToSearchParams } from "@/lib/utils";
 import {
   JikanAnimeFullData,
   JikanAnimeData,
@@ -44,7 +45,7 @@ class JikanApi {
     options: JikanTopAnimeParams,
     config?: AxiosRequestConfig
   ): PaginatedRes<JikanAnimeData[]> {
-    const params = new URLSearchParams(options as any).toString();
+    const params = convertToSearchParams(options);
     return this.axios.get(`/top/anime?${params}`, config);
   }
 
@@ -59,7 +60,7 @@ class JikanApi {
     options: JikanAnimeSearchParams,
     config?: AxiosRequestConfig
   ): PaginatedRes<JikanAnimeData[]> {
-    const params = new URLSearchParams(options as any).toString();
+    const params = convertToSearchParams(options);
     return this.axios.get(`/anime?${params}`, config);
   }
 
@@ -72,7 +73,7 @@ class JikanApi {
     options?: { page?: number },
     config?: AxiosRequestConfig
   ): PaginatedRes<JikanEpisodeData[]> {
-    const params = new URLSearchParams(options as any).toString();
+    const params = convertToSearchParams(options);
     return this.axios.get(`/anime/${id}/episodes?${params}`, config);
   }
 }

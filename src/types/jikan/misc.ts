@@ -87,7 +87,6 @@ export interface JikanAnimeSearchParams
   genres_exclude?: number[];
   order_by?: JikanAnimeSearchOrder;
   sort?: "desc" | "asc";
-  letter?: string;
   producers?: number[];
   start_date?: string;
   end_date?: string;

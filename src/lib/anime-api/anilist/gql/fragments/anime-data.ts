@@ -46,7 +46,7 @@ bannerImage
 type
 episodes
 status
-description
+description(asHtml: false)
 startDate {
 	day
 	month

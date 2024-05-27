@@ -8,19 +8,19 @@ export default function useTopAnime() {
   const query = useApiInfiniteQuery({
     queryKey: apiKeys.top(),
     queryFn: ({ pageParam, signal }) =>
-      animeApi.getTopAnime({ page: pageParam, sfw: true }, { signal }),
+      animeApi.getTopAnime({ page: pageParam, adult: false }, { signal }),
   });
 
-  // if (query.data) {
-  //   for (const page of query.data.pages) {
-  //     for (const anime of page) {
-  //       queryClient.setQueryData(
-  //         apiKeys.anime(anime.id),
-  //         animeApi.fakeResponse(anime)
-  //       );
-  //     }
-  //   }
-  // }
+  if (query.data) {
+    for (const page of query.data.pages) {
+      for (const anime of page) {
+        queryClient.setQueryData(
+          apiKeys.anime(anime.id),
+          animeApi.fakeResponse(anime)
+        );
+      }
+    }
+  }
 
   return query;
 }

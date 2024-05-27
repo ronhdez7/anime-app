@@ -8,9 +8,9 @@ import FiltersList from "./FiltersList";
 
 const statuses: { name: string; value?: AnimeStatus }[] = [
   { name: "All" },
-  { name: "Finished", value: "complete" },
-  { name: "Airing", value: "airing" },
-  { name: "Upcoming", value: "upcoming" },
+  { name: "Finished", value: AnimeStatus.FINISHED },
+  { name: "Airing", value: AnimeStatus.AIRING },
+  { name: "Upcoming", value: AnimeStatus.UPCOMING },
 ] as const;
 
 export default function StatusSelection() {
