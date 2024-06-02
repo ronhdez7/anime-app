@@ -29,6 +29,8 @@ export default function AppLayout() {
           tabBarStyle: { backgroundColor: theme.colors.neutral },
           tabBarLabel: TabBarLabel,
           tabBarItemStyle: { columnGap: theme.spacing.lg },
+          tabBarActiveTintColor: activeColor,
+          tabBarInactiveTintColor: inactiveColor,
         }}
         sceneContainerStyle={{
           backgroundColor: "transparent",
@@ -84,7 +86,7 @@ function TabBarLabel(props: {
   color: string;
   children: string;
 }) {
-  const { styles } = useStyles(stylesheet);
+  const { styles, theme } = useStyles(stylesheet);
   const height = useSharedValue(props.focused ? 14 : 0);
 
   if (props.focused) {
@@ -99,7 +101,9 @@ function TabBarLabel(props: {
 
   return (
     <Animated.View style={[animatedStyle]}>
-      <Text style={[styles.tabLabel, { color: props.color }]}>
+      <Text
+        style={[styles.tabLabel, { color: (theme.colors as any)[props.color] }]}
+      >
         {props.children}
       </Text>
     </Animated.View>

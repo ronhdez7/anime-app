@@ -10,7 +10,14 @@ export default forwardRef<TouchableOpacity, Props>(function Button(
 ) {
   const { styles } = useStyles(stylesheet);
 
-  return <TouchableOpacity ref={ref} style={[styles.main, style]} {...props} />;
+  return (
+    <TouchableOpacity
+      activeOpacity={0.75}
+      ref={ref}
+      style={[styles.main, style]}
+      {...props}
+    />
+  );
 });
 
 const stylesheet = createStyleSheet((theme) => ({

@@ -41,3 +41,18 @@ export function convertToVariables(params?: object): object {
 
   return vars;
 }
+
+export const createFormDataWithImage = (uri: string) => {
+  const fileName = uri.split("/").pop() as string;
+  const fileType = fileName.split(".").pop();
+  const formData = new FormData();
+
+  // react native has a different type (FormDataValue) for appending form data
+  formData.append("file", {
+    uri,
+    name: fileName,
+    type: `image/${fileType}`,
+  } as any);
+
+  return formData;
+};

@@ -38,11 +38,6 @@ export function getAnimeSearchQuery(variables: AnilistAnimeSearchParams) {
 		}
 	}`;
 
-  console.log({
-    query: query.replaceAll("\n", " "),
-    variables: convertToVariables(variables),
-  });
-
   return {
     query: query.replaceAll("\n", " "),
     variables: convertToVariables(variables),

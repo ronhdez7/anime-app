@@ -8,6 +8,8 @@ import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSh
 import { useRef } from "react";
 import IconButton from "@/components/ui/IconButton";
 import { FiltersIcon } from "@/components/icons";
+import { ImageIcon } from "@/components/icons/ImageIcon";
+import { Link } from "expo-router";
 
 export default function SearchPage() {
   const { styles } = useStyles(stylesheet);
@@ -22,7 +24,12 @@ export default function SearchPage() {
     <SearchProvider>
       <View style={styles.main}>
         <View style={styles.searchHeader}>
-          <SearchBar />
+          <View style={styles.searchInputContainer}>
+            <SearchBar />
+            <Link href="/trace-modal">
+              <ImageIcon />
+            </Link>
+          </View>
 
           <IconButton onPress={openBottomSheet} style={styles.filterIcon}>
             <FiltersIcon size="sm" />
@@ -49,5 +56,17 @@ const stylesheet = createStyleSheet((theme) => ({
     borderRadius: theme.radius.xs,
     elevation: 10,
     shadowColor: theme.colors.shadow,
+  },
+  searchInputContainer: {
+    shadowColor: theme.colors.shadow,
+    shadowOffset: { height: 10, width: 10 },
+    elevation: 10,
+    flex: 1,
+    backgroundColor: theme.colors.neutral,
+    borderRadius: theme.radius.xs,
+    flexDirection: "row",
+    rowGap: theme.spacing.xs,
+    alignItems: "center",
+    paddingRight: theme.spacing.sm,
   },
 }));

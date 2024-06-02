@@ -81,8 +81,8 @@ export default function Player({ source }: PlayerWithControlsProps) {
         onPlaybackStatusUpdate={
           status === VideoState.LOADING ? undefined : onPlaybackUpdate
         }
-        rate={speed}
-        progressUpdateIntervalMillis={1000 / speed}
+        rate={1000 / speed}
+        progressUpdateIntervalMillis={1000 / (speed * 2)}
         shouldPlay={play}
         onLoad={onLoad}
       />

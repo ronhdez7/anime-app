@@ -7,7 +7,7 @@ export default function ProfilePage() {
   return (
     <View>
       <Text>ProfilePage</Text>
-      <Link href={"/test"}>
+      <Link href={"/trace-modal"}>
         <Text>Go to Testing Page</Text>
       </Link>
     </View>

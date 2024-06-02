@@ -33,8 +33,5 @@ const stylesheet = createStyleSheet((theme) => ({
     borderRadius: theme.radius.xs,
     backgroundColor: theme.colors.neutral,
     color: theme.colors.text,
-    shadowColor: theme.colors.shadow,
-    shadowOffset: { height: 10, width: 10 },
-    elevation: 10,
   },
 }));
