@@ -3,14 +3,11 @@ import PagerView from "react-native-pager-view";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "../ui/Text";
 import ImageUrlSelector from "./ImageUrlSelector";
-import {
-  ImageUploadType,
-  useTracerActions,
-  useTracerUploadType,
-} from "@/stores/TracerStore";
+import { useTracerActions, useTracerUploadType } from "@/stores/TracerStore";
 import { memo, useEffect, useRef } from "react";
 import ImageFileSelector from "./ImageFileSelector";
 import { OnPageSelectedEventData } from "react-native-pager-view/lib/typescript/PagerViewNativeComponent";
+import { ImageUploadType } from "@/types/tracer";
 
 type PageSelectedEvent = NativeSyntheticEvent<OnPageSelectedEventData>;
 

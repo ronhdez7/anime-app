@@ -5,22 +5,24 @@ import { Link } from "expo-router";
 import Button from "../ui/Button";
 import TraceImageSelector from "./TraceImageSelector";
 import {
-  ImageUploadType,
+  useTracerCutBorders,
   useTracerImageFile,
   useTracerImageUrl,
   useTracerUploadType,
 } from "@/stores/TracerStore";
 import { useMutation } from "@tanstack/react-query";
-import { ImageFileTrace, ImageUrlTrace, Tracer } from "@/lib/tracer-api";
 import { createFormDataWithImage } from "@/lib/utils";
+import TraceOptions from "./TraceOptions";
+import {
+  ImageUploadType,
+  TracerSearchOptions,
+  TracerSearchParams,
+} from "@/types/tracer";
+import { tracerApi } from "@/lib/tracer-api";
 
 export enum ImageType {
   FILE,
   URL,
-}
-
-interface UploadImageInput {
-  tracer: Tracer;
 }
 
 export default function TracePage() {
@@ -29,9 +31,11 @@ export default function TracePage() {
   const imageUploadType = useTracerUploadType();
   const imageFile = useTracerImageFile();
   const imageUrl = useTracerImageUrl();
+  const cutBorders = useTracerCutBorders();
 
   const uploadImage = useMutation({
-    mutationFn: async ({ tracer }: UploadImageInput) => tracer.upload(),
+    mutationFn: async (options: TracerSearchOptions) =>
+      tracerApi.search(options),
     onSuccess: (data) => console.log(data),
     onError: (error) => console.log(error),
   });
@@ -41,15 +45,25 @@ export default function TracePage() {
     (imageUploadType === ImageUploadType.URL && !imageUrl);
 
   async function findAnime() {
+    const params: TracerSearchParams = { cutBorders };
+
     if (imageUploadType === ImageUploadType.FILE) {
       if (!imageFile) return;
 
       const formData = createFormDataWithImage(imageFile);
-      uploadImage.mutate({ tracer: new ImageFileTrace(formData) });
+      uploadImage.mutate({
+        type: ImageUploadType.FILE,
+        file: formData,
+        ...params,
+      });
     } else if (imageUploadType === ImageUploadType.URL) {
       if (!imageUrl) return;
 
-      uploadImage.mutate({ tracer: new ImageUrlTrace(imageUrl) });
+      uploadImage.mutate({
+        type: ImageUploadType.URL,
+        url: imageUrl,
+        ...params,
+      });
     }
   }
 
@@ -77,6 +91,8 @@ export default function TracePage() {
         </View>
 
         <TraceImageSelector />
+
+        <TraceOptions />
       </ScrollView>
 
       <Button

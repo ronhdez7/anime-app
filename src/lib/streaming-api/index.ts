@@ -1,4 +1,4 @@
-import { ApiResponse, ObjectValues } from "@/types";
+import { ApiResponse } from "@/types";
 import { NineAnimeProvider } from "./providers";
 import ogAxios, { AxiosError, AxiosRequestConfig } from "axios";
 import {

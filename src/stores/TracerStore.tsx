@@ -1,22 +1,20 @@
+import { ImageUploadType } from "@/types/tracer";
 import { PropsWithChildren, createContext, useContext, useState } from "react";
 import { StoreApi, createStore, useStore } from "zustand";
 import { useShallow } from "zustand/react/shallow";
-
-export enum ImageUploadType {
-  FILE,
-  URL,
-}
 
 interface TracerState {
   uploadType: ImageUploadType;
   imageFile?: string;
   imageUrl?: string;
+  cutBorders: boolean;
 }
 
 interface Actions {
   setUploadType: (type: TracerState["uploadType"]) => void;
   setImageFile: (file: TracerState["imageFile"]) => void;
   setImageUrl: (url: TracerState["imageUrl"]) => void;
+  setCutBorders: (cutBorders: TracerState["cutBorders"]) => void;
 }
 
 type TracerContext = TracerState & { actions: Actions };
@@ -28,6 +26,7 @@ const initialState: TracerState = {
   uploadType: ImageUploadType.FILE,
   imageFile: undefined,
   imageUrl: undefined,
+  cutBorders: false,
 };
 
 export default function TracerStoreProvider({ children }: PropsWithChildren) {
@@ -38,6 +37,7 @@ export default function TracerStoreProvider({ children }: PropsWithChildren) {
         setUploadType: (type) => set({ uploadType: type }),
         setImageFile: (file) => set({ imageFile: file }),
         setImageUrl: (url) => set({ imageUrl: url }),
+        setCutBorders: (cutBorders) => set({ cutBorders }),
       },
     }))
   );
@@ -68,3 +68,5 @@ export const useTracerImageFile = () =>
   useTracerStore((state) => state.imageFile);
 export const useTracerImageUrl = () =>
   useTracerStore((state) => state.imageUrl);
+export const useTracerCutBorders = () =>
+  useTracerStore((state) => state.cutBorders);
