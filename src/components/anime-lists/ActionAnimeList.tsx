@@ -1,5 +1,5 @@
-import { AnimeListView } from "./AnimeList";
 import useAnimeSearch from "@/queries/use-anime-search";
+import AnimeListView from "./AnimeListView";
 
 export default function ActionAnimeList() {
   const query = useAnimeSearch({ genres: ["1"] });

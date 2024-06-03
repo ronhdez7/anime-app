@@ -56,3 +56,10 @@ export const createFormDataWithImage = (uri: string) => {
 
   return formData;
 };
+
+export function getInfiniteData<T>(data?: T[] | { pages: T[][] }): T[] {
+  return (
+    (Array.isArray(data) ? data : data?.pages.flatMap((page) => page)) ??
+    Array(5)
+  );
+}

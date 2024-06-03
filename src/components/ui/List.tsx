@@ -1,17 +1,17 @@
-import { FlatList, FlatListProps } from "react-native";
+import { FlashList, FlashListProps } from "@shopify/flash-list";
 import React from "react";
 
-export interface ListProps<T> extends FlatListProps<T> {}
+export interface ListProps<T> extends FlashListProps<T> {}
+
+export const listDefaultProps: Partial<ListProps<any>> = {
+  showsHorizontalScrollIndicator: false,
+  showsVerticalScrollIndicator: false,
+  onEndReachedThreshold: 2,
+  keyboardShouldPersistTaps: "never",
+  keyboardDismissMode: "on-drag",
+  decelerationRate: "normal",
+};
 
 export default function List<T>({ ...props }: ListProps<T>) {
-  return (
-    <FlatList
-      showsHorizontalScrollIndicator={false}
-      showsVerticalScrollIndicator={false}
-      onEndReachedThreshold={2}
-      keyboardShouldPersistTaps="never"
-      keyboardDismissMode="on-drag"
-      {...props}
-    />
-  );
+  return <FlashList {...listDefaultProps} {...props} />;
 }

@@ -4,12 +4,13 @@ import { AnimeData, EpisodeData } from "@/types";
 import { useAnimeEpisodes } from "@/queries/use-anime-episodes";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "./ui/Text";
-import List from "./ui/List";
 import AnimeFetchError from "./AnimeFetchError";
 import AnimeEpisode from "./AnimeEpisode";
 import { useFindAnime } from "@/queries/use-find-anime";
-import { getInfiniteData } from "./anime-lists/AnimeList";
+import { getInfiniteData } from "@/lib/utils";
 import { useStreamEpisodes } from "@/queries/use-stream-episodes";
+import { FlashList } from "@shopify/flash-list";
+import List from "./ui/List";
 
 interface Props {
   anime: AnimeData;
@@ -43,7 +44,8 @@ export default function AnimeEpisodes({ anime }: Props) {
           renderItem={({ item }) => (
             <AnimeEpisode episode={item} animeId={anime.id} />
           )}
-          contentContainerStyle={styles.episodes}
+          estimatedItemSize={55}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
         />
       ) : (
         <AnimeFetchError
@@ -65,4 +67,5 @@ const stylesheet = createStyleSheet((theme) => ({
   episodes: {
     rowGap: theme.spacing.xs,
   },
+  separator: { height: theme.spacing.xs },
 }));
