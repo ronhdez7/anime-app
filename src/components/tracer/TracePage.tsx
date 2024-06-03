@@ -19,11 +19,9 @@ import {
   TracerSearchParams,
 } from "@/types/tracer";
 import { tracerApi } from "@/lib/tracer-api";
-
-export enum ImageType {
-  FILE,
-  URL,
-}
+import LoadingView from "../ui/LoadingView";
+import SafeArea from "../ui/SafeArea";
+import BackArrow from "../ui/BackArrow";
 
 export default function TracePage() {
   const { styles } = useStyles(stylesheet);
@@ -68,47 +66,69 @@ export default function TracePage() {
   }
 
   return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        <View style={styles.titleContainer}>
-          <Text weight="bold" size="xl" style={styles.textCenter}>
-            Upload image
-          </Text>
-
-          <View>
-            <Text style={styles.textCenter}>
-              Trace where an anime screenshot comes from.
-            </Text>
-            <Text size="sm" style={styles.textCenter}>
-              Powered by{" "}
-              <Link href="https://trace.moe">
-                <Text size="sm" style={styles.link}>
-                  trace.moe
-                </Text>
-              </Link>
-            </Text>
-          </View>
+    <SafeArea>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <BackArrow />
         </View>
+        <ScrollView contentContainerStyle={styles.scrollView}>
+          <View style={styles.titleContainer}>
+            <Text weight="bold" size="xl" style={styles.textCenter}>
+              Upload image
+            </Text>
 
-        <TraceImageSelector />
+            <View>
+              <Text style={styles.textCenter}>
+                Trace where an anime screenshot comes from.
+              </Text>
+              <Text size="sm" style={styles.textCenter}>
+                Powered by{" "}
+                <Link href="https://trace.moe">
+                  <Text size="sm" style={styles.link}>
+                    trace.moe
+                  </Text>
+                </Link>
+              </Text>
+            </View>
+          </View>
 
-        <TraceOptions />
-      </ScrollView>
+          <TraceImageSelector />
 
-      <Button
-        style={styles.findButton(buttonDisabled)}
-        onPress={findAnime}
-        disabled={buttonDisabled}
-      >
-        <Text color="foreground" style={styles.findButtonText}>
-          Find anime
-        </Text>
-      </Button>
-    </View>
+          <TraceOptions />
+        </ScrollView>
+
+        <Button
+          style={styles.findButton(buttonDisabled)}
+          onPress={findAnime}
+          disabled={uploadImage.isPending || buttonDisabled}
+        >
+          {uploadImage.isPending ? (
+            <LoadingView color="foreground" />
+          ) : (
+            <Text color="foreground" style={styles.findButtonText}>
+              Find anime
+            </Text>
+          )}
+        </Button>
+      </View>
+    </SafeArea>
   );
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  header: {
+    width: "100%",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: theme.spacing.xs,
+    paddingHorizontal: theme.spacing.xs,
+    columnGap: theme.spacing.xs,
+    zIndex: 10,
+  },
   container: {
     flex: 1,
   },
@@ -131,6 +151,7 @@ const stylesheet = createStyleSheet((theme) => ({
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
     opacity: disabled ? 0.75 : 1,
+    height: 40,
   }),
   findButtonText: {
     textAlign: "center",

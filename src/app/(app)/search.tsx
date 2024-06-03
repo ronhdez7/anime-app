@@ -26,7 +26,7 @@ export default function SearchPage() {
         <View style={styles.searchHeader}>
           <View style={styles.searchInputContainer}>
             <SearchBar />
-            <Link href="/trace-modal">
+            <Link href="/tracer">
               <ImageIcon />
             </Link>
           </View>

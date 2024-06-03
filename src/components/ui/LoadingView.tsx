@@ -1,6 +1,5 @@
-import { View, ActivityIndicator, ViewProps } from "react-native";
+import { View, ViewProps } from "react-native";
 import React from "react";
-import { useStyles } from "react-native-unistyles";
 import { ThemeConfig } from "@/styles/theme";
 import SpinningLoader from "./SpinningLoader";
 
