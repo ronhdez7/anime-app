@@ -15,7 +15,10 @@ export default function AnimeScreen({ id }: AnimeScreenProps) {
   useAnimeEpisodes(id);
 
   return anime.data || anime.isLoading ? (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ flex: 1 }}
+    >
       <AnimeDetails anime={anime.data ?? undefined} />
       {anime.data && <AnimeEpisodes anime={anime.data} />}
     </ScrollView>

@@ -9,7 +9,6 @@ import AnimeEpisode from "./AnimeEpisode";
 import { useFindAnime } from "@/queries/use-find-anime";
 import { getInfiniteData } from "@/lib/utils";
 import { useStreamEpisodes } from "@/queries/use-stream-episodes";
-import { FlashList } from "@shopify/flash-list";
 import List from "./ui/List";
 
 interface Props {
@@ -39,7 +38,7 @@ export default function AnimeEpisodes({ anime }: Props) {
       </Text>
       {episodes.data || episodes.isLoading ? (
         <List
-          scrollEnabled={false}
+          // scrollEnabled={false}
           data={getInfiniteData(episodes.data) as EpisodeData[]}
           renderItem={({ item }) => (
             <AnimeEpisode episode={item} animeId={anime.id} />
@@ -63,6 +62,7 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingHorizontal: theme.spacing.sm,
     paddingVertical: theme.spacing.xs,
     rowGap: theme.spacing.xs,
+    flex: 1,
   },
   episodes: {
     rowGap: theme.spacing.xs,

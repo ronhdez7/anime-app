@@ -67,6 +67,7 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
             onProgressChange={() =>
               setCurrentIdx((v) => carouselRef.current?.getCurrentIndex() ?? v)
             }
+            // to allow page scrolling
             panGestureHandlerProps={{
               activeOffsetX: [-10, 10],
             }}

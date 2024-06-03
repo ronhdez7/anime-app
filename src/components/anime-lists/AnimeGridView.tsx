@@ -3,12 +3,11 @@ import { AnimeData, AnimeDataQueryResult } from "@/types";
 import { RefreshControl, View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import AnimeFetchError from "../AnimeFetchError";
-import { CellContainer, MasonryFlashList } from "@shopify/flash-list";
 import { AnimeListItem } from "./AnimeListItem";
 import { useState } from "react";
 import LoadingView from "../ui/LoadingView";
 import { NoAnimeFound } from "./NoAnimeFound";
-import { listDefaultProps } from "../ui/List";
+import List from "../ui/List";
 
 interface AnimeGridViewProps {
   query: AnimeDataQueryResult;
@@ -48,8 +47,7 @@ export default function AnimeGridView({
   return (
     <View style={styles.container}>
       {query.data || query.isLoading ? (
-        <MasonryFlashList
-          {...listDefaultProps}
+        <List
           data={items}
           renderItem={({ item, index }) => (
             <View style={styles.itemWrapper(index % numColumns === 0)}>
@@ -87,6 +85,8 @@ const stylesheet = createStyleSheet((theme) => ({
   itemWrapper: (isLeft: boolean) => ({
     paddingLeft: isLeft ? 0 : theme.spacing.sm / 2,
     paddingRight: isLeft ? theme.spacing.sm / 2 : 0,
+    width: "100%",
+    height: "100%",
   }),
   separator: { height: theme.spacing.sm },
 }));
