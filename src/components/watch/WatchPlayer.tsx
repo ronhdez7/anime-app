@@ -19,20 +19,32 @@ export default function WatchPlayer({
 }: WatchPlayerProps) {
   const anime = useAnime(animeId);
   const streamAnime = useFindAnime(
-    { title: anime.data?.titles.jp, title_en: anime.data?.titles.en },
+    {
+      // title: anime.data?.titles.jp,
+      title_en: anime.data?.titles.en,
+    },
     !!anime.data
   );
   const episodes = useStreamEpisodes(streamAnime.data?.url);
-  const servers = useStreamServers(
-    episodes.data?.find((i) => i.number === episodeNumber)?.url ?? undefined
-  );
+  const episode = episodes.data?.find((i) => i.number === episodeNumber);
+  const servers = useStreamServers(episode?.url ?? undefined);
   const sources = useStreamSources(servers.data?.at(0)?.playerUrl);
 
   const sourceUrl = sources.data?.sources.at(0)?.url ?? "";
 
+  console.log(sourceUrl);
+
   return (
     <PlayerStoreProvider>
-      <Player source={{ uri: sourceUrl }} />
+      <Player
+        source={{
+          uri: sourceUrl,
+          metadata: {
+            title: episode?.name ?? undefined,
+            artist: anime.data?.title,
+          },
+        }}
+      />
     </PlayerStoreProvider>
   );
 }

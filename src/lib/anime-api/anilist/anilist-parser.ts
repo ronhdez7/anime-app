@@ -25,7 +25,7 @@ export function parseAnilistAnime(anime: AnilistAnimeData): AnimeData {
       anime.title?.english ?? anime.title?.romaji ?? anime.title?.romaji ?? "",
     titles: {
       en: anime.title?.english,
-      jp: anime.title?.native,
+      jp: anime.title?.romaji,
     },
     images: {
       small: anime.coverImage?.medium ?? "",

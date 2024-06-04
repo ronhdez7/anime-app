@@ -35,6 +35,7 @@ interface Actions {
   setPlay: (play: PlayerState["play"]) => void;
   setSpeed: (speed: PlayerState["speed"]) => void;
   setProgress: (progress: PlayerState["progress"]) => void;
+  incrementProgress: () => void;
   setDuration: (duration: PlayerState["duration"]) => void;
   setStatus: (status: PlayerState["status"]) => void;
   setSeeking: (seeking: PlayerState["seeking"]) => void;
@@ -55,6 +56,8 @@ export default function PlayerStoreProvider({ children }: PropsWithChildren) {
         setPlay: (play) => set(() => ({ play })),
         setSpeed: (speed) => set(() => ({ speed })),
         setProgress: (progress) => set(() => ({ progress })),
+        incrementProgress: () =>
+          set((state) => ({ progress: state.progress + 1000 })),
         setDuration: (duration) => set(() => ({ duration })),
         setStatus: (status) => set(() => ({ status })),
         setSeeking: (seeking) => set(() => ({ seeking })),

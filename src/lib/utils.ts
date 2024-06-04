@@ -7,9 +7,14 @@ export function clamp(num: number, max: number, min: number = 0): number {
 export function convertSeconds(secs: number) {
   return {
     seconds: `0${secs % 60}`.slice(-2),
-    minutes: Math.floor(secs / 60).toString(),
+    minutes: `0${Math.floor(secs / 60).toString()}`.slice(-2),
     hours: Math.floor(secs / 3600).toString(),
   };
+}
+
+export function convertSecondsToTime(secs: number) {
+  const { hours, minutes, seconds } = convertSeconds(secs);
+  return `${Number(hours) ? `${hours}:` : ""}${minutes}:${seconds}`;
 }
 
 export function convertToSearchParams(params?: object): string {
