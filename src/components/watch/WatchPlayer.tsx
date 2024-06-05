@@ -20,7 +20,7 @@ export default function WatchPlayer({
   const anime = useAnime(animeId);
   const streamAnime = useFindAnime(
     {
-      // title: anime.data?.titles.jp,
+      title: anime.data?.titles.jp,
       title_en: anime.data?.titles.en,
     },
     !!anime.data

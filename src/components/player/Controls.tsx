@@ -3,6 +3,7 @@ import {
   usePlayerActions,
   usePlayerSeeking,
   usePlayerShowControls,
+  usePlayerSpeed,
   usePlayerStatus,
 } from "@/stores/PlayerStore";
 import { VideoPlayer } from "expo-video";
@@ -20,26 +21,24 @@ import PlayButton from "./PlayButton";
 import SettingsButton from "./SettingsButton";
 import SeekBar from "./SeekBar";
 import FullscreenButton from "./FullscreenButton";
+import { VideoSourceObject } from "./Player";
 
 interface ControlsProps {
   player: VideoPlayer;
+  source: VideoSourceObject;
 }
 
 const CONTROLS_TIMEOUT = 5000;
 
-export default function Controls({ player }: ControlsProps) {
+export default function Controls({ player, source }: ControlsProps) {
   const { styles } = useStyles(stylesheet);
 
+  const speed = usePlayerSpeed();
   const status = usePlayerStatus();
   const showControls = usePlayerShowControls();
   const seeking = usePlayerSeeking();
-  const {
-    setShowControls,
-    setStatus,
-    setDuration,
-    setProgress,
-    incrementProgress,
-  } = usePlayerActions();
+  const { setShowControls, setStatus, setDuration, setProgress, setPlay } =
+    usePlayerActions();
   const controlsTimerRef = useRef<NodeJS.Timeout>();
   const progressIntervalRef = useRef<NodeJS.Timeout>();
 
@@ -72,8 +71,8 @@ export default function Controls({ player }: ControlsProps) {
 
   useEffect(() => {
     const statusSubscription = player.addListener("statusChange", (status) => {
+      setDuration(player.duration * 1000);
       if (status === "readyToPlay") {
-        setDuration(player.duration * 1000);
         setStatus(VideoState.PLAYING);
       } else {
         clearTimeout(controlsTimerRef.current);
@@ -82,34 +81,8 @@ export default function Controls({ player }: ControlsProps) {
       }
     });
 
-    // update progress manually depedning on playing state
-    const progressSubscription = player.addListener(
-      "playingChange",
-      (playing) => {
-        if (playing) {
-          progressIntervalRef.current = setInterval(() => {
-            incrementProgress();
-          }, 1000);
-        } else {
-          clearInterval(progressIntervalRef.current);
-          setProgress(player.currentTime * 1000);
-        }
-      }
-    );
-
-    /* doesn't work for some reason */
-    // polling player to make sure everything is updated
-    // in case that something fails
-    // updateIntervalRef.current = setInterval(() => {
-    //   if (player.status === "readyToPlay") {
-    //     setStatus(VideoState.PLAYING);
-    //   }
-    // }, 3000);
-
     return () => {
       statusSubscription.remove();
-      progressSubscription.remove();
-      clearInterval(progressIntervalRef.current);
       clearTimeout(controlsTimerRef.current);
     };
   }, []);
@@ -127,6 +100,26 @@ export default function Controls({ player }: ControlsProps) {
       }
     }
   }, [seeking]);
+
+  useEffect(() => {
+    setPlay(false);
+    if (source.uri) {
+      setStatus(VideoState.PLAYING);
+
+      progressIntervalRef.current = setInterval(() => {
+        setDuration(player.duration * 1000);
+        setProgress(player.currentTime * 1000);
+      }, 1000 / speed);
+    } else {
+      setStatus(VideoState.LOADING);
+      setDuration(0);
+      setProgress(0);
+    }
+
+    return () => {
+      clearInterval(progressIntervalRef.current);
+    };
+  }, [source.uri]);
 
   return (
     <View style={styles.container}>

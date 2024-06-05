@@ -4,8 +4,10 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Controls from "./Controls";
 import { usePlayerSpeed } from "@/stores/PlayerStore";
 
+export type VideoSourceObject = Extract<VideoSource, object>;
+
 interface PlayerProps {
-  source: VideoSource;
+  source: VideoSourceObject;
 }
 
 export default function Player({ source }: PlayerProps) {
@@ -24,7 +26,7 @@ export default function Player({ source }: PlayerProps) {
         contentFit="contain"
         nativeControls={false}
       />
-      <Controls player={player} />
+      <Controls player={player} source={source} />
     </View>
   );
 }

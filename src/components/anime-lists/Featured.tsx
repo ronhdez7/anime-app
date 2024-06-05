@@ -38,14 +38,6 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
   const carouselRef = useRef<ICarouselInstance>(null);
   const loading = !items;
 
-  /* for orientation changes */
-  // useEffect(() => {
-  //   carouselRef.current?.scrollTo({
-  //     index: 0,
-  //     animated: false,
-  //   });
-  // }, [width]);
-
   return (
     <View>
       <View style={styles.carouselContainer}>
@@ -71,6 +63,7 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
             panGestureHandlerProps={{
               activeOffsetX: [-10, 10],
             }}
+            windowSize={5}
           />
         </SkeletonLoader>
       </View>
@@ -130,7 +123,6 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   cardTitle: {
     flex: 1,
-    paddingLeft: theme.spacing.sm,
   },
   addButton: {
     elevation: 10,
