@@ -18,7 +18,7 @@ export default function IconButton({ style, ...props }: IconButtonProps) {
 const stylesheet = createStyleSheet((theme) => ({
   default: {
     padding: theme.spacing.sm,
-    borderRadius: 10000,
+    borderRadius: 500,
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",

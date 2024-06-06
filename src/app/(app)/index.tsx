@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ rowGap: 20 }}
+      contentContainerStyle={styles.page}
     >
       <Featured />
       <View style={styles.main}>
@@ -22,5 +22,6 @@ export default function HomePage() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: { padding: theme.spacing.sm, rowGap: theme.spacing.lg },
+  page: { rowGap: 23 + theme.spacing.lg },
+  main: { rowGap: theme.spacing.sm },
 }));

@@ -4,6 +4,7 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "../ui/Text";
 import { useRef } from "react";
 import { useTracerActions, useTracerImageUrl } from "@/stores/TracerStore";
+import { Shadow } from "react-native-shadow-2";
 
 export default function ImageUrlSelector() {
   const { styles } = useStyles(stylesheet);
@@ -22,13 +23,17 @@ export default function ImageUrlSelector() {
         <Text size="md" onPress={focusInput}>
           Enter image url
         </Text>
-        <Input
-          ref={inputRef}
-          style={styles.input}
-          placeholder="https://example.com"
-          value={imageUrl}
-          onChangeText={setImageUrl}
-        />
+        <Shadow distance={5}>
+          <View style={styles.inputContainer}>
+            <Input
+              ref={inputRef}
+              style={styles.input}
+              placeholder="https://example.com"
+              value={imageUrl}
+              onChangeText={setImageUrl}
+            />
+          </View>
+        </Shadow>
       </View>
     </View>
   );
@@ -48,6 +53,12 @@ const stylesheet = createStyleSheet((theme) => ({
     width: "100%",
     rowGap: theme.spacing.sm,
     alignItems: "flex-start",
+  },
+  inputContainer: {
+    width: "100%",
+    flexDirection: "row",
+    overflow: "hidden",
+    borderRadius: theme.radius.xs,
   },
   input: {
     width: "100%",

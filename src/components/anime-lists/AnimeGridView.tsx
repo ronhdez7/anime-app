@@ -69,6 +69,7 @@ export default function AnimeGridView({
           }
           ListEmptyComponent={NoAnimeFound}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
+          contentContainerStyle={styles.listContent}
         />
       ) : (
         <AnimeFetchError
@@ -81,7 +82,7 @@ export default function AnimeGridView({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  container: { paddingHorizontal: theme.spacing.sm, flex: 1 },
+  container: { flex: 1 },
   itemWrapper: (isLeft: boolean) => ({
     paddingLeft: isLeft ? 0 : theme.spacing.sm / 2,
     paddingRight: isLeft ? theme.spacing.sm / 2 : 0,
@@ -89,4 +90,7 @@ const stylesheet = createStyleSheet((theme) => ({
     height: "100%",
   }),
   separator: { height: theme.spacing.sm },
+  listContent: {
+    padding: theme.spacing.sm,
+  },
 }));

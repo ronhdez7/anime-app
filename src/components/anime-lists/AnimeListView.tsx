@@ -20,9 +20,11 @@ export default function AnimeListView({ title, query }: AnimeListViewProps) {
 
   return (
     <View style={styles.container}>
-      <Text size="lg" weight="bold">
-        {title}
-      </Text>
+      <View style={styles.listHeader}>
+        <Text size="lg" weight="bold">
+          {title}
+        </Text>
+      </View>
 
       <View style={styles.listContainer}>
         {query.data || query.isLoading ? (
@@ -50,6 +52,7 @@ export default function AnimeListView({ title, query }: AnimeListViewProps) {
               )
             }
             ListEmptyComponent={NoAnimeFound}
+            contentContainerStyle={styles.listContent}
           />
         ) : (
           <AnimeFetchError
@@ -65,13 +68,19 @@ export default function AnimeListView({ title, query }: AnimeListViewProps) {
 const stylesheet = createStyleSheet((theme) => ({
   container: {
     alignItems: "flex-start",
-    rowGap: theme.spacing.sm,
+    // rowGap: theme.spacing.sm,
+  },
+  listHeader: {
+    paddingHorizontal: theme.spacing.sm,
   },
   listContainer: {
-    height: 250,
+    height: 266,
   },
   itemWrapper: (isFirst: boolean) => ({
     paddingLeft: isFirst ? 0 : theme.spacing.sm,
     height: "100%",
   }),
+  listContent: {
+    padding: theme.spacing.sm,
+  },
 }));

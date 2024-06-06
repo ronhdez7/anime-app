@@ -10,6 +10,7 @@ export const listDefaultProps: Partial<ListProps<any>> = {
   keyboardShouldPersistTaps: "never",
   keyboardDismissMode: "on-drag",
   decelerationRate: "normal",
+  ListFooterComponentStyle: { paddingHorizontal: 8 },
 };
 
 export default function List<T>({ ...props }: ListProps<T>) {

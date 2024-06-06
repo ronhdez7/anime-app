@@ -11,6 +11,7 @@ import { Link } from "expo-router";
 import SkeletonLoader from "../ui/SkeletonLoader";
 import { ImageBackground } from "expo-image";
 import { PlusIcon } from "../icons";
+import { Shadow } from "react-native-shadow-2";
 
 export default function Featured() {
   const { styles } = useStyles(stylesheet);
@@ -74,9 +75,15 @@ function FeaturedSlider({ items }: FeaturedSliderProps) {
             {items[currentIdx]?.title}
           </Text>
 
-          <IconButton style={styles.addButton}>
-            <PlusIcon size="sm" color="foreground" />
-          </IconButton>
+          <Shadow
+            distance={5}
+            startColor="#06b6d440"
+            style={styles.addButtonShadow}
+          >
+            <IconButton style={styles.addButton}>
+              <PlusIcon size="sm" color="foreground" />
+            </IconButton>
+          </Shadow>
         </View>
       ) : null}
     </View>
@@ -91,6 +98,11 @@ function FeaturedItem({ item }: FeaturedItemProps) {
 
   return (
     <View style={{ width: "100%", height: "100%" }}>
+      {/* <Shadow
+        distance={5}
+        style={{ width: "100%", height: "100%" }}
+        startColor="#06b6d440"
+      > */}
       <Link href={`/anime/${item.id}`} asChild>
         <Pressable style={styles.featuredItem}>
           <ImageBackground
@@ -100,6 +112,7 @@ function FeaturedItem({ item }: FeaturedItemProps) {
           />
         </Pressable>
       </Link>
+      {/* </Shadow> */}
     </View>
   );
 }
@@ -109,7 +122,7 @@ const stylesheet = createStyleSheet((theme) => ({
     aspectRatio: theme.config.imageAspectRatio,
   },
   carouselContainer: {
-    overflow: "hidden",
+    // overflow: "hidden",
   },
   cardBottom: {
     width: "100%",
@@ -124,9 +137,10 @@ const stylesheet = createStyleSheet((theme) => ({
   cardTitle: {
     flex: 1,
   },
+  addButtonShadow: {
+    borderRadius: 500,
+  },
   addButton: {
-    elevation: 10,
-    shadowColor: theme.colors.shadow,
     backgroundColor: theme.colors.primary,
     padding: theme.spacing.lg,
   },

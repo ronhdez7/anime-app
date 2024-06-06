@@ -10,6 +10,7 @@ import IconButton from "@/components/ui/IconButton";
 import { FiltersIcon } from "@/components/icons";
 import { ImageIcon } from "@/components/icons/ImageIcon";
 import { Link } from "expo-router";
+import { Shadow } from "react-native-shadow-2";
 
 export default function SearchPage() {
   const { styles } = useStyles(stylesheet);
@@ -24,16 +25,22 @@ export default function SearchPage() {
     <SearchProvider>
       <View style={styles.main}>
         <View style={styles.searchHeader}>
-          <View style={styles.searchInputContainer}>
-            <SearchBar />
-            <Link href="/tracer">
-              <ImageIcon />
-            </Link>
+          <View style={styles.searchContainer}>
+            <Shadow distance={5}>
+              <View style={styles.searchInputContainer}>
+                <SearchBar />
+                <Link href="/tracer">
+                  <ImageIcon />
+                </Link>
+              </View>
+            </Shadow>
           </View>
 
-          <IconButton onPress={openBottomSheet} style={styles.filterIcon}>
-            <FiltersIcon size="sm" />
-          </IconButton>
+          <Shadow distance={5}>
+            <IconButton onPress={openBottomSheet} style={styles.filterIcon}>
+              <FiltersIcon size="sm" />
+            </IconButton>
+          </Shadow>
         </View>
         <SearchResults />
 
@@ -51,17 +58,15 @@ const stylesheet = createStyleSheet((theme) => ({
     columnGap: theme.spacing.sm,
     alignItems: "center",
   },
+  searchContainer: {
+    flex: 1,
+  },
   filterIcon: {
     backgroundColor: theme.colors.neutral,
     borderRadius: theme.radius.xs,
-    elevation: 10,
-    shadowColor: theme.colors.shadow,
   },
   searchInputContainer: {
-    shadowColor: theme.colors.shadow,
-    shadowOffset: { height: 10, width: 10 },
-    elevation: 10,
-    flex: 1,
+    width: "100%",
     backgroundColor: theme.colors.neutral,
     borderRadius: theme.radius.xs,
     flexDirection: "row",

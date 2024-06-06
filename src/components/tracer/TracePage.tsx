@@ -22,6 +22,7 @@ import { tracerApi } from "@/lib/tracer-api";
 import LoadingView from "../ui/LoadingView";
 import SafeArea from "../ui/SafeArea";
 import BackArrow from "../ui/BackArrow";
+import { Shadow } from "react-native-shadow-2";
 
 export default function TracePage() {
   const { styles } = useStyles(stylesheet);
@@ -92,7 +93,7 @@ export default function TracePage() {
             </View>
           </View>
 
-          <TraceImageSelector />
+            <TraceImageSelector />
 
           <TraceOptions />
         </ScrollView>

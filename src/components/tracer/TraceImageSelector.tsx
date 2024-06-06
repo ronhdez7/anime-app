@@ -8,6 +8,7 @@ import { memo, useEffect, useRef } from "react";
 import ImageFileSelector from "./ImageFileSelector";
 import { OnPageSelectedEventData } from "react-native-pager-view/lib/typescript/PagerViewNativeComponent";
 import { ImageUploadType } from "@/types/tracer";
+import { Shadow } from "react-native-shadow-2";
 
 type PageSelectedEvent = NativeSyntheticEvent<OnPageSelectedEventData>;
 
@@ -35,45 +36,49 @@ export default memo(function TraceImageSelector() {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topNav}>
-        <TouchableOpacity
-          activeOpacity={0.75}
-          style={styles.navButton(imageUploadType === ImageUploadType.FILE)}
-          onPress={() => setUploadType(ImageUploadType.FILE)}
-        >
-          <Text>File</Text>
-        </TouchableOpacity>
+    <View>
+      <Shadow distance={5}>
+        <View style={styles.main}>
+          <View style={styles.topNav}>
+            <TouchableOpacity
+              activeOpacity={0.75}
+              style={styles.navButton(imageUploadType === ImageUploadType.FILE)}
+              onPress={() => setUploadType(ImageUploadType.FILE)}
+            >
+              <Text>File</Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity
-          activeOpacity={0.75}
-          style={styles.navButton(imageUploadType === ImageUploadType.URL)}
-          onPress={() => setUploadType(ImageUploadType.URL)}
-        >
-          <Text>Url</Text>
-        </TouchableOpacity>
-      </View>
+            <TouchableOpacity
+              activeOpacity={0.75}
+              style={styles.navButton(imageUploadType === ImageUploadType.URL)}
+              onPress={() => setUploadType(ImageUploadType.URL)}
+            >
+              <Text>Url</Text>
+            </TouchableOpacity>
+          </View>
 
-      <PagerView
-        ref={pagerRef}
-        style={styles.pager}
-        onPageSelected={onPageSelected}
-      >
-        <View style={styles.page} key={ImageUploadType.FILE}>
-          <ImageFileSelector />
+          <PagerView
+            ref={pagerRef}
+            style={styles.pager}
+            onPageSelected={onPageSelected}
+          >
+            <View style={styles.page} key={ImageUploadType.FILE}>
+              <ImageFileSelector />
+            </View>
+            <View style={styles.page} key={ImageUploadType.URL}>
+              <ImageUrlSelector />
+            </View>
+          </PagerView>
         </View>
-        <View style={styles.page} key={ImageUploadType.URL}>
-          <ImageUrlSelector />
-        </View>
-      </PagerView>
+      </Shadow>
     </View>
   );
 });
 
 const stylesheet = createStyleSheet((theme) => ({
-  container: {
-    borderRadius: theme.radius.md,
+  main: {
     overflow: "hidden",
+    borderRadius: theme.radius.md,
     borderWidth: 1,
     borderColor: theme.colors.inactive,
   },

@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import React from "react";
-import { AnimeData, EpisodeData } from "@/types";
+import { AnimeData } from "@/types";
 import { useAnimeEpisodes } from "@/queries/use-anime-episodes";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "./ui/Text";
@@ -29,21 +29,25 @@ export default function AnimeEpisodes({ anime }: Props) {
   );
   useStreamEpisodes(animeStream.data?.url);
 
-  const episodeCount = getInfiniteData(episodes.data).filter(Boolean).length;
+  const data = getInfiniteData(episodes.data);
+  const episodeCount = data.filter(Boolean).length;
 
   return (
     <View style={styles.main}>
-      <Text size="lg" weight="bold">
-        Episodes {episodes.data ? `(${episodeCount || "none"})` : null}
-      </Text>
+      <View style={styles.listHeader}>
+        <Text size="lg" weight="bold">
+          Episodes {episodes.data ? `(${episodeCount || "none"})` : null}
+        </Text>
+      </View>
       {episodes.data || episodes.isLoading ? (
         <List
-          data={getInfiniteData(episodes.data) as EpisodeData[]}
+          data={data}
           renderItem={({ item }) => (
             <AnimeEpisode episode={item} animeId={anime.id} />
           )}
           estimatedItemSize={55}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
+          contentContainerStyle={styles.listContent}
         />
       ) : (
         <AnimeFetchError
@@ -58,13 +62,14 @@ export default function AnimeEpisodes({ anime }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: {
-    paddingHorizontal: theme.spacing.sm,
-    paddingVertical: theme.spacing.xs,
     rowGap: theme.spacing.xs,
     flex: 1,
   },
-  episodes: {
-    rowGap: theme.spacing.xs,
+  listHeader: {
+    paddingHorizontal: theme.spacing.sm,
   },
-  separator: { height: theme.spacing.xs },
+  listContent: {
+    padding: theme.spacing.sm,
+  },
+  separator: { height: theme.spacing.sm },
 }));
