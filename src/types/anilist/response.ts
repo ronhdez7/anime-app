@@ -1,23 +1,20 @@
-import { GraphqlError } from "../helpers";
+import { GraphqlResponse } from "../graphql";
 
-export interface AnilistResponse<T> {
-  data: T;
-  errors?: GraphqlError[];
-}
+export type AnilistResponse<T> = GraphqlResponse<T>;
 
 export interface AnilistPaginatedResponse<T>
   extends AnilistResponse<AnilistPagination<T>> {}
 
 export type AnilistPagination<T> = {
   Page: {
-    pageInfo: AnilistPageInfo;
+    pageInfo: AnilistPageInfo | null;
   } & T;
 };
 
 export interface AnilistPageInfo {
-  total?: number;
-  perPage?: number;
-  currentPage?: number;
-  lastPage?: number;
-  hasNextPage?: boolean;
+  total: number | null;
+  perPage: number | null;
+  currentPage: number | null;
+  lastPage: number | null;
+  hasNextPage: boolean | null;
 }

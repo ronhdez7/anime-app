@@ -1,5 +1,6 @@
 export interface ApiResponse<T> {
   data: T;
+  errors?: ApiError[];
 }
 
 export interface ApiPaginatedResponse<T> extends ApiResponse<T> {
@@ -7,16 +8,15 @@ export interface ApiPaginatedResponse<T> extends ApiResponse<T> {
 }
 
 export interface ApiPagination {
-  last_visible_page: number;
-  has_next_page: boolean;
-  current_page: number;
-  items: { count: number; total: number; per_page: number };
+  lastPage: number | null;
+  hasNextPage: boolean | null;
+  currentPage: number | null;
+  items: { count: number | null; total: number | null; perPage: number | null };
 }
 
 export interface ApiError {
   status: number;
   type: string;
   message: string;
-  error: string;
-  report_url?: string;
+  error: string | null;
 }

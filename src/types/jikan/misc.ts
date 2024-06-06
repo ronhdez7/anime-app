@@ -1,3 +1,9 @@
+export interface JikanAnimeDate {
+  day: number | null;
+  month: number | null;
+  year: number | null;
+}
+
 export interface JikanReference {
   mal_id: number;
   type: string;
@@ -25,8 +31,6 @@ export enum Season {
   FALL = "fall",
   WINTER = "winter",
 }
-
-export type MALID = string | number;
 
 export enum JikanRelationType {
   Adaptation = "Adaptation",

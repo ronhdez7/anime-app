@@ -1,12 +1,12 @@
 export interface JikanEpisodeData {
   mal_id: number;
-  url: string;
-  title: string;
-  title_japanese: string;
-  title_romanji: string;
-  score: number;
-  aired: string;
-  filler: boolean;
-  recap: boolean;
-  forum_url: string;
+  url: string | null;
+  title: string | null;
+  title_japanese: string | null;
+  title_romanji: string | null;
+  score: number | null;
+  aired: string | null;
+  filler: boolean | null;
+  recap: boolean | null;
+  forum_url: string | null;
 }

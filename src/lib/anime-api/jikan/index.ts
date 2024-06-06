@@ -1,6 +1,5 @@
 import jikanApi from "./jikan-api";
 import { AxiosError, AxiosRequestConfig } from "axios";
-import { MALID } from "@/types/jikan";
 import {
   parseAnimeSearchParams,
   parseJikanAnime,
@@ -8,10 +7,11 @@ import {
   parseJikanEpisodeArray,
   parseJikanError,
   parseJikanGenreArray,
+  parseJikanPagination,
   parseTopAnimeParams,
 } from "./jikan-parser";
 import { AnimeApi } from "..";
-import { AnimeSearchParams, AnimeTopParams } from "@/types";
+import { AnimeSearchParams, AnimeTopParams, ID } from "@/types";
 
 function getError(e: unknown) {
   if (e instanceof AxiosError && e.response?.data) return e.response.data;
@@ -36,22 +36,28 @@ class Jikan implements AnimeApi {
     return this.getTopAnime({ limit: 5, adult: false }, config);
   }
 
-  async getTopAnime(options: AnimeTopParams, config?: AxiosRequestConfig) {
+  async getTopAnime(
+    options: AnimeTopParams,
+    config?: AxiosRequestConfig
+  ): ReturnType<AnimeApi["getTopAnime"]> {
     try {
       const { data } = await jikanApi.getTopAnime(
         parseTopAnimeParams(options),
         config
       );
-      return { ...data, data: parseJikanAnimeArray(data.data) };
+      return {
+        data: parseJikanAnimeArray(data.data ?? []),
+        pagination: parseJikanPagination(data.pagination),
+      };
     } catch (e) {
       throw parseJikanError(getError(e));
     }
   }
 
-  async getAnimeFullById(id: MALID, config?: AxiosRequestConfig) {
+  async getAnimeFullById(id: ID, config?: AxiosRequestConfig) {
     try {
-      const { data } = await jikanApi.getAnimeFullById(id, config);
-      return { data: parseJikanAnime(data.data) };
+      const { data } = await jikanApi.getAnimeFullById(Number(id), config);
+      return { data: data.data && parseJikanAnime(data.data) };
     } catch (e) {
       throw parseJikanError(getError(e));
     }
@@ -64,7 +70,10 @@ class Jikan implements AnimeApi {
     try {
       const params = parseAnimeSearchParams(options);
       const { data } = await jikanApi.getAnimeSearch(params, config);
-      return { ...data, data: parseJikanAnimeArray(data.data) };
+      return {
+        data: parseJikanAnimeArray(data.data ?? []),
+        pagination: parseJikanPagination(data.pagination),
+      };
     } catch (e) {
       throw parseJikanError(getError(e));
     }
@@ -73,7 +82,7 @@ class Jikan implements AnimeApi {
   async getAnimeGenres(config?: AxiosRequestConfig) {
     try {
       const { data } = await jikanApi.getAnimeGenres(config);
-      return { data: parseJikanGenreArray(data.data) };
+      return { data: parseJikanGenreArray(data.data ?? []) };
     } catch (e) {
       throw parseJikanError(getError(e));
     }
@@ -86,7 +95,10 @@ class Jikan implements AnimeApi {
   ) {
     try {
       const { data } = await jikanApi.getAnimeEpisodes(id, options, config);
-      return { ...data, data: parseJikanEpisodeArray(data.data, id) };
+      return {
+        data: parseJikanEpisodeArray(data.data ?? [], id),
+        pagination: parseJikanPagination(data.pagination),
+      };
     } catch (e) {
       throw parseJikanError(getError(e));
     }

@@ -1,10 +1,10 @@
 import { View } from "react-native";
 import React from "react";
-import { MALID } from "@/types/jikan";
 import WatchPlayer from "./WatchPlayer";
+import { ID } from "@/types";
 
 interface WatchScreenProps {
-  animeId: MALID;
+  animeId: ID;
   episodeNumber?: number;
 }
 

@@ -6,10 +6,10 @@ import {
   ApiPaginatedResponse,
   ApiResponse,
   EpisodeData,
+  ID,
 } from "@/types";
 import { jikan } from "./jikan";
 import { AxiosRequestConfig } from "axios";
-import { MALID } from "@/types/jikan";
 import { anilist } from "./anilist";
 
 type Res<T> = Promise<ApiResponse<T>>;
@@ -29,10 +29,7 @@ export interface AnimeApi {
     config?: AxiosRequestConfig
   ): PaginatedRes<AnimeData[]>;
 
-  getAnimeFullById(
-    id: MALID,
-    config?: AxiosRequestConfig
-  ): Res<AnimeData | null>;
+  getAnimeFullById(id: ID, config?: AxiosRequestConfig): Res<AnimeData | null>;
 
   getAnimeSearch(
     options: AnimeSearchParams,

@@ -22,8 +22,8 @@ export default function AnimeEpisodes({ anime }: Props) {
 
   const animeStream = useFindAnime(
     {
-      title: anime.titles.jp,
-      title_en: anime.titles.en,
+      title: anime.titles.jp ?? undefined,
+      title_en: anime.titles.en ?? undefined,
     },
     !!anime
   );
@@ -38,7 +38,6 @@ export default function AnimeEpisodes({ anime }: Props) {
       </Text>
       {episodes.data || episodes.isLoading ? (
         <List
-          // scrollEnabled={false}
           data={getInfiniteData(episodes.data) as EpisodeData[]}
           renderItem={({ item }) => (
             <AnimeEpisode episode={item} animeId={anime.id} />

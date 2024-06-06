@@ -14,7 +14,7 @@ import { StreamProvider } from "./provider";
 type Res<T> = Promise<ApiResponse<T>>;
 
 function convertResponse<T>(data: StreamApiResponse<T>): ApiResponse<T> {
-  if (data.success) return { data: data.data };
+  if (data.success) return { data: data.data, errors: [] };
   else throw data.error;
 }
 

@@ -12,6 +12,7 @@ export default function useFeaturedAnime() {
 
   if (query.data) {
     for (const anime of query.data) {
+      if (anime.id === null) continue;
       queryClient.setQueryData(
         apiKeys.anime(anime.id),
         animeApi.fakeResponse(anime)

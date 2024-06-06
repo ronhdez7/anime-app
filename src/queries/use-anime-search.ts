@@ -22,7 +22,9 @@ export default function useAnimeSearch(params: AnimeSearchParams = {}) {
 
   if (query.data) {
     for (const page of query.data.pages) {
+      if (!page) continue;
       for (const anime of page) {
+        if (anime.id === null) continue;
         queryClient.setQueryData(
           apiKeys.anime(anime.id),
           animeApi.fakeResponse(anime)

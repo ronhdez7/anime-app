@@ -94,7 +94,7 @@ function FeaturedItem({ item }: FeaturedItemProps) {
       <Link href={`/anime/${item.id}`} asChild>
         <Pressable style={styles.featuredItem}>
           <ImageBackground
-            source={{ uri: item?.images.large }}
+            source={{ uri: item.images.large ?? undefined }}
             contentFit="cover"
             style={{ height: "100%" }}
           />

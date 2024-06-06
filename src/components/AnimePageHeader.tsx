@@ -3,14 +3,14 @@ import { View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import BackArrow from "./ui/BackArrow";
 import Text from "./ui/Text";
-import { MALID } from "@/types/jikan";
 import { useAnime } from "@/queries/use-anime";
 import IconButton from "./ui/IconButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { VerticalDotsIcon } from "./icons";
+import { ID } from "@/types";
 
 interface AnimeHeaderProps {
-  id?: MALID;
+  id?: ID;
 }
 
 export default function AnimePageHeader({ id }: AnimeHeaderProps) {

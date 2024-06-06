@@ -1,5 +1,6 @@
 import {
   AnimeData,
+  AnimeDate,
   AnimeSearchOrder,
   AnimeSearchParams,
   AnimeStatus,
@@ -13,6 +14,7 @@ import {
   AnilistAnimeSort,
   AnilistAnimeStatus,
   AnilistAnimeType,
+  AnilistFuzzyDate,
   AnilistPageInfo,
   AnilistTopAnimeParams,
 } from "@/types/anilist";
@@ -20,33 +22,42 @@ import {
 export function parseAnilistAnime(anime: AnilistAnimeData): AnimeData {
   return {
     id: anime.id,
-    description: anime.description ?? "",
+    malId: anime.idMal,
+    anilistId: anime.id,
     title:
       anime.title?.english ?? anime.title?.romaji ?? anime.title?.romaji ?? "",
     titles: {
-      en: anime.title?.english,
-      jp: anime.title?.romaji,
+      en: anime.title?.english ?? null,
+      jp: anime.title?.romaji ?? null,
     },
     images: {
       small: anime.coverImage?.medium ?? "",
       regular: anime.coverImage?.large ?? "",
       large: anime.coverImage?.extraLarge ?? "",
     },
-    episodeCount: anime.episodes ?? 0,
-    status: anime.status ?? "",
     trailer: {
-      url: undefined,
-      images: {},
+      url: null,
+      images: null,
     },
     type: anime.type ?? "",
+    episodeCount: anime.episodes ?? 0,
+    status: anime.status ?? "",
+    rating: null,
+    description: anime.description ?? "",
     dates: {
-      from: {
-        day: anime.startDate?.day!,
-        month: anime.startDate?.month!,
-        year: anime.startDate?.year!,
-      },
-      to: anime.endDate!,
+      from: parseAnilistFuzzyDate(anime.startDate),
+      to: parseAnilistFuzzyDate(anime.endDate),
     },
+  };
+}
+
+export function parseAnilistFuzzyDate(
+  date: AnilistFuzzyDate | null
+): AnimeDate {
+  return {
+    day: date?.day ?? null,
+    month: date?.month ?? null,
+    year: date?.year ?? null,
   };
 }
 
@@ -55,17 +66,17 @@ export function parseAnilistAnimeArray(animes: AnilistAnimeData[]) {
 }
 
 export function parseAnilistPagination(
-  pageInfo?: AnilistPageInfo
+  pageInfo: AnilistPageInfo | null
 ): ApiPagination {
   return {
-    current_page: pageInfo?.currentPage ?? 1,
-    has_next_page: pageInfo?.hasNextPage ?? false,
+    currentPage: pageInfo?.currentPage ?? null,
+    hasNextPage: pageInfo?.hasNextPage ?? false,
     items: {
-      count: pageInfo?.total ?? 0,
-      per_page: pageInfo?.perPage ?? 0,
-      total: pageInfo?.total ?? 0,
+      count: pageInfo?.total ?? null,
+      perPage: pageInfo?.perPage ?? null,
+      total: pageInfo?.total ?? null,
     },
-    last_visible_page: pageInfo?.lastPage ?? 0,
+    lastPage: pageInfo?.lastPage ?? null,
   };
 }
 
@@ -109,13 +120,19 @@ export function parseAnimeSearchParams(
     type: parseAnimeType(params.type),
     averageScore: params.score,
     search: params.query,
-    startDate: params.startDate,
-    endDate: params.endDate,
+    startDate: parseDateToFuzzyInt(params.startDate),
+    endDate: parseDateToFuzzyInt(params.endDate),
     status: parseAnimeStatus(params.status),
     genre_in: params.genres,
     genre_not_in: params.genresExclude,
     sort: insideArray(parseAnimeSort(params.orderBy, params.sort)),
   };
+}
+
+export function parseDateToFuzzyInt(date?: AnimeDate): number {
+  return date
+    ? (date.year ?? 0) * 10000 + (date.month ?? 0) * 100 + (date.day ?? 0)
+    : 0;
 }
 
 function insideArray<T>(val: T): any {

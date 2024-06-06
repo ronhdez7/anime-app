@@ -17,8 +17,8 @@ export default function AnimeDetails({ anime }: AnimeDetailsProps) {
 
   useFindAnime(
     {
-      title: anime?.titles.jp,
-      title_en: anime?.titles.en,
+      title: anime?.titles.jp ?? undefined,
+      title_en: anime?.titles.en ?? undefined,
     },
     !!anime
   );
@@ -29,8 +29,7 @@ export default function AnimeDetails({ anime }: AnimeDetailsProps) {
   const year = anime?.dates.from.year;
   const rating = anime?.rating;
   const type = anime?.type;
-  const description = anime?.description;
-  const trailerImage = anime?.trailer.images.large_image_url;
+  const trailerImage = anime?.trailer.images?.large_image_url;
 
   return (
     <View>
@@ -42,7 +41,9 @@ export default function AnimeDetails({ anime }: AnimeDetailsProps) {
               {!loading ? (
                 <Image
                   style={styles.image}
-                  source={{ uri: trailerImage ?? anime.images.large }}
+                  source={{
+                    uri: trailerImage ?? anime.images.large ?? undefined,
+                  }}
                   contentFit="cover"
                 />
               ) : null}
@@ -76,7 +77,7 @@ export default function AnimeDetails({ anime }: AnimeDetailsProps) {
           {/* Description */}
           <SkeletonLoader>
             {!loading ? (
-              <DetailsDescription description={description} />
+              <DetailsDescription description={anime.description} />
             ) : (
               <View style={{ height: 96 }} />
             )}
@@ -88,7 +89,7 @@ export default function AnimeDetails({ anime }: AnimeDetailsProps) {
 }
 
 interface DescriptionProps {
-  description?: string;
+  description: AnimeData["description"];
 }
 function DetailsDescription({ description }: DescriptionProps) {
   const { styles } = useStyles(stylesheet);

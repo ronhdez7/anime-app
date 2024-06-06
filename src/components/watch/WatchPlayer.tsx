@@ -1,5 +1,4 @@
 import React from "react";
-import { MALID } from "@/types/jikan";
 import { useAnime } from "@/queries/use-anime";
 import { useFindAnime } from "@/queries/use-find-anime";
 import { useStreamEpisodes } from "@/queries/use-stream-episodes";
@@ -7,9 +6,10 @@ import { useStreamServers } from "@/queries/use-stream-servers";
 import { useStreamSources } from "@/queries/use-stream-sources";
 import Player from "../player/Player";
 import PlayerStoreProvider from "@/stores/PlayerStore";
+import { ID } from "@/types";
 
 interface WatchPlayerProps {
-  animeId: MALID;
+  animeId: ID;
   episodeNumber: number;
 }
 
@@ -20,8 +20,8 @@ export default function WatchPlayer({
   const anime = useAnime(animeId);
   const streamAnime = useFindAnime(
     {
-      title: anime.data?.titles.jp,
-      title_en: anime.data?.titles.en,
+      title: anime.data?.titles.jp ?? undefined,
+      title_en: anime.data?.titles.en ?? undefined,
     },
     !!anime.data
   );
@@ -32,8 +32,6 @@ export default function WatchPlayer({
 
   const sourceUrl = sources.data?.sources.at(0)?.url ?? "";
 
-  console.log(sourceUrl);
-
   return (
     <PlayerStoreProvider>
       <Player
@@ -41,7 +39,7 @@ export default function WatchPlayer({
           uri: sourceUrl,
           metadata: {
             title: episode?.name ?? undefined,
-            artist: anime.data?.title,
+            artist: anime.data?.title ?? undefined,
           },
         }}
       />

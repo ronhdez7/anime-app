@@ -9,6 +9,7 @@ import {
   AnimeTopParams,
   AnimeType,
   ApiError,
+  ApiPagination,
   EpisodeData,
 } from "@/types";
 import {
@@ -20,6 +21,7 @@ import {
   JikanEpisodeData,
   JikanError,
   JikanGenre,
+  JikanPagination,
   JikanTopAnimeParams,
 } from "@/types/jikan";
 
@@ -30,7 +32,8 @@ export function parseJikanError(error: JikanError): ApiError {
 export function parseJikanAnime(anime: JikanAnimeData): AnimeData {
   return {
     id: anime.mal_id,
-    description: anime.synopsis,
+    malId: anime.mal_id,
+    anilistId: null,
     title: anime.title ?? anime.title_english ?? anime.title_japanese,
     titles: {
       en: anime.title_english,
@@ -41,14 +44,15 @@ export function parseJikanAnime(anime: JikanAnimeData): AnimeData {
       regular: anime.images.webp.image_url,
       large: anime.images.webp.large_image_url,
     },
-    episodeCount: anime.episodes ?? 0,
-    rating: anime.rating?.trim().split(" ")[0],
-    status: anime.status,
     trailer: {
       url: anime.trailer.url,
       images: anime.trailer.images,
     },
     type: anime.type,
+    episodeCount: anime.episodes ?? 0,
+    status: anime.status,
+    rating: anime.rating?.trim().split(" ")[0] ?? null,
+    description: anime.synopsis,
     dates: {
       from: {
         ...anime.aired.prop.from,
@@ -65,10 +69,14 @@ export function parseJikanAnimeArray(animes: JikanAnimeData[]) {
 
 export function parseJikanEpisode(
   episode: JikanEpisodeData,
-  animeId?: number
+  animeId?: number,
+  episodeNumber?: number
 ): EpisodeData {
+  const date = episode.aired ? new Date(episode.aired) : null;
+
   return {
     id: episode.mal_id,
+    number: episodeNumber ?? episode.mal_id,
     animeId: Number(animeId),
     title:
       episode.title ??
@@ -77,11 +85,13 @@ export function parseJikanEpisode(
       `Episode ${episode.mal_id}`,
     filler: episode.filler,
     recap: episode.recap,
-    aired: {
-      day: new Date(episode.aired).getDate(),
-      month: new Date(episode.aired).getMonth(),
-      year: new Date(episode.aired).getFullYear(),
-    },
+    aired: date
+      ? {
+          day: date.getDate(),
+          month: date.getMonth(),
+          year: date.getFullYear(),
+        }
+      : { day: null, month: null, year: null },
   };
 }
 
@@ -89,7 +99,9 @@ export function parseJikanEpisodeArray(
   episodes: JikanEpisodeData[],
   animeId?: number
 ) {
-  return episodes.map((episode) => parseJikanEpisode(episode, animeId));
+  return episodes.map((episode, idx) =>
+    parseJikanEpisode(episode, animeId, idx)
+  );
 }
 
 export function parseJikanGenre(
@@ -118,14 +130,14 @@ export function parseJikanGenreArray(genres: JikanGenre[]): AnimeGenre[] {
   return genres
     .map((genre) => {
       if (genreIds.explicit.includes(Number(genre.mal_id))) {
-        return parseJikanGenre(genre, "EXPLICIT");
+        return parseJikanGenre(genre, AnimeGenreType.EXPLICIT);
       } else if (genreIds.themes.includes(Number(genre.mal_id))) {
-        return parseJikanGenre(genre, "THEME");
+        return parseJikanGenre(genre, AnimeGenreType.THEME);
       } else if (genreIds.demographics.includes(Number(genre.mal_id))) {
-        return parseJikanGenre(genre, "DEMOGRAPHIC");
+        return parseJikanGenre(genre, AnimeGenreType.DEMOGRAPHIC);
       }
 
-      return parseJikanGenre(genre, "GENRE");
+      return parseJikanGenre(genre, AnimeGenreType.GENRE);
     })
     .filter(Boolean) as any;
 }
@@ -226,4 +238,19 @@ function parseAnimeOrder(
   }
 
   return;
+}
+
+export function parseJikanPagination(
+  pagination: JikanPagination
+): ApiPagination {
+  return {
+    lastPage: pagination.last_visible_page,
+    hasNextPage: pagination.has_next_page,
+    currentPage: pagination.current_page,
+    items: {
+      count: pagination.items?.count ?? null,
+      total: pagination.items?.total ?? null,
+      perPage: pagination.items?.per_page ?? null,
+    },
+  };
 }

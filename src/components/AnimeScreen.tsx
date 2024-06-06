@@ -1,14 +1,14 @@
 import { ScrollView } from "react-native";
 import React from "react";
-import { MALID } from "@/types/jikan";
 import { useAnime } from "@/queries/use-anime";
 import { useAnimeEpisodes } from "@/queries/use-anime-episodes";
 import AnimeFetchError from "./AnimeFetchError";
 import AnimeDetails from "./AnimeDetails";
 import AnimeEpisodes from "./AnimeEpisodes";
+import { ID } from "@/types";
 
 interface AnimeScreenProps {
-  id: MALID;
+  id: ID;
 }
 export default function AnimeScreen({ id }: AnimeScreenProps) {
   const anime = useAnime(id);

@@ -1,7 +1,7 @@
 export type AnimeDate = {
-  day?: number;
-  month?: number;
-  year?: number;
+  day: number | null;
+  month: number | null;
+  year: number | null;
 };
 
 export enum AnimeStatus {
@@ -29,7 +29,13 @@ export enum AnimeType {
   MUSIC,
 }
 
-export type AnimeGenreType = "GENRE" | "EXPLICIT" | "THEME" | "DEMOGRAPHIC";
+export enum AnimeGenreType {
+  GENRE,
+  EXPLICIT,
+  THEME,
+  DEMOGRAPHIC,
+}
+
 export interface AnimeGenre {
   id: number;
   name: string;

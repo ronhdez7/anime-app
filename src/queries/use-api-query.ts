@@ -45,7 +45,7 @@ export function useApiInfiniteQuery<T, Q extends QueryKey = QueryKey>({
     },
     initialPageParam: 1,
     getNextPageParam: (data, _, lastPageParam) =>
-      (data.pagination.has_next_page || null) && lastPageParam + 1,
+      (data.pagination.hasNextPage || null) && lastPageParam + 1,
     ...options,
   });
 

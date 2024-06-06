@@ -1,15 +1,14 @@
 import { TouchableOpacity, View } from "react-native";
 import React from "react";
-import { EpisodeData } from "@/types";
+import { EpisodeData, ID } from "@/types";
 import Text from "./ui/Text";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
-import { MALID } from "@/types/jikan";
 import { Link } from "expo-router";
 import SkeletonLoader from "./ui/SkeletonLoader";
 
 interface Props {
   episode?: EpisodeData;
-  animeId?: MALID;
+  animeId: ID | null;
 }
 
 export default function AnimeEpisode({ episode, animeId }: Props) {

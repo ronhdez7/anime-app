@@ -30,6 +30,8 @@ export default function SeekBar({ player, onPress }: ControlProps) {
     player.currentTime = value;
     setProgress(value * 1000);
 
+    // onValueChange is called after finishSeeking,
+    // so reseting localProgress has to be delayed
     setTimeout(() => {
       setLocalProgress(undefined);
     }, 0);
@@ -46,21 +48,21 @@ export default function SeekBar({ player, onPress }: ControlProps) {
 
   return (
     <View style={styles.container}>
+      <View style={[styles.progressContainer(textLength)]}>
+        <Text color="foreground" size="sm" style={styles.progressText}>
+          {progressText}
+        </Text>
+
+        <Text color="foreground" size="sm">
+          /
+        </Text>
+
+        <Text color="foreground" size="sm" style={styles.progressText}>
+          {durationText}
+        </Text>
+      </View>
+
       <Pressable onPress={onPress} style={styles.pressableArea}>
-        <View style={[styles.progressContainer(textLength)]}>
-          <Text color="foreground" size="sm" style={styles.progressText}>
-            {progressText}
-          </Text>
-
-          <Text color="foreground" size="sm">
-            /
-          </Text>
-
-          <Text color="foreground" size="sm" style={styles.progressText}>
-            {durationText}
-          </Text>
-        </View>
-
         <Slider
           style={styles.slider}
           minimumValue={0}

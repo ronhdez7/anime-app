@@ -1,4 +1,3 @@
-import { MALID } from "@/types/jikan";
 import { anilistApi } from "./anilist-api";
 import { AxiosRequestConfig } from "axios";
 import {
@@ -8,7 +7,7 @@ import {
   parseAnimeSearchParams,
   parseTopAnimeParams,
 } from "./anilist-parser";
-import { AnimeSearchParams, AnimeTopParams } from "@/types";
+import { AnimeSearchParams, AnimeTopParams, ID } from "@/types";
 import { AnimeApi } from "..";
 
 class Anilist implements AnimeApi {
@@ -21,7 +20,7 @@ class Anilist implements AnimeApi {
   }
 
   fakeResponse<T>(data: T) {
-    return anilistApi.fakeResponse(data).data;
+    return { data: anilistApi.fakeResponse(data).data.data };
   }
 
   getFeaturedAnime(config?: AxiosRequestConfig) {
@@ -40,7 +39,7 @@ class Anilist implements AnimeApi {
       const animeList = data.data?.Page.media;
       return {
         data: animeList ? parseAnilistAnimeArray(animeList) : [],
-        pagination: parseAnilistPagination(data.data?.Page.pageInfo),
+        pagination: parseAnilistPagination(data.data?.Page.pageInfo ?? null),
       };
     } catch (e) {
       throw e;
@@ -59,14 +58,14 @@ class Anilist implements AnimeApi {
       const animeList = data.data?.Page.media;
       return {
         data: animeList ? parseAnilistAnimeArray(animeList) : [],
-        pagination: parseAnilistPagination(data.data?.Page.pageInfo),
+        pagination: parseAnilistPagination(data.data?.Page.pageInfo ?? null),
       };
     } catch (e) {
       throw e;
     }
   }
 
-  async getAnimeFullById(id: MALID, config?: AxiosRequestConfig) {
+  async getAnimeFullById(id: ID, config?: AxiosRequestConfig) {
     try {
       const { data } = await anilistApi.getAnimeFullById(Number(id), config);
       const media = data.data?.Media;
@@ -78,7 +77,7 @@ class Anilist implements AnimeApi {
 
   async getAnimeGenres(config?: AxiosRequestConfig<any> | undefined) {
     throw new Error("Not implemented");
-    return undefined as any
+    return undefined as any;
   }
 
   async getAnimeEpisodes(
@@ -87,7 +86,7 @@ class Anilist implements AnimeApi {
     config?: AxiosRequestConfig
   ) {
     throw new Error("Not implemented");
-    return undefined as any
+    return undefined as any;
   }
 }
 

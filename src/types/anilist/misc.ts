@@ -2,9 +2,9 @@ export type AnilistGenre = string;
 export type AnilistId = number;
 
 export type AnilistFuzzyDate = {
-  day?: number;
-  month?: number;
-  year?: number;
+  day: number | null;
+  month: number | null;
+  year: number | null;
 };
 
 export enum AnilistAnimeStatus {
@@ -87,6 +87,6 @@ export interface AnilistAnimeSearchParams extends AnilistTopAnimeParams {
   genre_not_in?: string[];
   // orderBy and sort combined
   sort?: AnilistAnimeSort[];
-  startDate?: AnilistFuzzyDate;
-  endDate?: AnilistFuzzyDate;
+  startDate?: number;
+  endDate?: number;
 }

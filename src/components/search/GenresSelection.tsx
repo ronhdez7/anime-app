@@ -6,6 +6,7 @@ import Text from "../ui/Text";
 import LoadingView from "../ui/LoadingView";
 import FiltersList from "./FiltersList";
 import { RefreshIcon } from "@/components/icons/RefreshIcon";
+import { AnimeGenreType } from "@/types";
 
 export default function GenresSelection() {
   const { styles } = useStyles(stylesheet);
@@ -22,7 +23,7 @@ export default function GenresSelection() {
       {data ? (
         <FiltersList
           data={data
-            .filter((i) => i.type === "GENRE")
+            .filter((i) => i.type === AnimeGenreType.GENRE)
             .map((i) => ({
               name: i.name,
               value: i.id.toString(),

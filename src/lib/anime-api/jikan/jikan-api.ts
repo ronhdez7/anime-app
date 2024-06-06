@@ -8,7 +8,6 @@ import {
   JikanResponse,
   JikanAnimeSearchParams,
   JikanTopAnimeParams,
-  MALID,
   JikanEpisodeData,
 } from "@/types/jikan";
 import ogAxios, { AxiosRequestConfig, AxiosResponse } from "axios";
@@ -33,7 +32,7 @@ class JikanApi {
     return new Promise((_, reject) => setTimeout(reject, 10000));
   }
 
-  fakeResponse<T>(data: T): AxiosResponse<JikanResponse<T>> {
+  fakeResponse<T>(data: T): AxiosResponse<{ data: T }> {
     return { data: { data: data } } as any;
   }
 
@@ -50,7 +49,7 @@ class JikanApi {
   }
 
   getAnimeFullById(
-    id: MALID,
+    id: JikanAnimeData["mal_id"],
     config?: AxiosRequestConfig
   ): Res<JikanAnimeFullData> {
     return this.axios.get(`/anime/${id}/full`, config);
@@ -69,7 +68,7 @@ class JikanApi {
   }
 
   getAnimeEpisodes(
-    id: MALID,
+    id: JikanAnimeData["mal_id"],
     options?: { page?: number },
     config?: AxiosRequestConfig
   ): PaginatedRes<JikanEpisodeData[]> {

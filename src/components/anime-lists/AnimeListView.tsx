@@ -2,7 +2,6 @@ import { AnimeDataQueryResult } from "@/types";
 import { View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "../ui/Text";
-import { FlashList } from "@shopify/flash-list";
 import { getInfiniteData } from "@/lib/utils";
 import { AnimeListItem } from "./AnimeListItem";
 import AnimeFetchError from "../AnimeFetchError";

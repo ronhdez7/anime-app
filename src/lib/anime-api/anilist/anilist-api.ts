@@ -34,7 +34,7 @@ class Anilist {
     return new Promise((_, reject) => setTimeout(reject, 10000));
   }
 
-  fakeResponse<T>(data: T): AxiosResponse<AnilistResponse<T>> {
+  fakeResponse<T>(data: T): AxiosResponse<{ data: T }> {
     return { data: { data: data } } as any;
   }
 
