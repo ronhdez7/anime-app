@@ -10,15 +10,15 @@ import {
   usePlayerStatus,
 } from "@/stores/PlayerStore";
 import LoadingView from "../ui/LoadingView";
+import { RefreshIcon } from "../icons/RefreshIcon";
 
 export default function PlayButton({ player, onPress }: ControlProps) {
   const { styles } = useStyles(stylesheet);
 
   const status = usePlayerStatus();
   const play = usePlayerPlay();
-  const { setPlay } = usePlayerActions();
+  const { setPlay, setStatus } = usePlayerActions();
 
-  const loading = status !== VideoState.PLAYING;
   const PlayingIcon = play ? PauseIcon : PlayIcon;
 
   function togglePlay(e: GestureResponderEvent) {
@@ -31,16 +31,26 @@ export default function PlayButton({ player, onPress }: ControlProps) {
     setPlay(!play);
   }
 
+  function replay() {
+    player.replay();
+    setPlay(true);
+    setStatus(VideoState.PLAYING);
+  }
+
   return (
     <View>
-      {loading ? (
-        <Pressable onPress={onPress}>
-          <LoadingView color="foreground" />
-        </Pressable>
-      ) : (
+      {status === VideoState.ENDED ? (
+        <IconButton onPress={replay}>
+          <RefreshIcon color="foreground" />
+        </IconButton>
+      ) : status === VideoState.PLAYING ? (
         <IconButton onPress={togglePlay}>
           <PlayingIcon color="foreground" />
         </IconButton>
+      ) : (
+        <Pressable onPress={onPress}>
+          <LoadingView color="foreground" />
+        </Pressable>
       )}
     </View>
   );

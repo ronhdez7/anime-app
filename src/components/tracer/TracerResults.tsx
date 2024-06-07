@@ -33,7 +33,16 @@ export default function TracerResults({ response }: TracerResultsProps) {
     <View style={styles.container}>
       <View>
         <PlayerStoreProvider>
-          <Player source={{ uri: result.video }} />
+          <Player
+            source={{
+              uri: result.video,
+            }}
+            controls={{
+              disableBackButton: true,
+              disableSettingsButton: true,
+              disableFullscreenButton: true,
+            }}
+          />
         </PlayerStoreProvider>
       </View>
       <View>

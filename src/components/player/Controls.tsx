@@ -23,14 +23,28 @@ import SeekBar from "./SeekBar";
 import FullscreenButton from "./FullscreenButton";
 import { VideoSourceObject } from "./Player";
 
-interface ControlsProps {
+export interface ControlDisplayProps {
+  disableBackButton?: boolean;
+  disablePlayButton?: boolean;
+  disableSettingsButton?: boolean;
+  disableFullscreenButton?: boolean;
+}
+
+interface ControlsProps extends ControlDisplayProps {
   player: VideoPlayer;
   source: VideoSourceObject;
 }
 
 const CONTROLS_TIMEOUT = 5000;
 
-export default function Controls({ player, source }: ControlsProps) {
+export default function Controls({
+  player,
+  source,
+  disableBackButton,
+  disablePlayButton,
+  disableSettingsButton,
+  disableFullscreenButton,
+}: ControlsProps) {
   const { styles } = useStyles(stylesheet);
 
   const speed = usePlayerSpeed();
@@ -69,20 +83,40 @@ export default function Controls({ player, source }: ControlsProps) {
     }
   }
 
+  function handleVideoEnd() {
+    setStatus(VideoState.ENDED);
+    setShowControls(true);
+    clearTimeout(controlsTimerRef.current);
+  }
+
   useEffect(() => {
-    const statusSubscription = player.addListener("statusChange", (status) => {
-      setDuration(player.duration * 1000);
-      if (status === "readyToPlay") {
-        setStatus(VideoState.PLAYING);
-      } else {
-        clearTimeout(controlsTimerRef.current);
-        setShowControls(true);
-        setStatus(VideoState.LOADING);
+    const statusSubscription = player.addListener(
+      "statusChange",
+      (playerStatus) => {
+        setDuration(player.duration * 1000);
+        if (playerStatus === "readyToPlay") {
+          setStatus(VideoState.PLAYING);
+        } else {
+          clearTimeout(controlsTimerRef.current);
+          setShowControls(true);
+          if (
+            playerStatus === "idle" &&
+            Math.floor(player.currentTime) >= Math.floor(player.duration)
+          )
+            return;
+
+          setStatus(VideoState.LOADING);
+        }
       }
+    );
+
+    const endSubscription = player.addListener("playToEnd", () => {
+      handleVideoEnd();
     });
 
     return () => {
       statusSubscription.remove();
+      endSubscription.remove();
       clearTimeout(controlsTimerRef.current);
     };
   }, []);
@@ -129,19 +163,25 @@ export default function Controls({ player, source }: ControlsProps) {
           pointerEvents={showControls ? undefined : "box-only"}
         >
           {/* Back Button */}
-          <ControlPosition style={styles.backButton}>
-            <BackButton player={player} onPress={handlePressOnControl} />
-          </ControlPosition>
+          {!disableBackButton && (
+            <ControlPosition style={styles.backButton}>
+              <BackButton player={player} onPress={handlePressOnControl} />
+            </ControlPosition>
+          )}
 
           {/* Play Button */}
-          <ControlPosition style={styles.playButton}>
-            <PlayButton player={player} onPress={handlePressOnControl} />
-          </ControlPosition>
+          {!disablePlayButton && (
+            <ControlPosition style={styles.playButton}>
+              <PlayButton player={player} onPress={handlePressOnControl} />
+            </ControlPosition>
+          )}
 
           {/* Settings Button */}
-          <ControlPosition style={styles.settingsButton}>
-            <SettingsButton player={player} onPress={handlePressOnControl} />
-          </ControlPosition>
+          {!disableSettingsButton && (
+            <ControlPosition style={styles.settingsButton}>
+              <SettingsButton player={player} onPress={handlePressOnControl} />
+            </ControlPosition>
+          )}
 
           <View style={styles.bottomNav}>
             {/* Seek Bar */}
@@ -150,12 +190,14 @@ export default function Controls({ player, source }: ControlsProps) {
             </ControlPosition>
 
             {/* Fullscreen Button */}
-            <ControlPosition>
-              <FullscreenButton
-                player={player}
-                onPress={handlePressOnControl}
-              />
-            </ControlPosition>
+            {!disableFullscreenButton && (
+              <ControlPosition>
+                <FullscreenButton
+                  player={player}
+                  onPress={handlePressOnControl}
+                />
+              </ControlPosition>
+            )}
           </View>
         </View>
       </Pressable>

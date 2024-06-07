@@ -1,16 +1,18 @@
 import { VideoSource, VideoView, useVideoPlayer } from "expo-video";
 import { View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
-import Controls from "./Controls";
+import Controls, { ControlDisplayProps } from "./Controls";
 import { usePlayerSpeed } from "@/stores/PlayerStore";
 
 export type VideoSourceObject = Extract<VideoSource, object>;
 
-interface PlayerProps {
+export interface PlayerProps {
   source: VideoSourceObject;
+
+  controls?: ControlDisplayProps;
 }
 
-export default function Player({ source }: PlayerProps) {
+export default function Player({ source, controls }: PlayerProps) {
   const { styles } = useStyles(stylesheet);
 
   const speed = usePlayerSpeed();
@@ -26,7 +28,7 @@ export default function Player({ source }: PlayerProps) {
         contentFit="contain"
         nativeControls={false}
       />
-      <Controls player={player} source={source} />
+      <Controls player={player} source={source} {...controls} />
     </View>
   );
 }

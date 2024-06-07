@@ -18,6 +18,7 @@ export default function SeekBar({ player, onPress }: ControlProps) {
   const progress = usePlayerProgressInSecs();
   const { setProgress, setSeeking } = usePlayerActions();
 
+  // does not control seekbar, tracks progress to update it after seeking
   const [localProgress, setLocalProgress] = useState<number>();
 
   function beganSeeking() {
@@ -25,24 +26,21 @@ export default function SeekBar({ player, onPress }: ControlProps) {
     setSeeking(true);
   }
 
+  function moveSeeking(value: number) {
+    if (localProgress === undefined) return;
+    setLocalProgress(value);
+  }
+
   function finishSeeking(value: number) {
     setSeeking(false);
     player.currentTime = value;
     setProgress(value * 1000);
 
-    // onValueChange is called after finishSeeking,
-    // so reseting localProgress has to be delayed
-    setTimeout(() => {
-      setLocalProgress(undefined);
-    }, 0);
+    setLocalProgress(undefined);
   }
 
-  const localProgressText =
-    localProgress !== undefined
-      ? convertSecondsToTime(localProgress)
-      : undefined;
-  const playerProgressText = convertSecondsToTime(progress);
-  const progressText = localProgressText ?? playerProgressText;
+  const progressDisplay = localProgress ?? progress;
+  const progressText = convertSecondsToTime(progressDisplay);
   const durationText = convertSecondsToTime(duration);
   const textLength = progressText.length + durationText.length + 1;
 
@@ -74,7 +72,7 @@ export default function SeekBar({ player, onPress }: ControlProps) {
           tapToSeek
           onSlidingStart={beganSeeking}
           onSlidingComplete={finishSeeking}
-          onValueChange={setLocalProgress}
+          onValueChange={moveSeeking}
           // initial value only
           value={progress}
         />

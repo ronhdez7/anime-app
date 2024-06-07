@@ -6,6 +6,7 @@ export enum VideoState {
   LOADING,
   BUFFERING,
   PLAYING,
+  ENDED,
 }
 
 type PlayerState = {
@@ -47,7 +48,10 @@ type PlayerContext = PlayerState & { actions: Actions };
 type PlayerContextStore = StoreApi<PlayerContext>;
 const PlayerContext = createContext<PlayerContextStore | undefined>(undefined);
 
-export default function PlayerStoreProvider({ children }: PropsWithChildren) {
+export interface PlayerStoreProviderProps extends PropsWithChildren {}
+export default function PlayerStoreProvider({
+  children,
+}: PlayerStoreProviderProps) {
   const [store] = useState(() =>
     createStore<PlayerContext>((set) => ({
       ...initialState,

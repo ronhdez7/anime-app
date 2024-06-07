@@ -36,20 +36,22 @@ export function Modal({
       onRequestClose={closeModal}
       onShow={onShow}
     >
-      <View
-        style={[
-          {
-            paddingTop: insets.top,
-            paddingBottom: insets.bottom,
-            paddingLeft: insets.left,
-            paddingRight: insets.right,
-          },
-          styles.modalContainer,
-        ]}
-      >
+      <View style={styles.modalContainer}>
         <Pressable style={styles.backdrop} onPress={closeModal} />
 
-        <View style={styles.modalContent}>{children}</View>
+        <View
+          style={[
+            {
+              paddingTop: insets.top,
+              paddingBottom: insets.bottom,
+              paddingLeft: insets.left,
+              paddingRight: insets.right,
+            },
+            styles.modalContent,
+          ]}
+        >
+          {children}
+        </View>
       </View>
     </RNModal>
   );
