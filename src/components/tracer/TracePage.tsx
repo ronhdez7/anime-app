@@ -22,7 +22,10 @@ import { tracerApi } from "@/lib/tracer-api";
 import LoadingView from "../ui/LoadingView";
 import SafeArea from "../ui/SafeArea";
 import BackArrow from "../ui/BackArrow";
-import { Shadow } from "react-native-shadow-2";
+import { useState } from "react";
+import { Modal } from "../ui/Modal";
+import TracerResults from "./TracerResults";
+import ModalContent from "../ui/ModalContent";
 
 export default function TracePage() {
   const { styles } = useStyles(stylesheet);
@@ -32,10 +35,12 @@ export default function TracePage() {
   const imageUrl = useTracerImageUrl();
   const cutBorders = useTracerCutBorders();
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   const uploadImage = useMutation({
     mutationFn: async (options: TracerSearchOptions) =>
       tracerApi.search(options),
-    onSuccess: (data) => console.log(data),
+    onSuccess: () => setModalVisible(true),
     onError: (error) => console.log(error),
   });
 
@@ -68,6 +73,14 @@ export default function TracePage() {
 
   return (
     <SafeArea>
+      <Modal visible={modalVisible} onClose={() => setModalVisible(false)}>
+        <ModalContent>
+          {uploadImage.isSuccess && (
+            <TracerResults response={uploadImage.data} />
+          )}
+        </ModalContent>
+      </Modal>
+
       <View style={styles.container}>
         <View style={styles.header}>
           <BackArrow />
@@ -93,7 +106,7 @@ export default function TracePage() {
             </View>
           </View>
 
-            <TraceImageSelector />
+          <TraceImageSelector />
 
           <TraceOptions />
         </ScrollView>
