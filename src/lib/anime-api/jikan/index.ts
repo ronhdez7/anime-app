@@ -10,8 +10,8 @@ import {
   parseJikanPagination,
   parseTopAnimeParams,
 } from "./jikan-parser";
-import { AnimeApi } from "..";
 import { AnimeSearchParams, AnimeTopParams, ID } from "@/types";
+import { AnimeApi } from "../anime-api";
 
 function getError(e: unknown) {
   if (e instanceof AxiosError && e.response?.data) return e.response.data;

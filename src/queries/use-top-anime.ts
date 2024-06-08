@@ -2,6 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import animeApi from "@/lib/anime-api";
 import { useApiInfiniteQuery } from "./use-api-query";
 import { apiKeys } from "./keys";
+import { fillCacheForAnimeData, prefetchAnimeImage } from "./utils";
 
 export default function useTopAnime() {
   const queryClient = useQueryClient();
@@ -15,11 +16,8 @@ export default function useTopAnime() {
     for (const page of query.data.pages) {
       if (!page) continue;
       for (const anime of page) {
-        if (anime.id === null) continue;
-        queryClient.setQueryData(
-          apiKeys.anime(anime.id),
-          animeApi.fakeResponse(anime)
-        );
+        fillCacheForAnimeData(anime, queryClient);
+        prefetchAnimeImage(anime);
       }
     }
   }

@@ -18,6 +18,7 @@ export function useApiQuery<T, Q extends QueryKey = QueryKey>({
 }: UndefinedInitialDataOptions<ApiResponse<T>, ApiError, T, Q>) {
   const query = useQuery({
     select: (res) => res.data,
+    staleTime: 1000 * 60,
     ...options,
   });
 
@@ -43,6 +44,7 @@ export function useApiInfiniteQuery<T, Q extends QueryKey = QueryKey>({
         pages: data.pages.map((page) => page.data),
       };
     },
+    staleTime: 1000 * 60,
     initialPageParam: 1,
     getNextPageParam: (data, _, lastPageParam) =>
       (data.pagination.hasNextPage || null) && lastPageParam + 1,

@@ -30,7 +30,7 @@ export function AnimeListItem({ anime, disabled = false }: AnimeListItemProps) {
                 <TouchableOpacity activeOpacity={0.75} disabled={disabled}>
                   <ImageBackground
                     style={styles.image}
-                    source={{ uri: anime.images.regular ?? undefined }}
+                    source={{ uri: anime.images.large ?? undefined }}
                     contentFit="cover"
                   >
                     <View style={styles.titleContainer}>

@@ -8,7 +8,7 @@ import {
   parseTopAnimeParams,
 } from "./anilist-parser";
 import { AnimeSearchParams, AnimeTopParams, ID } from "@/types";
-import { AnimeApi } from "..";
+import { AnimeApi } from "../anime-api";
 
 class Anilist implements AnimeApi {
   error(...args: any[]): any {

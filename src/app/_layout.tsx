@@ -5,65 +5,57 @@ import * as SplashScreen from "expo-splash-screen";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/query-client";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useFonts } from "expo-font";
 import { Keyboard } from "react-native";
 import { useStyles } from "react-native-unistyles";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as ScreenOrientation from "expo-screen-orientation";
+import { useLoad } from "@/queries/loaders";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const { theme } = useStyles();
-  const [assetsLoaded, assetsError] = useLoadAssets();
 
   useEffect(() => {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
   }, []);
 
-  useEffect(() => {
-    if (assetsLoaded || assetsError) {
-      SplashScreen.hideAsync();
-    }
-  }, [assetsLoaded, assetsError]);
-
-  if (!assetsLoaded && !assetsError) {
-    return null;
-  }
-
   return (
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <SafeAreaProvider style={{ flex: 1 }} onTouchStart={Keyboard.dismiss}>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-              contentStyle: { backgroundColor: theme.colors.background },
+        <LoadAssets>
+          <SafeAreaProvider style={{ flex: 1 }} onTouchStart={Keyboard.dismiss}>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                contentStyle: { backgroundColor: theme.colors.background },
 
-              // Status Bar
-              statusBarTranslucent: true,
-              statusBarStyle: theme.colors.statusBarStyle,
-              statusBarHidden: false,
-              statusBarAnimation: "slide",
-            }}
-          />
-        </SafeAreaProvider>
+                // Status Bar
+                statusBarTranslucent: true,
+                statusBarStyle: theme.colors.statusBarStyle,
+                statusBarHidden: false,
+                statusBarAnimation: "slide",
+              }}
+            />
+          </SafeAreaProvider>
+        </LoadAssets>
       </GestureHandlerRootView>
     </QueryClientProvider>
   );
 }
 
-function useLoadAssets() {
-  const [fontsLoaded, fontError] = useFonts({
-    "Inter-Light": require("../../assets/fonts/Inter/Inter-Light.otf"),
-    "Inter-Medium": require("../../assets/fonts/Inter/Inter-Medium.otf"),
-    "Inter-Bold": require("../../assets/fonts/Inter/Inter-Bold.otf"),
-    "Inter-Black": require("../../assets/fonts/Inter/Inter-Black.otf"),
-  });
+function LoadAssets({ children }: { children?: React.ReactNode }) {
+  const loaded = useLoad();
 
-  // For some reason, in some devices requests to the api fail.
-  // So this dummy request to a verified api is needed.
-  // axios.get("https://jsonplaceholder.typicode.com/posts/1");
+  useEffect(() => {
+    if (loaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded]);
 
-  return [fontsLoaded, fontError];
+  if (!loaded) {
+    return null;
+  }
+
+  return children;
 }
