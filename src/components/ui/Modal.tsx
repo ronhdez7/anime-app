@@ -19,7 +19,7 @@ export function Modal({
   onShow,
   animationType = "fade",
 }: ModalProps) {
-  const { styles } = useStyles(stylesheet);
+  const { styles, theme } = useStyles(stylesheet);
   const insets = useSafeAreaInsets();
 
   function closeModal() {
@@ -42,10 +42,10 @@ export function Modal({
         <View
           style={[
             {
-              paddingTop: insets.top,
-              paddingBottom: insets.bottom,
-              paddingLeft: insets.left,
-              paddingRight: insets.right,
+              paddingTop: insets.top + theme.spacing.lg,
+              paddingBottom: insets.bottom + theme.spacing.lg,
+              paddingLeft: insets.left + theme.spacing.lg,
+              paddingRight: insets.right + theme.spacing.lg,
             },
             styles.modalContent,
           ]}
@@ -73,5 +73,7 @@ const stylesheet = createStyleSheet((theme) => ({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    width: "100%",
+    position: "relative",
   },
 }));

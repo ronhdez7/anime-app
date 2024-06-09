@@ -5,6 +5,6 @@ export default function RedirectToWatchPage() {
   const { animeId } = useLocalSearchParams();
 
   // redirect to episode where user left off
-  // use wach history
+  // use watch history
   return <Redirect href={`/watch/${animeId}/1`} />;
 }

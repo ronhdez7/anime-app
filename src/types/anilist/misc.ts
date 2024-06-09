@@ -89,4 +89,5 @@ export interface AnilistAnimeSearchParams extends AnilistTopAnimeParams {
   sort?: AnilistAnimeSort[];
   startDate?: number;
   endDate?: number;
+  id_in?: number[];
 }

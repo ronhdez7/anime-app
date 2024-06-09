@@ -8,15 +8,14 @@ interface ModalContentProps {
 export default function ModalContent({ children }: ModalContentProps) {
   const { styles } = useStyles(stylesheet);
 
-  return <View style={styles.container}>{children}</View>;
+  return <View style={styles.content}>{children}</View>;
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  container: {
+  content: {
     backgroundColor: theme.colors.background,
-    padding: theme.spacing.lg,
     borderRadius: theme.spacing.md,
     overflow: "hidden",
-    margin: theme.spacing.lg,
+    width: "100%",
   },
 }));

@@ -1,10 +1,10 @@
-import TracePage from "@/components/tracer/TracePage";
+import TraceScreen from "@/components/tracer/TraceScreen";
 import TracerStoreProvider from "@/stores/TracerStore";
 
-export default function TraceModal() {
+export default function TracePage() {
   return (
     <TracerStoreProvider>
-      <TracePage />
+      <TraceScreen />
     </TracerStoreProvider>
   );
 }

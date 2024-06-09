@@ -27,8 +27,6 @@ export function useLoad() {
   // loads action anime
   const action = useAnimeSearch({ genres: ["1"] });
 
-  console.log(top.isFetching);
-
   return (
     fontsLoaded && !featured.isPending && !top.isPending && !action.isPending
   );

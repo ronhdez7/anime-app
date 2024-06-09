@@ -27,7 +27,7 @@ import { Modal } from "../ui/Modal";
 import TracerResults from "./TracerResults";
 import ModalContent from "../ui/ModalContent";
 
-export default function TracePage() {
+export default function TraceScreen() {
   const { styles } = useStyles(stylesheet);
 
   const imageUploadType = useTracerUploadType();
