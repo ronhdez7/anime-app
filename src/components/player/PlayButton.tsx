@@ -38,7 +38,7 @@ export default function PlayButton({ player, onPress }: ControlProps) {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       {status === VideoState.ENDED ? (
         <IconButton onPress={replay}>
           <RefreshIcon color="foreground" />
@@ -56,4 +56,9 @@ export default function PlayButton({ player, onPress }: ControlProps) {
   );
 }
 
-const stylesheet = createStyleSheet((theme) => ({}));
+const stylesheet = createStyleSheet((theme) => ({
+  container: {
+    width: theme.sizes.icon.md,
+    height: theme.sizes.icon.md,
+  },
+}));

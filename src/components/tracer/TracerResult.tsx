@@ -37,6 +37,8 @@ export function TracerResult({ result, anime }: TracerResultProps) {
                   disableBackButton: true,
                   disableSettingsButton: true,
                   disableFullscreenButton: true,
+                  disableRewindButton: true,
+                  disableForwardButton: true,
                 }}
               />
             </PlayerStoreProvider>

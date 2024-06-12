@@ -9,6 +9,7 @@ import {
 import { VideoPlayer } from "expo-video";
 import { useEffect, useRef } from "react";
 import {
+  Dimensions,
   GestureResponderEvent,
   Pressable,
   StyleProp,
@@ -22,12 +23,16 @@ import SettingsButton from "./SettingsButton";
 import SeekBar from "./SeekBar";
 import FullscreenButton from "./FullscreenButton";
 import { VideoSourceObject } from "./Player";
+import RewindButton from "./RewindButton";
+import ForwardButton from "./ForwardButton";
 
 export interface ControlDisplayProps {
   disableBackButton?: boolean;
   disablePlayButton?: boolean;
   disableSettingsButton?: boolean;
   disableFullscreenButton?: boolean;
+  disableRewindButton?: boolean;
+  disableForwardButton?: boolean;
 }
 
 interface ControlsProps extends ControlDisplayProps {
@@ -44,6 +49,8 @@ export default function Controls({
   disablePlayButton,
   disableSettingsButton,
   disableFullscreenButton,
+  disableRewindButton,
+  disableForwardButton,
 }: ControlsProps) {
   const { styles } = useStyles(stylesheet);
 
@@ -169,13 +176,6 @@ export default function Controls({
             </ControlPosition>
           )}
 
-          {/* Play Button */}
-          {!disablePlayButton && (
-            <ControlPosition style={styles.playButton}>
-              <PlayButton player={player} onPress={handlePressOnControl} />
-            </ControlPosition>
-          )}
-
           {/* Settings Button */}
           {!disableSettingsButton && (
             <ControlPosition style={styles.settingsButton}>
@@ -183,7 +183,27 @@ export default function Controls({
             </ControlPosition>
           )}
 
-          <View style={styles.bottomNav}>
+          <View style={[styles.navBar, styles.centerNav]}>
+            {!disableRewindButton && (
+              <ControlPosition>
+                <RewindButton player={player} onPress={handlePressOnControl} />
+              </ControlPosition>
+            )}
+
+            {/* Play Button */}
+            {!disablePlayButton && (
+              <ControlPosition>
+                <PlayButton player={player} onPress={handlePressOnControl} />
+              </ControlPosition>
+            )}
+
+            {!disableForwardButton && (
+              <ControlPosition>
+                <ForwardButton player={player} onPress={handlePressOnControl} />
+              </ControlPosition>
+            )}
+          </View>
+          <View style={[styles.navBar, styles.bottomNav]}>
             {/* Seek Bar */}
             <ControlPosition style={styles.seekBar}>
               <SeekBar player={player} onPress={handlePressOnControl} />
@@ -229,22 +249,24 @@ const stylesheet = createStyleSheet((theme) => ({
     top: 0,
     left: 0,
   },
-  playButton: {
-    position: "absolute",
-  },
   settingsButton: {
     position: "absolute",
     top: 0,
     right: 0,
   },
+  centerNav: {
+    justifyContent: "space-evenly",
+  },
   bottomNav: {
-    position: "absolute",
     bottom: 0,
     left: 0,
+    paddingVertical: theme.spacing.xs,
+  },
+  navBar: {
+    position: "absolute",
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: theme.spacing.xs,
   },
   seekBar: {
     flex: 1,
