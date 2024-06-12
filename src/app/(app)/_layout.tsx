@@ -26,7 +26,11 @@ export default function AppLayout() {
       <Tabs
         screenOptions={{
           headerShown: false,
-          tabBarStyle: { backgroundColor: theme.colors.neutral },
+          tabBarStyle: {
+            backgroundColor: theme.colors.neutral,
+            margin: theme.spacing.sm,
+            borderRadius: theme.radius.md,
+          },
           tabBarLabel: TabBarLabel,
           tabBarItemStyle: { columnGap: theme.spacing.lg },
           tabBarActiveTintColor: activeColor,

@@ -84,13 +84,13 @@ export default function AnimeGridView({
 const stylesheet = createStyleSheet((theme) => ({
   container: { flex: 1 },
   itemWrapper: (isLeft: boolean) => ({
-    paddingLeft: isLeft ? 0 : theme.spacing.sm / 2,
-    paddingRight: isLeft ? theme.spacing.sm / 2 : 0,
+    paddingLeft: isLeft ? 0 : theme.spacing.md / 2,
+    paddingRight: isLeft ? theme.spacing.md / 2 : 0,
     width: "100%",
     height: "100%",
   }),
-  separator: { height: theme.spacing.sm },
+  separator: { height: theme.spacing.md },
   listContent: {
-    padding: theme.spacing.sm,
+    padding: theme.spacing.md,
   },
 }));

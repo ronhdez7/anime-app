@@ -18,7 +18,7 @@ export function AnimeListItem({ anime, disabled = false }: AnimeListItemProps) {
 
   return (
     <View style={styles.container}>
-      <Shadow distance={5} startColor="#06b6d420" style={styles.shadow}>
+      <Shadow distance={5} style={styles.shadow}>
         <View style={styles.main}>
           <SkeletonLoader
             show={loading}

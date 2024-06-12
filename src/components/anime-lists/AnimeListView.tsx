@@ -77,7 +77,7 @@ const stylesheet = createStyleSheet((theme) => ({
     height: 266,
   },
   itemWrapper: (isFirst: boolean) => ({
-    paddingLeft: isFirst ? 0 : theme.spacing.sm,
+    paddingLeft: isFirst ? 0 : theme.spacing.md,
     height: "100%",
   }),
   listContent: {
