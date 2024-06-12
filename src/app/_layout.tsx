@@ -10,6 +10,7 @@ import { useStyles } from "react-native-unistyles";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { useLoad } from "@/queries/loaders";
+import { MenuProvider } from "react-native-popup-menu";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -23,22 +24,27 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <LoadAssets>
-          <SafeAreaProvider style={{ flex: 1 }} onTouchStart={Keyboard.dismiss}>
-            <Stack
-              screenOptions={{
-                headerShown: false,
-                contentStyle: { backgroundColor: theme.colors.background },
+        <MenuProvider>
+          <LoadAssets>
+            <SafeAreaProvider
+              style={{ flex: 1 }}
+              onTouchStart={Keyboard.dismiss}
+            >
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                  contentStyle: { backgroundColor: theme.colors.background },
 
-                // Status Bar
-                statusBarTranslucent: true,
-                statusBarStyle: theme.colors.statusBarStyle,
-                statusBarHidden: false,
-                statusBarAnimation: "slide",
-              }}
-            />
-          </SafeAreaProvider>
-        </LoadAssets>
+                  // Status Bar
+                  statusBarTranslucent: true,
+                  statusBarStyle: theme.colors.statusBarStyle,
+                  statusBarHidden: false,
+                  statusBarAnimation: "slide",
+                }}
+              />
+            </SafeAreaProvider>
+          </LoadAssets>
+        </MenuProvider>
       </GestureHandlerRootView>
     </QueryClientProvider>
   );

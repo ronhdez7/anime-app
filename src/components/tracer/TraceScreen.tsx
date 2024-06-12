@@ -26,6 +26,7 @@ import { useState } from "react";
 import { Modal } from "../ui/Modal";
 import TracerResults from "./TracerResults";
 import ModalContent from "../ui/ModalContent";
+import TracerHeader from "./TracerHeader";
 
 export default function TraceScreen() {
   const { styles } = useStyles(stylesheet);
@@ -82,9 +83,8 @@ export default function TraceScreen() {
       </Modal>
 
       <View style={styles.container}>
-        <View style={styles.header}>
-          <BackArrow />
-        </View>
+        <TracerHeader />
+
         <ScrollView contentContainerStyle={styles.scrollView}>
           <View style={styles.titleContainer}>
             <Text weight="bold" size="xl" style={styles.textCenter}>

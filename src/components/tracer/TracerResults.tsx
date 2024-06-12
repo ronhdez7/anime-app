@@ -3,7 +3,6 @@ import { ScrollView, View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "../ui/Text";
 import { TracerResult } from "./TracerResult";
-import List from "../ui/List";
 import { useApiQuery } from "@/queries/use-api-query";
 import { apiKeys } from "@/queries/keys";
 import { anilistApi } from "@/lib/anime-api/anilist/anilist-api";
