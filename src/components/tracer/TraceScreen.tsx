@@ -75,7 +75,7 @@ export default function TraceScreen() {
   return (
     <SafeArea>
       <Modal visible={modalVisible} onClose={() => setModalVisible(false)}>
-        <ModalContent>
+        <ModalContent style={{ padding: 0 }}>
           {uploadImage.isSuccess && (
             <TracerResults response={uploadImage.data} />
           )}

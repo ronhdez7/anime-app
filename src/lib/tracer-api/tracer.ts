@@ -1,3 +1,4 @@
+import { ApiResponse } from "@/types";
 import {
   ImageUploadType,
   TracerQuota,
@@ -38,10 +39,11 @@ async function uploadUrl(
 }
 
 export class TracerApi {
-  async me(config?: AxiosRequestConfig): Promise<TracerQuota> {
+  async me(config?: AxiosRequestConfig): Promise<ApiResponse<TracerQuota>> {
     const url = "https://api.trace.moe/me";
+    const { data } = await axios.get(url, config);
 
-    return (await axios.get(url, config)).data;
+    return { data: data };
   }
 
   async search(
