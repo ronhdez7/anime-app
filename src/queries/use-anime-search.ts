@@ -1,8 +1,7 @@
-import animeApi from "@/lib/anime-api";
+import { animeApi, apiKeys } from "@/lib/anime-api";
 import { AnimeSearchParams } from "@/types";
 import { keepPreviousData, useQueryClient } from "@tanstack/react-query";
 import { useApiInfiniteQuery } from "./use-api-query";
-import { apiKeys } from "./keys";
 import { fillCacheForAnimeData, prefetchAnimeImage } from "./utils";
 
 export default function useAnimeSearch(params: AnimeSearchParams = {}) {
@@ -12,7 +11,7 @@ export default function useAnimeSearch(params: AnimeSearchParams = {}) {
     queryFn: ({ queryKey, pageParam, signal }) =>
       animeApi.getAnimeSearch(
         {
-          ...queryKey[3],
+          ...params,
           page: pageParam,
           adult: false,
         },

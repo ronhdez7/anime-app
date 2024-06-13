@@ -1,7 +1,6 @@
 import { StreamFindAnimeParams } from "@/types/stream";
 import { useApiQuery } from "./use-api-query";
-import { streamingApi } from "@/lib/streaming-api";
-import { streamKeys } from "./keys";
+import { streamingApi, streamKeys } from "@/lib/streaming-api";
 
 export function useFindAnime(params: StreamFindAnimeParams, enabled?: boolean) {
   return useApiQuery({

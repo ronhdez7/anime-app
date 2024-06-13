@@ -98,3 +98,18 @@ class StreamingApi {
 }
 
 export const streamingApi = new StreamingApi();
+
+export const streamKeys = {
+  all: ["stream"] as const,
+  normal: () => ["normal", ...streamKeys.all] as const,
+  infinite: () => ["infinite", ...streamKeys.all] as const,
+
+  find: (params: StreamFindAnimeParams) =>
+    [...streamKeys.normal(), "find", params] as const,
+  episodes: (animeUrl: string) =>
+    [...streamKeys.normal(), "episodes", animeUrl] as const,
+  servers: (episodeUrl: string) =>
+    [...streamKeys.normal(), "servers", episodeUrl] as const,
+  sources: (playerUrl: string) =>
+    [...streamKeys.normal(), "sources", playerUrl] as const,
+};

@@ -4,7 +4,7 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Text from "../ui/Text";
 import { TracerResult } from "./TracerResult";
 import { useApiQuery } from "@/queries/use-api-query";
-import { apiKeys } from "@/queries/keys";
+import { apiKeys } from "@/lib/anime-api";
 import { anilistApi } from "@/lib/anime-api/anilist/anilist-api";
 import { AnimeData, ApiPaginatedResponse } from "@/types";
 import {
@@ -33,10 +33,11 @@ export default function TracerResults({ response }: TracerResultsProps) {
   const { styles } = useStyles(stylesheet);
 
   const results = response.result;
+  const ids = results?.map((r) => r.anilist) ?? [];
 
   const animeList = useApiQuery({
-    queryKey: apiKeys.search({ id_in: [] } as any),
-    queryFn: () => getAnilistAnimeList(results?.map((r) => r.anilist) ?? []),
+    queryKey: apiKeys.search({ id_in: ids } as any),
+    queryFn: () => getAnilistAnimeList(ids),
   });
 
   if (response.error) {

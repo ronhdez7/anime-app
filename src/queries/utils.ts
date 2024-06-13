@@ -1,5 +1,4 @@
-import animeApi from "@/lib/anime-api";
-import { apiKeys } from "@/queries/keys";
+import {animeApi, apiKeys} from "@/lib/anime-api";
 import { AnimeData } from "@/types";
 import { QueryClient } from "@tanstack/react-query";
 import { Image } from "expo-image";

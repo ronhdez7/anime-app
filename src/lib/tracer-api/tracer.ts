@@ -14,28 +14,28 @@ async function uploadFile(
   formData: FormData,
   params: TracerSearchParams,
   config?: AxiosRequestConfig
-) {
+): Promise<ApiResponse<TracerSearchResponse>> {
   const paramstring = params.cutBorders ? "cutBorders" : "";
-  return (
-    await axios.post(`${SEARCH_URL}?${paramstring}`, formData, {
-      headers: { "content-type": "multipart/form-data" },
-      ...config,
-    })
-  ).data;
+  const { data } = await axios.post(`${SEARCH_URL}?${paramstring}`, formData, {
+    headers: { "content-type": "multipart/form-data" },
+    ...config,
+  });
+
+  return { data: data };
 }
 
 async function uploadUrl(
   url: string,
   params: TracerSearchParams,
   config?: AxiosRequestConfig
-) {
+): Promise<ApiResponse<TracerSearchResponse>> {
   const paramstring = params.cutBorders ? "cutBorders" : "";
-  return (
-    await axios.get(
-      `${SEARCH_URL}?url=${encodeURIComponent(url)}&${paramstring}`,
-      config
-    )
-  ).data;
+  const { data } = await axios.get(
+    `${SEARCH_URL}?url=${encodeURIComponent(url)}&${paramstring}`,
+    config
+  );
+
+  return { data: data };
 }
 
 export class TracerApi {
@@ -49,7 +49,7 @@ export class TracerApi {
   async search(
     options: TracerSearchOptions,
     config?: AxiosRequestConfig
-  ): Promise<TracerSearchResponse> {
+  ): Promise<ApiResponse<TracerSearchResponse>> {
     const params: TracerSearchParams = { cutBorders: options.cutBorders };
 
     if (options.type === ImageUploadType.FILE) {

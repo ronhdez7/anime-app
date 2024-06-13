@@ -1,6 +1,5 @@
-import { streamingApi } from "@/lib/streaming-api";
+import { streamingApi, streamKeys } from "@/lib/streaming-api";
 import { useApiQuery } from "./use-api-query";
-import { streamKeys } from "./keys";
 
 export function useStreamServers(episodeUrl?: string) {
   return useApiQuery({

@@ -9,6 +9,7 @@ import { Modal } from "../ui/Modal";
 import ModalContent from "../ui/ModalContent";
 import { useState } from "react";
 import QuotaDisplay from "./QuotaDisplay";
+import IconButton from "../ui/IconButton";
 
 export default function TracerHeader() {
   const { styles } = useStyles(stylesheet);
@@ -42,11 +43,7 @@ export default function TracerHeader() {
       <Menu>
         <MenuTrigger
           customStyles={{
-            triggerWrapper: {
-              padding: 8,
-              alignItems: "center",
-              justifyContent: "center",
-            },
+            TriggerTouchableComponent: IconButton,
           }}
         >
           <VerticalDotsIcon />

@@ -21,7 +21,6 @@ import {
 import { tracerApi } from "@/lib/tracer-api";
 import LoadingView from "../ui/LoadingView";
 import SafeArea from "../ui/SafeArea";
-import BackArrow from "../ui/BackArrow";
 import { useState } from "react";
 import { Modal } from "../ui/Modal";
 import TracerResults from "./TracerResults";
@@ -40,7 +39,7 @@ export default function TraceScreen() {
 
   const uploadImage = useMutation({
     mutationFn: async (options: TracerSearchOptions) =>
-      tracerApi.search(options),
+      (await tracerApi.search(options)).data,
     onSuccess: () => setModalVisible(true),
     onError: (error) => console.log(error),
   });
@@ -72,12 +71,22 @@ export default function TraceScreen() {
     }
   }
 
+  const errorMessage = uploadImage.error?.message;
+
   return (
     <SafeArea>
       <Modal visible={modalVisible} onClose={() => setModalVisible(false)}>
         <ModalContent style={{ padding: 0 }}>
-          {uploadImage.isSuccess && (
+          {uploadImage.data ? (
             <TracerResults response={uploadImage.data} />
+          ) : (
+            <View style={styles.modalContent}>
+              {uploadImage.isPending ? (
+                <LoadingView />
+              ) : (
+                <Text>{errorMessage}</Text>
+              )}
+            </View>
           )}
         </ModalContent>
       </Modal>
@@ -169,5 +178,8 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   findButtonText: {
     textAlign: "center",
+  },
+  modalContent: {
+    padding: theme.spacing.xl,
   },
 }));

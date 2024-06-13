@@ -3,7 +3,7 @@ import { useSearchAll } from "@/stores/SearchStore";
 import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import AnimeGridView from "../anime-lists/AnimeGridView";
 import { useDebounce } from "use-debounce";
-import { apiKeys } from "@/queries/keys";
+import { apiKeys } from "@/lib/anime-api";
 
 export default function SearchResults() {
   const queryClient = useQueryClient();

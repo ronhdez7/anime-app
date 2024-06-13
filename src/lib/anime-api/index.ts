@@ -1,7 +1,8 @@
 import { jikan } from "./jikan";
 import { AnimeApi } from "./anime-api";
+import { AnimeSearchParams } from "@/types";
 
-const animeApi: AnimeApi = {
+export const animeApi: AnimeApi = {
   error: jikan.error.bind(jikan),
   loading: jikan.loading.bind(jikan),
   fakeResponse: jikan.fakeResponse.bind(jikan),
@@ -13,4 +14,16 @@ const animeApi: AnimeApi = {
   getTopAnime: jikan.getTopAnime.bind(jikan),
 };
 
-export default animeApi;
+export const apiKeys = {
+  all: ["anime-api", "jikan"] as const,
+  normal: () => ["normal", ...apiKeys.all] as const,
+  infinite: () => ["infinite", ...apiKeys.all] as const,
+
+  featured: () => [...apiKeys.normal(), "featured"] as const,
+  top: () => [...apiKeys.infinite(), "top"] as const,
+  search: (params: AnimeSearchParams) =>
+    [...apiKeys.infinite(), "search", params] as const,
+  genres: () => [...apiKeys.normal(), "genres"] as const,
+  anime: (id: number) => [...apiKeys.normal(), "anime", id] as const,
+  episodes: (id: number) => [...apiKeys.anime(id), "episodes"] as const,
+};

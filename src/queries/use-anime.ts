@@ -1,6 +1,5 @@
-import animeApi from "@/lib/anime-api";
+import { animeApi, apiKeys } from "@/lib/anime-api";
 import { useApiQuery } from "./use-api-query";
-import { apiKeys } from "./keys";
 import { ID } from "@/types";
 
 export function useAnime(id?: ID) {

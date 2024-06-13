@@ -1,7 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
-import animeApi from "@/lib/anime-api";
+import { animeApi, apiKeys } from "@/lib/anime-api";
 import { useApiInfiniteQuery } from "./use-api-query";
-import { apiKeys } from "./keys";
 import { fillCacheForAnimeData, prefetchAnimeImage } from "./utils";
 
 export default function useTopAnime() {
