@@ -8,11 +8,11 @@ export type VideoSourceObject = Extract<VideoSource, object>;
 
 export interface PlayerProps {
   source: VideoSourceObject;
-
   controls?: ControlDisplayProps;
+  takeHeight?: boolean;
 }
 
-export default function Player({ source, controls }: PlayerProps) {
+export default function Player({ source, controls, takeHeight }: PlayerProps) {
   const { styles } = useStyles(stylesheet);
 
   const speed = usePlayerSpeed();
@@ -24,7 +24,7 @@ export default function Player({ source, controls }: PlayerProps) {
     <View style={styles.container}>
       <VideoView
         player={player}
-        style={styles.video}
+        style={styles.video(takeHeight ?? false)}
         contentFit="contain"
         nativeControls={false}
       />
@@ -36,12 +36,13 @@ export default function Player({ source, controls }: PlayerProps) {
 const stylesheet = createStyleSheet((theme) => ({
   container: {
     width: "100%",
-    aspectRatio: 16 / 9,
+    height: "100%",
     position: "relative",
     backgroundColor: "black",
   },
-  video: {
-    width: "100%",
-    height: "100%",
-  },
+  video: (takeHeight: boolean) => ({
+    height: takeHeight ? "100%" : undefined,
+    width: takeHeight ? undefined : "100%",
+    aspectRatio: 16 / 9,
+  }),
 }));

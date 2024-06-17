@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAnime } from "@/queries/use-anime";
 import { useFindAnime } from "@/queries/use-find-anime";
 import { useStreamEpisodes } from "@/queries/use-stream-episodes";
@@ -42,6 +42,7 @@ export default function WatchPlayer({
             artist: anime.data?.title ?? undefined,
           },
         }}
+        takeHeight
       />
     </PlayerStoreProvider>
   );

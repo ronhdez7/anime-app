@@ -210,14 +210,14 @@ export default function Controls({
             </ControlPosition>
 
             {/* Fullscreen Button */}
-            {!disableFullscreenButton && (
+            {/* {!disableFullscreenButton && (
               <ControlPosition>
                 <FullscreenButton
                   player={player}
                   onPress={handlePressOnControl}
                 />
               </ControlPosition>
-            )}
+            )} */}
           </View>
         </View>
       </Pressable>

@@ -27,6 +27,7 @@ export default function AppLayout() {
         screenOptions={{
           headerShown: false,
           tabBarStyle: {
+            position: "absolute",
             backgroundColor: theme.colors.neutral,
             margin: theme.spacing.sm,
             borderRadius: theme.radius.md,

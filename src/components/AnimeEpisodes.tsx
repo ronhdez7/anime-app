@@ -48,6 +48,7 @@ export default function AnimeEpisodes({ anime }: Props) {
           estimatedItemSize={55}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           contentContainerStyle={styles.listContent}
+          scrollEnabled={false}
         />
       ) : (
         <AnimeFetchError

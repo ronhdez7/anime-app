@@ -17,7 +17,7 @@ export default function AnimeScreen({ id }: AnimeScreenProps) {
   return anime.data || anime.isLoading ? (
     <ScrollView
       showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ flex: 1 }}
+      // contentContainerStyle={{ flex: 1 }}
     >
       <AnimeDetails anime={anime.data ?? undefined} />
       {anime.data && <AnimeEpisodes anime={anime.data} />}

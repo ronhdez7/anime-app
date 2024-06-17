@@ -1,4 +1,9 @@
-import { GestureResponderEvent, Pressable, View } from "react-native";
+import {
+  ActivityIndicator,
+  GestureResponderEvent,
+  Pressable,
+  View,
+} from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import IconButton from "../ui/IconButton";
 import { PauseIcon, PlayIcon } from "../icons";
@@ -49,7 +54,7 @@ export default function PlayButton({ player, onPress }: ControlProps) {
         </IconButton>
       ) : (
         <Pressable onPress={onPress}>
-          <LoadingView color="foreground" />
+          <LoadingView style={{ flex: undefined }} color="foreground" />
         </Pressable>
       )}
     </View>

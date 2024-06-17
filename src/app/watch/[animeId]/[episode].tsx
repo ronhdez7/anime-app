@@ -1,10 +1,11 @@
-import React from "react";
-import { useLocalSearchParams } from "expo-router";
+import React, { useEffect } from "react";
+import { Stack, useLocalSearchParams } from "expo-router";
 import Text from "@/components/ui/Text";
 import { View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import WatchScreen from "@/components/watch/WatchScreen";
 import SafeArea from "@/components/ui/SafeArea";
+import * as ScreenOrientation from "expo-screen-orientation";
 
 type Params = {
   animeId: string;
@@ -14,6 +15,14 @@ type Params = {
 export default function WatchPage() {
   const { animeId, episode } = useLocalSearchParams<Params>();
   const { styles } = useStyles(stylesheet);
+
+  useEffect(() => {
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+
+    return () => {
+      ScreenOrientation.unlockAsync();
+    };
+  }, []);
 
   if (!animeId) {
     return (
@@ -25,6 +34,16 @@ export default function WatchPage() {
   }
   return (
     <SafeArea>
+      <Stack.Screen
+        options={{
+          statusBarHidden: true,
+          statusBarAnimation: "slide",
+          statusBarTranslucent: true,
+          statusBarStyle: "light",
+          statusBarColor: "transparent",
+        }}
+      />
+
       <WatchScreen animeId={animeId} episodeNumber={Number(episode)} />
     </SafeArea>
   );
@@ -35,5 +54,6 @@ const stylesheet = createStyleSheet((theme) => ({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "black",
   },
 }));
